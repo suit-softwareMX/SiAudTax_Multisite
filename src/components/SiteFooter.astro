@@ -1,0 +1,36 @@
+---
+import Logo from "./Logo.astro";
+import { getCatalog, localizedPath, type Locale } from "../lib/i18n";
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const catalog = getCatalog(locale);
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <Logo {locale} inverse />
+      <p>{catalog.footer.tagline}</p>
+    </div>
+    <nav aria-label={catalog.footer.services}>
+      <strong>{catalog.footer.services}</strong>
+      <a href={`${localizedPath(locale)}#consorcio`}>{catalog.nav.consortium}</a>
+      <a href={`${localizedPath(locale)}#especialidades`}>{catalog.nav.specialties}</a>
+      <a href={`${localizedPath(locale)}#perspectivas`}>{catalog.nav.perspectives}</a>
+    </nav>
+    <nav aria-label={catalog.footer.network}>
+      <strong>{catalog.footer.network}</strong>
+      <a href={`${localizedPath(locale)}#red-global`}>{catalog.nav.network}</a>
+      <span aria-disabled="true">{catalog.countries.mexico} · {catalog.common.soon}</span>
+      <span aria-disabled="true">{catalog.countries.panama} · {catalog.common.soon}</span>
+    </nav>
+    <nav aria-label={catalog.footer.legal}>
+      <strong>{catalog.footer.legal}</strong>
+      <a href={localizedPath(locale, "privacidad")}>{catalog.legal.privacy}</a>
+      <a href={localizedPath(locale, "terminos")}>{catalog.legal.terms}</a>
+      <a href={localizedPath(locale, "etica")}>{catalog.legal.ethics}</a>
+    </nav>
+  </div>
+  <div class="footer-bottom"><p>{catalog.footer.copyright}</p></div>
+</footer>

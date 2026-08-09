@@ -1,0 +1,54 @@
+---
+import "@fontsource-variable/inter";
+import "@fontsource-variable/newsreader";
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import NetworkBackground from "../components/NetworkBackground.astro";
+import { htmlLang, localizedPath, type Locale, type PageId } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  currentPage?: PageId;
+}
+
+const { locale, title, description, currentPage } = Astro.props;
+const canonical = new URL(localizedPath(locale, currentPage), Astro.site);
+---
+
+<!doctype html>
+<html lang={htmlLang(locale)}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#162936" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={new URL(localizedPath("es", currentPage), Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(localizedPath("en", currentPage), Astro.site)} />
+    <link rel="alternate" hreflang="pt-BR" href={new URL(localizedPath("pt", currentPage), Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(localizedPath("es", currentPage), Astro.site)} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <title>{title}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "AUDITAXES Global",
+      url: "https://auditaxes.com",
+      description,
+    })} />
+  </head>
+  <body>
+    <NetworkBackground />
+    <a class="skip-link" href="#main-content">{locale === "es" ? "Saltar al contenido" : locale === "en" ? "Skip to content" : "Pular para o conteúdo"}</a>
+    <SiteHeader {locale} {currentPage} />
+    <main id="main-content"><slot /></main>
+    <SiteFooter {locale} />
+  </body>
+</html>

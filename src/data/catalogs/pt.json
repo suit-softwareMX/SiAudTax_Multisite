@@ -1,0 +1,205 @@
+{
+  "meta": {
+    "siteName": "AUDITAXES Global",
+    "defaultDescription": "Rede internacional de firmas de auditoria, impostos, consultoria e outsourcing."
+  },
+  "common": {
+    "skip": "Pular para o conteúdo",
+    "menu": "Menu",
+    "close": "Fechar",
+    "language": "Idioma",
+    "soon": "Em breve",
+    "go": "Ir",
+    "active": "Ativo",
+    "inactive": "Indisponível",
+    "learnMore": "Saiba mais",
+    "featured": "Escritórios em destaque",
+    "allLocations": "Todos os escritórios",
+    "planned": "Próximos escritórios",
+    "backHome": "Voltar ao início",
+    "disabledAction": "Esta opção estará disponível em breve"
+  },
+  "nav": {
+    "consortium": "O Consórcio",
+    "network": "Rede Global",
+    "specialties": "Especialidades",
+    "perspectives": "Perspectivas",
+    "contact": "Contato"
+  },
+  "home": {
+    "metaTitle": "AUDITAXES Global | Confiança além das fronteiras",
+    "heroTitle": "Confiança além das fronteiras.",
+    "heroBody": "Uma rede internacional de firmas de auditoria, impostos, consultoria e outsourcing.",
+    "heroPrimary": "Explorar nossa rede",
+    "heroSecondary": "Conhecer a AUDITAXES",
+    "consortiumTitle": "Uma abordagem integrada. Alcance global.",
+    "consortiumBody": "Conectamos experiência local a padrões internacionais para apoiar sua organização em cada desafio, em qualquer lugar da região.",
+    "consortiumLink": "Conhecer o consórcio",
+    "pillars": [
+      { "title": "Auditoria", "label": "Rigor técnico" },
+      { "title": "Impostos", "label": "Visão regional" },
+      { "title": "Consultoria e outsourcing", "label": "Relações de longo prazo" }
+    ],
+    "networkTitle": "Presença regional. Uma só visão.",
+    "networkBody": "Explore nossa rede e conheça as firmas que representam a AUDITAXES em cada mercado.",
+    "networkLink": "Explorar a rede global",
+    "specialtiesTitle": "Experiência para decisões complexas.",
+    "specialtiesBody": "Soluções coordenadas para fortalecer o controle, a conformidade e o crescimento da sua organização.",
+    "specialtiesLink": "Explorar especialidades",
+    "perspectivesTitle": "Perspectivas",
+    "perspectivesBody": "Ideias e análises para antecipar o que vem a seguir.",
+    "perspectivesEmpty": "Orientações para fortalecer a conformidade, antecipar riscos e tomar melhores decisões.",
+    "perspectivesLink": "Ver perspectivas",
+    "contactTitle": "Vamos conversar sobre o próximo desafio.",
+    "contactBody": "Nossa equipe internacional está pronta para ouvir você e coordenar o atendimento adequado.",
+    "contactAction": "Vamos conversar"
+  },
+  "consortium": {
+    "metaTitle": "O Consórcio | AUDITAXES Global",
+    "title": "Experiência local, visão compartilhada.",
+    "intro": "A AUDITAXES conecta firmas independentes sob uma identidade e um propósito comuns: gerar segurança para decisões de alto impacto.",
+    "body": [
+      "Nossa rede combina conhecimento profundo de cada mercado com padrões internacionais de qualidade, ética e serviço.",
+      "A colaboração entre países permite apoiar operações regionais com uma perspectiva coerente, sem perder a precisão local."
+    ],
+    "promiseTitle": "Uma relação profissional que gera valor.",
+    "promiseBody": "Trabalhamos com organizações que precisam organizar informações, fortalecer controles, cumprir obrigações e avançar com mais segurança. Cada trabalho combina atenção direta, visão empresarial e os especialistas adequados para o desafio.",
+    "highlights": ["Coordenação regional com execução local", "Equipes multidisciplinares para cada necessidade", "Comunicação clara durante todo o processo"],
+    "valuesTitle": "O que nos une",
+    "values": [
+      { "title": "Independência", "body": "Julgamento profissional e responsabilidade em cada trabalho." },
+      { "title": "Precisão", "body": "Decisões fundamentadas em evidências, método e rigor técnico." },
+      { "title": "Proximidade", "body": "Relações duradouras e atendimento direto em cada mercado." }
+    ],
+    "modelTitle": "Como trabalhamos",
+    "modelBody": "Um método comum mantém clareza e consistência desde o primeiro diagnóstico até a entrega dos resultados.",
+    "modelSteps": [
+      { "title": "Compreender", "body": "Ouvimos o contexto, os objetivos e os riscos específicos da sua organização." },
+      { "title": "Coordenar", "body": "Integramos as competências técnicas e territoriais necessárias para cada projeto." },
+      { "title": "Resolver", "body": "Entregamos conclusões acionáveis, documentação clara e acompanhamento próximo." }
+    ]
+  },
+  "network": {
+    "metaTitle": "Rede Global | AUDITAXES",
+    "title": "Uma rede preparada para crescer.",
+    "intro": "Conheça os mercados que fazem parte da expansão internacional da AUDITAXES.",
+    "mapTitle": "Mapa da nossa rede",
+    "mapHelp": "Selecione um país para consultar seu status.",
+    "selectedLabel": "Escritório selecionado",
+    "statusLabel": "Status",
+    "statusPlanned": "Em breve",
+    "supportTitle": "Cobertura pensada para operações regionais.",
+    "supportBody": "A rede identifica necessidades comuns, coordena especialistas e mantém uma experiência consistente entre mercados.",
+    "supportItems": [
+      { "title": "Um ponto de coordenação", "body": "Centralizamos a conversa e conectamos as equipes de cada jurisdição." },
+      { "title": "Conhecimento de cada mercado", "body": "A execução considera práticas, obrigações e particularidades locais." },
+      { "title": "Padrões compartilhados", "body": "Trabalhamos sob princípios comuns de qualidade, confidencialidade e ética profissional." }
+    ]
+  },
+  "specialties": {
+    "metaTitle": "Especialidades | AUDITAXES",
+    "title": "Competências conectadas ao redor do seu negócio.",
+    "intro": "Integramos disciplinas financeiras, tributárias e regulatórias para responder a desafios complexos com uma só visão.",
+    "services": [
+      { "id": "audit", "title": "Auditoria e asseguração", "body": "Avaliação independente, controle e confiança sobre informações financeiras e processos críticos.", "details": ["Auditoria de demonstrações financeiras", "Auditoria fiscal e de conformidade", "Revisão de controles e processos", "Perícias contábeis e financeiras"] },
+      { "id": "tax", "title": "Impostos", "body": "Planejamento, conformidade e apoio tributário com perspectiva local e internacional.", "details": ["Conformidade tributária", "Planejamento fiscal responsável", "Restituições e saldos a favor", "Atendimento perante autoridades"] },
+      { "id": "advisory", "title": "Consultoria financeira", "body": "Análise e apoio para transformar informações complexas em decisões claras.", "details": ["Diagnóstico financeiro", "Contabilidade e relatórios gerenciais", "Otimização de processos", "Outsourcing administrativo"] },
+      { "id": "customs", "title": "Aduanas e comércio exterior", "body": "Assessoria para operar cadeias regionais com conformidade, eficiência e controle de riscos.", "details": ["Diagnóstico aduaneiro", "Conformidade regulatória", "Revisão documental", "Estratégia de comércio exterior"] }
+    ]
+  },
+  "perspectives": {
+    "metaTitle": "Perspectivas | AUDITAXES",
+    "title": "Ideias para antecipar o que vem a seguir.",
+    "intro": "Análises práticas para compreender as mudanças financeiras, tributárias e regulatórias que impactam as organizações da região.",
+    "topics": [
+      { "category": "Auditoria", "title": "Controles internos que preparam uma empresa para crescer", "body": "Cinco áreas que vale revisar antes de ampliar operações, receber investimentos ou profissionalizar a gestão." },
+      { "category": "Impostos", "title": "Conformidade fiscal sem perder a visão do negócio", "body": "Como integrar calendário, evidências e responsáveis para reduzir contingências e tomar decisões oportunas." },
+      { "category": "Gestão", "title": "Informação financeira útil para a liderança", "body": "O que um relatório mensal deve conter para transformar dados contábeis em conversas estratégicas." }
+    ],
+    "closingTitle": "Conhecimento local, leitura regional.",
+    "closingBody": "Nossos especialistas acompanham cada mercado para traduzir a complexidade em critérios claros e aplicáveis."
+  },
+  "contact": {
+    "metaTitle": "Contato | AUDITAXES",
+    "title": "Vamos falar sobre o seu próximo desafio.",
+    "intro": "Nossa equipe internacional coordena necessidades de auditoria, impostos, consultoria e outsourcing para apoiar cada etapa do seu crescimento.",
+    "panelTitle": "Contato direto",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "whatsapp": "WhatsApp",
+    "office": "Escritório",
+    "formTitle": "Conte como podemos ajudar",
+    "name": "Nome",
+    "company": "Empresa",
+    "emailField": "E-mail",
+    "phoneField": "Telefone",
+    "message": "Mensagem",
+    "namePlaceholder": "Nome e sobrenome…",
+    "companyPlaceholder": "Nome da organização…",
+    "emailPlaceholder": "nome@empresa.com…",
+    "phonePlaceholder": "+55 00 00000 0000…",
+    "messagePlaceholder": "Descreva brevemente a consulta…",
+    "submit": "Preparar e-mail",
+    "subject": "Nova consulta da AUDITAXES Global",
+    "follow": "Siga-nos",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "linkedin": "LinkedIn"
+  },
+  "legal": {
+    "privacy": "Aviso de privacidade",
+    "terms": "Termos e condições",
+    "ethics": "Ética e conformidade",
+    "pages": {
+      "privacy": {
+        "intro": "A AUDITAXES Global protege a confidencialidade das informações compartilhadas ao utilizar este site ou entrar em contato com nossa rede.",
+        "sections": [
+          { "title": "Informações que podemos receber", "body": "Podemos receber dados de identificação e contato, além das informações incluídas voluntariamente em uma consulta. Este site não solicita dados financeiros nem credenciais de acesso." },
+          { "title": "Finalidades", "body": "Usamos as informações para responder solicitações, direcionar consultas à firma adequada, manter comunicações profissionais e melhorar a experiência do site." },
+          { "title": "Retenção e segurança", "body": "Conservamos as informações somente pelo tempo necessário para a finalidade correspondente e aplicamos medidas razoáveis contra acesso, uso ou divulgação não autorizados." },
+          { "title": "Direitos e contato", "body": "Você pode solicitar acesso, correção ou exclusão de seus dados escrevendo para info@audit-taxes.com.mx. A firma responsável confirmará o procedimento aplicável à sua jurisdição." }
+        ]
+      },
+      "terms": {
+        "intro": "Estes termos regulam o acesso e o uso informativo do site da AUDITAXES Global.",
+        "sections": [
+          { "title": "Escopo do conteúdo", "body": "As informações publicadas são gerais e não constituem assessoria contábil, tributária, jurídica ou financeira para um caso específico." },
+          { "title": "Relação profissional", "body": "O envio de uma consulta não cria, por si só, uma relação profissional. Todo serviço exige aceitação expressa, definição de escopo e os acordos correspondentes." },
+          { "title": "Exatidão e disponibilidade", "body": "Buscamos manter o conteúdo atualizado, mas normas e circunstâncias podem mudar. O site pode ser modificado, suspenso ou atualizado sem aviso prévio." },
+          { "title": "Propriedade intelectual", "body": "As marcas, textos, elementos gráficos e materiais deste site pertencem aos seus respectivos titulares e não podem ser utilizados sem autorização, salvo os usos permitidos por lei." }
+        ]
+      },
+      "ethics": {
+        "intro": "A confiança exige independência, integridade e responsabilidade em cada relação profissional.",
+        "sections": [
+          { "title": "Princípios", "body": "As firmas da rede promovem objetividade, competência profissional, confidencialidade e cumprimento das normas aplicáveis em cada mercado." },
+          { "title": "Conflitos de interesse", "body": "Antes de aceitar um trabalho, avaliamos as condições de independência e possíveis conflitos, aplicando as salvaguardas correspondentes." },
+          { "title": "Confidencialidade", "body": "As informações de clientes e terceiros são usadas apenas para fins autorizados e protegidas conforme as obrigações profissionais e legais." },
+          { "title": "Comunicação responsável", "body": "Qualquer preocupação sobre conduta profissional ou conformidade pode ser comunicada de boa-fé a info@audit-taxes.com.mx para encaminhamento confidencial." }
+        ]
+      }
+    }
+  },
+  "countries": {
+    "mexico": "México",
+    "guatemala": "Guatemala",
+    "el-salvador": "El Salvador",
+    "costa-rica": "Costa Rica",
+    "panama": "Panamá",
+    "paraguay": "Paraguai",
+    "belize": "Belize",
+    "colombia": "Colômbia",
+    "peru": "Peru",
+    "argentina": "Argentina",
+    "dominican-republic": "República Dominicana",
+    "venezuela": "Venezuela",
+    "united-kingdom": "Reino Unido"
+  },
+  "footer": {
+    "tagline": "Audit · Tax · Consulting · Outsourcing",
+    "legal": "Legal",
+    "network": "Rede",
+    "services": "Serviços",
+    "copyright": "© 2026 AUDITAXES Global. Todos os direitos reservados."
+  }
+}

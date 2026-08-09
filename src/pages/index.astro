@@ -1,0 +1,12 @@
+---
+import HomePage from "../components/HomePage.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCatalog } from "../lib/i18n";
+
+const locale = "es" as const;
+const catalog = getCatalog(locale);
+---
+
+<BaseLayout {locale} title={catalog.home.metaTitle} description={catalog.meta.defaultDescription}>
+  <HomePage {locale} />
+</BaseLayout>

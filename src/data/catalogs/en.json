@@ -1,0 +1,209 @@
+{
+  "meta": {
+    "siteName": "AUDITAXES Global",
+    "defaultDescription": "An international network of audit, tax, consulting and outsourcing firms."
+  },
+  "common": {
+    "skip": "Skip to content",
+    "menu": "Menu",
+    "close": "Close",
+    "language": "Language",
+    "soon": "Coming soon",
+    "go": "Go",
+    "active": "Active",
+    "inactive": "Unavailable",
+    "learnMore": "Learn more",
+    "featured": "Featured locations",
+    "allLocations": "All locations",
+    "planned": "Upcoming locations",
+    "backHome": "Back to home",
+    "disabledAction": "This option will be available soon"
+  },
+  "nav": {
+    "consortium": "The Consortium",
+    "network": "Global Network",
+    "specialties": "Expertise",
+    "perspectives": "Perspectives",
+    "contact": "Contact"
+  },
+  "home": {
+    "metaTitle": "AUDITAXES Global | Confidence beyond borders",
+    "heroTitle": "Confidence beyond borders.",
+    "heroBody": "An international network of audit, tax, consulting and outsourcing firms.",
+    "heroPrimary": "Explore our network",
+    "heroSecondary": "Discover AUDITAXES",
+    "consortiumTitle": "An integrated approach. Global reach.",
+    "consortiumBody": "We connect local expertise with international standards to support your organization through every challenge, anywhere in the region.",
+    "consortiumLink": "Discover the consortium",
+    "pillars": [
+      { "title": "Audit", "label": "Technical rigor" },
+      { "title": "Tax", "label": "Regional vision" },
+      { "title": "Consulting and outsourcing", "label": "Long-term relationships" }
+    ],
+    "networkTitle": "Regional presence. One vision.",
+    "networkBody": "Explore our network and discover the firms representing AUDITAXES in each market.",
+    "networkLink": "Explore the global network",
+    "specialtiesTitle": "Expertise for complex decisions.",
+    "specialtiesBody": "Coordinated solutions to strengthen your organization's control, compliance and growth.",
+    "specialtiesLink": "Explore our expertise",
+    "perspectivesTitle": "Perspectives",
+    "perspectivesBody": "Ideas and analysis to anticipate what comes next.",
+    "perspectivesEmpty": "Practical guidance to strengthen compliance, anticipate risk and make better decisions.",
+    "perspectivesLink": "View perspectives",
+    "contactTitle": "Let us discuss your next challenge.",
+    "contactBody": "Our international team is ready to listen and coordinate the right support.",
+    "contactAction": "Let’s talk"
+  },
+  "consortium": {
+    "metaTitle": "The Consortium | AUDITAXES Global",
+    "title": "Local expertise, shared vision.",
+    "intro": "AUDITAXES connects independent firms under a common identity and purpose: delivering certainty for high-impact decisions.",
+    "body": [
+      "Our network combines deep knowledge of each market with international standards of quality, ethics and service.",
+      "Cross-border collaboration enables us to support regional operations with a coherent perspective without losing local precision."
+    ],
+    "promiseTitle": "A professional relationship that creates value.",
+    "promiseBody": "We work with organizations that need to organize information, strengthen controls, meet obligations and move forward with greater certainty. Every engagement combines direct attention, business perspective and the right specialists for the challenge.",
+    "highlights": [
+      "Regional coordination with local execution",
+      "Multidisciplinary teams for each need",
+      "Clear communication throughout the process"
+    ],
+    "valuesTitle": "What unites us",
+    "values": [
+      { "title": "Independence", "body": "Professional judgment and accountability in every engagement." },
+      { "title": "Precision", "body": "Decisions grounded in evidence, method and technical rigor." },
+      { "title": "Proximity", "body": "Long-term relationships and direct attention in every market." }
+    ],
+    "modelTitle": "How we work",
+    "modelBody": "A common method maintains clarity and consistency from the first diagnosis through delivery of results.",
+    "modelSteps": [
+      { "title": "Understand", "body": "We listen to your organization’s context, objectives and specific risks." },
+      { "title": "Coordinate", "body": "We bring together the technical and geographic capabilities each project requires." },
+      { "title": "Resolve", "body": "We deliver actionable conclusions, clear documentation and close support." }
+    ]
+  },
+  "network": {
+    "metaTitle": "Global Network | AUDITAXES",
+    "title": "A network built to grow.",
+    "intro": "Discover the markets shaping AUDITAXES' international expansion.",
+    "mapTitle": "Our network map",
+    "mapHelp": "Select a country to view its status.",
+    "selectedLabel": "Selected location",
+    "statusLabel": "Status",
+    "statusPlanned": "Coming soon",
+    "supportTitle": "Coverage designed for regional operations.",
+    "supportBody": "The network identifies shared needs, coordinates specialists and maintains a consistent experience across markets.",
+    "supportItems": [
+      { "title": "One coordination point", "body": "We centralize the conversation and connect teams in every jurisdiction." },
+      { "title": "Market-specific knowledge", "body": "Execution considers local practices, obligations and particularities." },
+      { "title": "Shared standards", "body": "We work under common principles of quality, confidentiality and professional ethics." }
+    ]
+  },
+  "specialties": {
+    "metaTitle": "Expertise | AUDITAXES",
+    "title": "Connected capabilities around your business.",
+    "intro": "We integrate financial, tax and regulatory disciplines to address complex challenges with one vision.",
+    "services": [
+      { "id": "audit", "title": "Audit and assurance", "body": "Independent assessment, control and confidence over financial information and critical processes.", "details": ["Financial statement audit", "Tax and compliance audit", "Controls and process review", "Accounting and financial expert reports"] },
+      { "id": "tax", "title": "Tax", "body": "Planning, compliance and tax support with a local and international perspective.", "details": ["Tax compliance", "Responsible tax planning", "Refunds and recoverable balances", "Support before authorities"] },
+      { "id": "advisory", "title": "Financial advisory", "body": "Analysis and support to transform complex information into clear decisions.", "details": ["Financial diagnosis", "Accounting and management reporting", "Process optimization", "Administrative outsourcing"] },
+      { "id": "customs", "title": "Customs and international trade", "body": "Advice for operating regional supply chains with compliance, efficiency and risk control.", "details": ["Customs diagnosis", "Regulatory compliance", "Document review", "International trade strategy"] }
+    ]
+  },
+  "perspectives": {
+    "metaTitle": "Perspectives | AUDITAXES",
+    "title": "Ideas to anticipate what comes next.",
+    "intro": "Practical analysis to understand the financial, tax and regulatory changes affecting organizations across the region.",
+    "topics": [
+      { "category": "Audit", "title": "Internal controls that prepare a company to grow", "body": "Five areas worth reviewing before expanding operations, bringing in investment or professionalizing management." },
+      { "category": "Tax", "title": "Tax compliance without losing sight of the business", "body": "How to integrate calendars, evidence and owners to reduce contingencies and make timely decisions." },
+      { "category": "Management", "title": "Financial information that works for leadership", "body": "What a monthly report should contain to turn accounting data into strategic conversations." }
+    ],
+    "closingTitle": "Local knowledge, regional perspective.",
+    "closingBody": "Our specialists monitor each market to translate complexity into clear, applicable criteria."
+  },
+  "contact": {
+    "metaTitle": "Contact | AUDITAXES",
+    "title": "Let’s discuss your next challenge.",
+    "intro": "Our international team coordinates audit, tax, consulting and outsourcing needs to support every stage of your growth.",
+    "panelTitle": "Direct contact",
+    "email": "Email",
+    "phone": "Phone",
+    "whatsapp": "WhatsApp",
+    "office": "Office",
+    "formTitle": "Tell us how we can help",
+    "name": "Name",
+    "company": "Company",
+    "emailField": "Email address",
+    "phoneField": "Phone",
+    "message": "Message",
+    "namePlaceholder": "First and last name…",
+    "companyPlaceholder": "Organization name…",
+    "emailPlaceholder": "name@company.com…",
+    "phonePlaceholder": "+1 000 000 0000…",
+    "messagePlaceholder": "Briefly describe your inquiry…",
+    "submit": "Prepare email",
+    "subject": "New inquiry from AUDITAXES Global",
+    "follow": "Follow us",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "linkedin": "LinkedIn"
+  },
+  "legal": {
+    "privacy": "Privacy notice",
+    "terms": "Terms and conditions",
+    "ethics": "Ethics and compliance",
+    "pages": {
+      "privacy": {
+        "intro": "AUDITAXES Global protects the confidentiality of information people share when using this site or communicating with our network.",
+        "sections": [
+          { "title": "Information we may receive", "body": "We may receive identification and contact details, along with information voluntarily included in an inquiry. This site does not request financial data or access credentials." },
+          { "title": "Purposes", "body": "We use information to answer requests, route inquiries to the appropriate firm, maintain professional communications and improve the website experience." },
+          { "title": "Retention and security", "body": "We keep information only as long as necessary for the relevant purpose and apply reasonable measures to prevent unauthorized access, use or disclosure." },
+          { "title": "Rights and contact", "body": "You may request access, correction or deletion of your data by writing to info@audit-taxes.com.mx. The responsible firm will confirm the applicable process for your jurisdiction." }
+        ]
+      },
+      "terms": {
+        "intro": "These terms govern access to and informational use of the AUDITAXES Global website.",
+        "sections": [
+          { "title": "Scope of content", "body": "Published information is general in nature and does not constitute accounting, tax, legal or financial advice for a specific case." },
+          { "title": "Professional relationship", "body": "Submitting an inquiry does not create a professional relationship. Every service requires express acceptance, a defined scope and the corresponding agreements." },
+          { "title": "Accuracy and availability", "body": "We aim to keep content current, but rules and circumstances may change. The site may be modified, suspended or updated without prior notice." },
+          { "title": "Intellectual property", "body": "The trademarks, text, graphics and materials on this site belong to their respective owners and may not be used without authorization, except as permitted by law." }
+        ]
+      },
+      "ethics": {
+        "intro": "Trust requires independence, integrity and accountability in every professional relationship.",
+        "sections": [
+          { "title": "Principles", "body": "Network firms promote objectivity, professional competence, confidentiality and compliance with the rules applicable in each market." },
+          { "title": "Conflicts of interest", "body": "Before accepting an engagement, independence conditions and potential conflicts are evaluated and appropriate safeguards are applied." },
+          { "title": "Confidentiality", "body": "Client and third-party information is used only for authorized purposes and protected according to professional and legal obligations." },
+          { "title": "Responsible reporting", "body": "Any concern regarding professional conduct or compliance may be reported in good faith to info@audit-taxes.com.mx for confidential routing." }
+        ]
+      }
+    }
+  },
+  "countries": {
+    "mexico": "Mexico",
+    "guatemala": "Guatemala",
+    "el-salvador": "El Salvador",
+    "costa-rica": "Costa Rica",
+    "panama": "Panama",
+    "paraguay": "Paraguay",
+    "belize": "Belize",
+    "colombia": "Colombia",
+    "peru": "Peru",
+    "argentina": "Argentina",
+    "dominican-republic": "Dominican Republic",
+    "venezuela": "Venezuela",
+    "united-kingdom": "United Kingdom"
+  },
+  "footer": {
+    "tagline": "Audit · Tax · Consulting · Outsourcing",
+    "legal": "Legal",
+    "network": "Network",
+    "services": "Services",
+    "copyright": "© 2026 AUDITAXES Global. All rights reserved."
+  }
+}

@@ -1,0 +1,19 @@
+---
+import SectionPage from "../components/SectionPage.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { pageIds, type PageId } from "../lib/i18n";
+import { pageMeta } from "../lib/page-meta";
+
+export function getStaticPaths() {
+  return pageIds.map((page) => ({ params: { page }, props: { page } }));
+}
+
+interface Props { page: PageId; }
+const { page } = Astro.props as Props;
+const locale = "es" as const;
+const meta = pageMeta(locale, page);
+---
+
+<BaseLayout {locale} title={meta.title} description={meta.description} currentPage={page}>
+  <SectionPage {locale} {page} />
+</BaseLayout>
