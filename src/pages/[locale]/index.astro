@@ -1,0 +1,17 @@
+---
+import HomePage from "../../components/HomePage.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCatalog, type Locale } from "../../lib/i18n";
+
+export function getStaticPaths() {
+  return (["en", "pt"] as Locale[]).map((locale) => ({ params: { locale }, props: { locale } }));
+}
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props as Props;
+const catalog = getCatalog(locale);
+---
+
+<BaseLayout {locale} title={catalog.home.metaTitle} description={catalog.meta.defaultDescription}>
+  <HomePage {locale} />
+</BaseLayout>

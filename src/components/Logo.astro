@@ -1,0 +1,26 @@
+---
+import { localizedPath, type Locale } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  inverse?: boolean;
+}
+
+const { locale, inverse = false } = Astro.props;
+---
+
+<a class:list={["brand-logo", { inverse }]} href={localizedPath(locale)} aria-label="AUDITAXES Global">
+  <span class="brand-audit">Audit</span><span class="brand-axes">axes</span>
+  <svg viewBox="0 0 36 36" aria-hidden="true">
+    <circle cx="18" cy="18" r="15.5" fill="none" stroke="currentColor" stroke-width="2" />
+    <path d="M7 13.5 11 10l4 1 1.5 3.5-2 3.5 3 2.5-1 4-4 1-2.5-3-3-1M20 4l3 4 4 .5 2 3.5-3.5 2-1 3-3.5 1-2-4 1-3-2.5-2L20 4ZM23 21l4-2 3 2-1 5-4 3-4-2Z" fill="currentColor" opacity=".9" />
+  </svg>
+</a>
+
+<style>
+  .brand-logo { align-items: center; color: var(--petroleum); display: inline-flex; font-family: var(--font-sans); font-size: clamp(1.55rem, 2.2vw, 2.15rem); font-weight: 720; letter-spacing: -.065em; line-height: 1; text-decoration: none; }
+  .brand-audit { color: var(--cyan-dark); }
+  .brand-axes { color: var(--green-dark); }
+  svg { color: var(--green-dark); height: 1.18em; margin-left: .24em; width: 1.18em; }
+  .inverse .brand-audit, .inverse .brand-axes, .inverse svg { color: white; }
+</style>

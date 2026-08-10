@@ -1,0 +1,15 @@
+[
+  { "id": "mexico", "latitude": 23.6345, "longitude": -102.5528, "featured": true, "status": "active", "href": "https://mexico-auditaxes.suitmx.com/" },
+  { "id": "guatemala", "latitude": 15.7835, "longitude": -90.2308, "featured": false, "status": "inactive", "href": null },
+  { "id": "el-salvador", "latitude": 13.7942, "longitude": -88.8965, "featured": true, "status": "active", "href": "https://elsalvador-auditaxes.suitmx.com/" },
+  { "id": "costa-rica", "latitude": 9.7489, "longitude": -83.7534, "featured": false, "status": "inactive", "href": null },
+  { "id": "panama", "latitude": 8.538, "longitude": -80.7821, "featured": true, "status": "inactive", "href": null },
+  { "id": "belize", "latitude": 17.1899, "longitude": -88.4976, "featured": false, "status": "inactive", "href": null },
+  { "id": "colombia", "latitude": 4.5709, "longitude": -74.2973, "featured": false, "status": "inactive", "href": null },
+  { "id": "peru", "latitude": -9.19, "longitude": -75.0152, "featured": false, "status": "inactive", "href": null },
+  { "id": "argentina", "latitude": -38.4161, "longitude": -63.6167, "featured": false, "status": "inactive", "href": null },
+  { "id": "dominican-republic", "latitude": 18.7357, "longitude": -70.1627, "featured": false, "status": "inactive", "href": null },
+  { "id": "venezuela", "latitude": 6.4238, "longitude": -66.5897, "featured": false, "status": "inactive", "href": null },
+  { "id": "united-kingdom", "latitude": 55.3781, "longitude": -3.436, "featured": false, "status": "inactive", "href": null }
+  ,{ "id": "paraguay", "latitude": -23.4425, "longitude": -58.4438, "featured": false, "status": "inactive", "href": null }
+]

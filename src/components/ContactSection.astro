@@ -1,0 +1,52 @@
+---
+import site from "../data/site.json";
+import ArrowIcon from "./ArrowIcon.astro";
+import ContactIcon from "./ContactIcon.astro";
+import { getCatalog, type Locale } from "../lib/i18n";
+
+interface Props { locale: Locale; standalone?: boolean; }
+const { locale, standalone = false } = Astro.props;
+const catalog = getCatalog(locale);
+const socialLinks = site.socials.filter(({ href }) => href);
+const primaryPhone = site.phones[0] ?? "";
+type SocialId = "facebook" | "instagram" | "linkedin";
+---
+
+<section class:list={["contact-section", { standalone }]} id="contacto">
+  <header class="page-hero contact-hero section-shell">
+    <p class="section-label">{catalog.nav.contact}</p>
+    {standalone ? <h1>{catalog.contact.title}</h1> : <h2>{catalog.contact.title}</h2>}
+    <p>{catalog.contact.intro}</p>
+  </header>
+  <div class="contact-experience section-shell">
+    <aside class="contact-panel">
+      <h2>{catalog.contact.panelTitle}</h2>
+      <a href={`mailto:${site.email}`}><span><ContactIcon name="email" /></span><div><strong>{catalog.contact.email}</strong><small>{site.email}</small></div></a>
+      <a href={`tel:${primaryPhone.replace(/\s/g, "")}`}><span><ContactIcon name="phone" /></span><div><strong>{catalog.contact.phone}</strong><small>{site.phones.join(" · ")}</small></div></a>
+      <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer"><span><ContactIcon name="whatsapp" /></span><div><strong>{catalog.contact.whatsapp}</strong><small>{site.phones[1]}</small></div></a>
+      <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.office)}`} target="_blank" rel="noreferrer"><span><ContactIcon name="location" /></span><div><strong>{catalog.contact.office}</strong><small>{site.office}</small></div></a>
+    </aside>
+    <form class="contact-form" action={`mailto:${site.email}`} method="get" data-contact-form data-subject={catalog.contact.subject} data-name-label={catalog.contact.name} data-company-label={catalog.contact.company} data-email-label={catalog.contact.emailField} data-phone-label={catalog.contact.phoneField} data-message-label={catalog.contact.message}>
+      <h2>{catalog.contact.formTitle}</h2>
+      <label><span>{catalog.contact.name}</span><input name="name" autocomplete="name" required placeholder={catalog.contact.namePlaceholder} /></label>
+      <label><span>{catalog.contact.company}</span><input name="company" autocomplete="organization" placeholder={catalog.contact.companyPlaceholder} /></label>
+      <label><span>{catalog.contact.emailField}</span><input name="email" type="email" autocomplete="email" spellcheck="false" required placeholder={catalog.contact.emailPlaceholder} /></label>
+      <label><span>{catalog.contact.phoneField}</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder={catalog.contact.phonePlaceholder} /></label>
+      <label class="message-field"><span>{catalog.contact.message}</span><textarea name="message" rows="5" required placeholder={catalog.contact.messagePlaceholder}></textarea></label>
+      <button class="button primary" type="submit">{catalog.contact.submit}<ArrowIcon /></button>
+    </form>
+  </div>
+  <div class="social-strip section-shell"><span>{catalog.contact.follow}</span>{socialLinks.map((social) => <a href={social.href!} target="_blank" rel="noreferrer"><ContactIcon name={social.id as SocialId} /><span>{catalog.contact[social.id as SocialId]}</span></a>)}</div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>("[data-contact-form]").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const fields = ["name", "company", "email", "phone", "message"];
+      const body = fields.map((field) => `${form.dataset[`${field}Label`]}: ${data.get(field) || "—"}`).join("\n\n");
+      window.location.href = `${form.action}?subject=${encodeURIComponent(form.dataset.subject || "")}&body=${encodeURIComponent(body)}`;
+    });
+  });
+</script>

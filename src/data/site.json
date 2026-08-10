@@ -1,0 +1,17 @@
+{
+  "name": "AUDITAXES",
+  "origin": "https://auditaxes.com",
+  "defaultLocale": "es",
+  "email": "info@audit-taxes.com.mx",
+  "phones": ["+52 55 5554 0921", "+52 55 1451 1169"],
+  "whatsapp": "525514511169",
+  "office": "Corina 130, Col. Del Carmen Coyoacán, C.P. 04100, Ciudad de México",
+  "socials": [
+    { "id": "facebook", "href": "https://www.facebook.com/people/Auditaxes/61569843038041/" },
+    { "id": "instagram", "href": "https://www.instagram.com/auditaxes.mx/" },
+    { "id": "linkedin", "href": "https://www.linkedin.com/company/auditaxes/" }
+  ],
+  "customActions": [
+    { "id": "institutional-contact", "href": "mailto:info@audit-taxes.com.mx" }
+  ]
+}

@@ -1,0 +1,118 @@
+---
+import countries from "../data/countries.json";
+import { getCatalog, type Locale } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  compact?: boolean;
+}
+
+const { locale, compact = false } = Astro.props;
+const catalog = getCatalog(locale);
+const projected = countries.map((country) => ({
+  ...country,
+  x: ((country.longitude + 180) / 360) * 100,
+  y: ((90 - country.latitude) / 180) * 100,
+  name: catalog.countries[country.id as keyof typeof catalog.countries],
+}));
+const initialCountry = projected.find((country) => country.id === "mexico") ?? projected[0]!;
+const statusFor = (country?: { status: string }) => country?.status === "active" ? catalog.common.active : catalog.common.inactive;
+---
+
+<section class:list={["world-network", { compact }]} data-world-network>
+  <div class="map-intro">
+    {!compact && <p class="section-label">{catalog.network.mapTitle}</p>}
+    <h2>{compact ? catalog.home.networkTitle : catalog.network.title}</h2>
+    <p>{compact ? catalog.home.networkBody : catalog.network.intro}</p>
+    <p class="map-help" id={`map-help-${locale}`}>{catalog.network.mapHelp}</p>
+  </div>
+
+  <div class="network-interactive">
+    <div class="all-locations">
+      <h3>{catalog.common.allLocations}</h3>
+      <ul>
+        {projected.map((country) => (
+          <li><button class:list={["country-list-button", country.id, { "is-selected": country.id === initialCountry?.id }]} type="button" data-country={country.id} data-country-name={country.name} data-country-status={statusFor(country)} data-country-href={country.href ?? undefined} data-country-x={country.x.toFixed(3)} data-country-y={country.y.toFixed(3)}><span class="status-dot"></span>{country.name}<small>{statusFor(country)}</small></button></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="map-column">
+      <div class="map-canvas" role="group" aria-describedby={`map-help-${locale}`}>
+        <div class="map-stage" style={`--focus-x:${initialCountry.x.toFixed(3)}%;--focus-y:${initialCountry.y.toFixed(3)}%;--pan-x:-${initialCountry.x.toFixed(3)}%;--pan-y:-${initialCountry.y.toFixed(3)}%;--zoom:2.2`}>
+          <img src="/world-map.svg" alt="" width="1200" height="600" loading={compact ? "lazy" : "eager"} />
+          <svg class="map-orbits" viewBox="0 0 1200 600" aria-hidden="true">
+            <path d="M250 185C470 35 760 55 1010 175" />
+            <path d="M280 240C540 90 830 160 1035 285" />
+            <path d="M350 360C580 255 780 285 950 425" />
+          </svg>
+          {projected.map((country) => (
+            <button
+              class:list={["map-node", country.id, "featured", { active: country.status === "active", "is-selected": country.id === initialCountry.id }]}
+              type="button"
+              style={`--x:${country.x.toFixed(3)}%;--y:${country.y.toFixed(3)}%`}
+              data-country={country.id}
+              data-country-name={country.name}
+              data-country-status={statusFor(country)}
+              data-country-href={country.href ?? undefined}
+              data-country-x={country.x.toFixed(3)}
+              data-country-y={country.y.toFixed(3)}
+              aria-label={`${country.name}: ${statusFor(country)}`}
+            ><span></span></button>
+          ))}
+        </div>
+        <div class="map-status" aria-live="polite">
+          <span>{catalog.network.selectedLabel}</span>
+          <strong data-selected-country>{initialCountry?.name}</strong>
+          <p><span>{catalog.network.statusLabel}</span> <b data-selected-status>{catalog.common.active}</b></p>
+          <a class="map-status-action" data-selected-link href={initialCountry?.href ?? undefined}>{catalog.common.go}<span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="construction-modal" data-construction-modal hidden>
+    <div class="construction-modal-card" role="dialog" aria-modal="true" aria-labelledby={`construction-title-${locale}`}>
+      <button class="construction-modal-close" type="button" data-construction-close aria-label={catalog.common.close}>×</button>
+      <p class="section-label">AUDITAXES Global</p>
+      <h2 id={`construction-title-${locale}`}>{catalog.network.constructionTitle}</h2>
+      <p>{catalog.network.constructionBody}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-world-network]").forEach((network) => {
+    const output = network.querySelector<HTMLElement>("[data-selected-country]");
+    const status = network.querySelector<HTMLElement>("[data-selected-status]");
+    const link = network.querySelector<HTMLAnchorElement>("[data-selected-link]");
+    const modal = network.querySelector<HTMLElement>("[data-construction-modal]");
+    const closeModal = network.querySelector<HTMLButtonElement>("[data-construction-close]");
+    const stage = network.querySelector<HTMLElement>(".map-stage");
+    const controls = network.querySelectorAll<HTMLButtonElement>("[data-country]");
+    const showConstruction = () => { if (modal) modal.hidden = false; };
+    closeModal?.addEventListener("click", () => { if (modal) modal.hidden = true; });
+    modal?.addEventListener("click", (event) => { if (event.target === modal) modal.hidden = true; });
+    controls.forEach((control) => control.addEventListener("click", () => {
+      const id = control.dataset.country;
+      const label = control.dataset.countryName ?? "";
+      const state = control.dataset.countryStatus ?? "";
+      const href = control.dataset.countryHref;
+      const x = control.dataset.countryX;
+      const y = control.dataset.countryY;
+      if (stage && x && y) {
+        stage.style.setProperty("--focus-x", `${x}%`);
+        stage.style.setProperty("--focus-y", `${y}%`);
+        stage.style.setProperty("--pan-x", `-${x}%`);
+        stage.style.setProperty("--pan-y", `-${y}%`);
+      }
+      controls.forEach((candidate) => candidate.classList.toggle("is-selected", candidate.dataset.country === id));
+      if (output) output.textContent = label;
+      if (status) status.textContent = state;
+      if (link) {
+        link.href = href ?? "#";
+        link.hidden = false;
+        link.onclick = href ? null : (event) => { event.preventDefault(); showConstruction(); };
+      }
+    }));
+  });
+</script>

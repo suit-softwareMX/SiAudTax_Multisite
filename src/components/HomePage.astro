@@ -1,0 +1,79 @@
+---
+import ArrowIcon from "./ArrowIcon.astro";
+import ContactSection from "./ContactSection.astro";
+import WorldMap from "./WorldMap.astro";
+import { getCatalog, type Locale } from "../lib/i18n";
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const catalog = getCatalog(locale);
+---
+
+<section class="hero section-shell">
+  <div class="hero-copy">
+    <h1>{catalog.home.heroTitle}</h1>
+    <p>{catalog.home.heroBody}</p>
+    <div class="hero-actions">
+      <a class="button primary" href="#red-global">{catalog.home.heroPrimary}<ArrowIcon /></a>
+      <a class="button secondary" href="#consorcio">{catalog.home.heroSecondary}<ArrowIcon /></a>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="hero-orbit orbit-one"></div>
+    <div class="hero-orbit orbit-two"></div>
+    <img src="/world-map.svg" alt="" width="1200" height="600" />
+    <span class="hero-dot cyan one"></span><span class="hero-dot green two"></span><span class="hero-dot cyan three"></span><span class="hero-dot green four"></span>
+  </div>
+  <a class="scroll-cue" href="#consorcio" aria-label={catalog.home.consortiumTitle}><span></span></a>
+</section>
+
+<section class="consortium-preview section-shell" id="consorcio">
+  <div class="consortium-copy">
+    <h2>{catalog.home.consortiumTitle}</h2>
+    <p>{catalog.home.consortiumBody}</p>
+  </div>
+  <div class="office-frame">
+    <img src="/images/modern-office-glass.webp" alt={catalog.home.consortiumImageAlt} width="1800" height="1200" loading="lazy" decoding="async" />
+  </div>
+  <ol class="pillar-rail">
+    {catalog.home.pillars.map((pillar, index) => (
+      <li><span>{String(index + 1).padStart(2, "0")}</span><h3>{pillar.title}</h3><p>{pillar.label}</p></li>
+    ))}
+  </ol>
+</section>
+
+<div class="network-home section-shell" id="red-global">
+  <WorldMap {locale} compact />
+  <div class="network-support-inline">
+    <div><h2>{catalog.network.supportTitle}</h2><p>{catalog.network.supportBody}</p></div>
+    <ol>{catalog.network.supportItems.map((item, index) => <li><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.body}</p></div></li>)}</ol>
+  </div>
+</div>
+
+<section class="specialties-preview section-shell" id="especialidades">
+  <div class="section-heading-row">
+    <div><h2>{catalog.home.specialtiesTitle}</h2><p>{catalog.home.specialtiesBody}</p></div>
+    <figure class="specialties-photo">
+      <img src="/images/specialties-finance.webp" alt={catalog.home.specialtiesImageAlt} width="1800" height="1100" loading="lazy" decoding="async" />
+    </figure>
+  </div>
+  <ol class="service-ledger">
+    {catalog.specialties.services.map((service, index) => (
+      <li class={`service-${service.id}`}><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{service.title}</h3><p>{service.body}</p><ul>{service.details.map((detail) => <li>{detail}</li>)}</ul></div></li>
+    ))}
+  </ol>
+</section>
+
+<section class="perspectives-preview section-shell" id="perspectivas">
+  <div class="perspectives-intro">
+    <h2>{catalog.home.perspectivesTitle}</h2>
+    <p>{catalog.home.perspectivesBody}</p>
+    <figure class="perspectives-photo">
+      <img src="/images/professional-meeting.webp" alt={catalog.home.perspectivesImageAlt} width="1800" height="1200" loading="lazy" decoding="async" />
+      <figcaption>{catalog.home.perspectivesImageCaption}</figcaption>
+    </figure>
+  </div>
+  <div class="perspective-cards">{catalog.perspectives.topics.map((topic, index) => <article><span>{String(index + 1).padStart(2, "0")} · {topic.category}</span><h3>{topic.title}</h3><p>{topic.body}</p></article>)}</div>
+</section>
+
+<ContactSection {locale} />
