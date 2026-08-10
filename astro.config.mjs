@@ -7,6 +7,13 @@ export default defineConfig({
   integrations: [sitemap()],
   vite: {
     server: {
+      host: true,
+      allowedHosts: [
+        "auditaxes.suitmx.com",
+        "mexico.auditaxes.suitmx.com",
+        "elsalvador.auditaxes.suitmx.com",
+        "paraguay.auditaxes.suitmx.com",
+      ],
       fs: {
         allow: [".."],
       },
