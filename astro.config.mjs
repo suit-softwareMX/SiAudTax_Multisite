@@ -10,9 +10,8 @@ export default defineConfig({
       host: true,
       allowedHosts: [
         "auditaxes.suitmx.com",
-        "mexico.auditaxes.suitmx.com",
-        "elsalvador.auditaxes.suitmx.com",
-        "paraguay.auditaxes.suitmx.com",
+        "mexico-auditaxes.suitmx.com",
+        "elsalvador-auditaxes.suitmx.com",
       ],
       fs: {
         allow: [".."],
