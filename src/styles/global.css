@@ -150,7 +150,8 @@ main, .site-footer { position: relative; z-index: 1; }
 .planned-list li { break-inside: avoid; }
 .country-list-button small { color: var(--muted); font-size: .58rem; grid-column: 2; letter-spacing: .03em; margin-top: -.25rem; }
 .status-dot { background: var(--outline, #93a4ad); border: 3px solid white; border-radius: 50%; box-shadow: 0 0 0 1px var(--outline, #93a4ad); height: .58rem; width: .58rem; }
-.country-list-button.mexico, .country-list-button.paraguay { --outline: var(--green); }
+.country-list-button.mexico, .country-list-button.el-salvador { --outline: var(--green); }
+.country-list-button.paraguay { --outline: #9aadb6; }
 .country-list-button.is-selected { background: rgb(226 246 252 / .78); color: var(--petroleum-dark); padding-left: .7rem; }
 .country-list-button.is-selected::after { background: var(--cyan); border-radius: 99px; content: ""; inset: .55rem auto .55rem 0; position: absolute; width: 2px; }
 .country-list-button.is-selected .status-dot { animation: location-pulse 1.8s ease-out infinite; }
@@ -164,9 +165,8 @@ main, .site-footer { position: relative; z-index: 1; }
 .map-node { background: transparent; border: 0; cursor: pointer; height: 2.5rem; left: var(--x); padding: 0; position: absolute; top: var(--y); transform: translate(-50%, -50%); width: 2.5rem; z-index: 2; }
 .map-node span { background: var(--cyan); border: 2px solid white; border-radius: 50%; box-shadow: 0 0 0 1px var(--cyan), 0 0 0 5px rgb(38 169 216 / .11); height: .58rem; left: 50%; position: absolute; top: 50%; transform: translate(-50%, -50%); transition: height .2s ease, width .2s ease, box-shadow .2s ease; width: .58rem; }
 .map-node.featured span { height: .76rem; width: .76rem; }
-.map-node.mexico span { background: var(--green); box-shadow: 0 0 0 1px var(--green), 0 0 0 7px rgb(120 184 64 / .16); }
-.map-node.paraguay span { background: var(--green); box-shadow: 0 0 0 1px var(--green), 0 0 0 7px rgb(120 184 64 / .16); }
-.map-node.panama:not(.active) span, .map-node:not(.active):not(.mexico):not(.paraguay) span { background: #9aadb6; border-color: white; box-shadow: 0 0 0 1px #9aadb6, 0 0 0 5px rgb(120 145 155 / .12); }
+.map-node.mexico span, .map-node.el-salvador span { background: var(--green); box-shadow: 0 0 0 1px var(--green), 0 0 0 7px rgb(120 184 64 / .16); }
+.map-node.panama:not(.active) span, .map-node.paraguay span, .map-node:not(.active):not(.mexico):not(.el-salvador) span { background: #9aadb6; border-color: white; box-shadow: 0 0 0 1px #9aadb6, 0 0 0 5px rgb(120 145 155 / .12); }
 .map-node:hover span, .map-node.is-selected span { height: .9rem; width: .9rem; }
 .map-status { background: white; border-left: 4px solid var(--cyan); bottom: 1.25rem; box-shadow: 0 20px 40px rgb(16 37 52 / .12); left: 1.25rem; min-width: 13.5rem; padding: 1.25rem 1.4rem; position: absolute; z-index: 5; }
 .map-status > span, .map-status p span { color: var(--muted); display: block; font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; }
@@ -176,6 +176,12 @@ main, .site-footer { position: relative; z-index: 1; }
 .map-status-action { align-items: center; background: var(--petroleum-dark); border-radius: .35rem; color: #fff; display: inline-flex; font-size: .75rem; font-weight: 700; gap: 1rem; justify-content: space-between; margin-top: 1rem; min-height: 2.45rem; padding: 0 .85rem; text-decoration: none; transition: background-color .2s ease, transform .2s ease; width: 100%; }
 .map-status-action:hover { background: var(--cyan-dark); transform: translateY(-1px); }
 .map-status-action span { color: var(--cyan); font-size: 1rem; }
+.construction-modal { align-items: center; background: rgb(10 29 40 / .42); display: flex; inset: 0; justify-content: center; position: fixed; z-index: 30; }
+.construction-modal[hidden] { display: none; }
+.construction-modal-card { background: white; box-shadow: 0 24px 70px rgb(16 37 52 / .25); max-width: 23rem; padding: 2rem; position: relative; width: calc(100% - 2rem); }
+.construction-modal-card h2 { color: var(--petroleum-dark); font-family: var(--font-display); font-size: 2rem; margin: .5rem 0; }
+.construction-modal-card p:last-child { color: var(--muted); line-height: 1.6; margin: 0; }
+.construction-modal-close { background: transparent; border: 0; color: var(--muted); cursor: pointer; font-size: 1.7rem; line-height: 1; padding: .25rem; position: absolute; right: .65rem; top: .55rem; }
 .network-link { margin-left: 0; }
 
 .specialties-preview { background: var(--wash); max-width: none; padding-bottom: var(--section-space); padding-left: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter))); padding-right: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter))); padding-top: var(--section-space); }

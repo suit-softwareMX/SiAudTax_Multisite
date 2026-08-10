@@ -65,9 +65,17 @@ const statusFor = (country?: { status: string }) => country?.status === "active"
           <span>{catalog.network.selectedLabel}</span>
           <strong data-selected-country>{initialCountry?.name}</strong>
           <p><span>{catalog.network.statusLabel}</span> <b data-selected-status>{catalog.common.active}</b></p>
-          <a class="map-status-action" data-selected-link href={initialCountry?.href ?? undefined} hidden={!initialCountry?.href}>{catalog.common.go}<span aria-hidden="true">↗</span></a>
+          <a class="map-status-action" data-selected-link href={initialCountry?.href ?? undefined}>{catalog.common.go}<span aria-hidden="true">↗</span></a>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="construction-modal" data-construction-modal hidden>
+    <div class="construction-modal-card" role="dialog" aria-modal="true" aria-labelledby={`construction-title-${locale}`}>
+      <button class="construction-modal-close" type="button" data-construction-close aria-label="Cerrar">×</button>
+      <p class="section-label">AUDITAXES Global</p>
+      <h2 id={`construction-title-${locale}`}>Sitio en construcción</h2>
+      <p>Esta sede estará disponible próximamente.</p>
     </div>
   </div>
 </section>
@@ -77,8 +85,13 @@ const statusFor = (country?: { status: string }) => country?.status === "active"
     const output = network.querySelector<HTMLElement>("[data-selected-country]");
     const status = network.querySelector<HTMLElement>("[data-selected-status]");
     const link = network.querySelector<HTMLAnchorElement>("[data-selected-link]");
+    const modal = network.querySelector<HTMLElement>("[data-construction-modal]");
+    const closeModal = network.querySelector<HTMLButtonElement>("[data-construction-close]");
     const stage = network.querySelector<HTMLElement>(".map-stage");
     const controls = network.querySelectorAll<HTMLButtonElement>("[data-country]");
+    const showConstruction = () => { if (modal) modal.hidden = false; };
+    closeModal?.addEventListener("click", () => { if (modal) modal.hidden = true; });
+    modal?.addEventListener("click", (event) => { if (event.target === modal) modal.hidden = true; });
     controls.forEach((control) => control.addEventListener("click", () => {
       const id = control.dataset.country;
       const label = control.dataset.countryName ?? "";
@@ -96,8 +109,9 @@ const statusFor = (country?: { status: string }) => country?.status === "active"
       if (output) output.textContent = label;
       if (status) status.textContent = state;
       if (link) {
-        if (href) { link.href = href; link.hidden = false; link.removeAttribute("aria-hidden"); }
-        else { link.removeAttribute("href"); link.hidden = true; link.setAttribute("aria-hidden", "true"); }
+        link.href = href ?? "#";
+        link.hidden = false;
+        link.onclick = href ? null : (event) => { event.preventDefault(); showConstruction(); };
       }
     }));
   });
