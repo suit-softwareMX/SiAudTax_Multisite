@@ -18,7 +18,7 @@
   const render = () => {
     document.documentElement.lang = locale === "pt" ? "pt-BR" : locale;
     document.title = `AUDITAXES | ${text("country")}`;
-    document.querySelectorAll("[data-back]").forEach((node) => { node.setAttribute("href", "http://localhost:4321/"); if (!node.classList.contains("local-brand")) node.textContent = text("back"); });
+    document.querySelectorAll("[data-back]").forEach((node) => { node.setAttribute("href", "https://auditaxes.suitmx.com/"); if (!node.classList.contains("local-brand")) node.textContent = text("back"); });
     document.querySelectorAll("[data-brand-country]").forEach((node) => node.textContent = ` | ${text("country")}`);
     document.querySelectorAll("[data-label]").forEach((node) => node.textContent = site.labels[node.dataset.label][locale]);
     document.querySelectorAll("[data-slogan]").forEach((node) => node.textContent = text("slogan"));
@@ -36,6 +36,7 @@
     document.querySelector("[data-privacy]").textContent = text("privacy");
     document.querySelector("[data-registration]").textContent = text("registration");
     document.querySelector("[data-cross-border]").textContent = locale === "es" ? "Explorar sedes en Centroamérica y Sudamérica" : locale === "en" ? "Explore offices across Central and South America" : "Explore escritórios na América Central e do Sul";
+    document.querySelector("[data-cross-border]")?.setAttribute("href", "https://auditaxes.suitmx.com/");
     document.querySelector("[data-local-cta]").textContent = text("contactTitle");
     document.querySelector("[data-service-line]").textContent = site.labels.serviceLine[locale];
     document.querySelector("[data-practices]").innerHTML = site.practices[locale].map((practice) => `<li>${practice}</li>`).join("");
