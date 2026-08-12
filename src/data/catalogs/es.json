@@ -8,6 +8,7 @@
     "menu": "Menú",
     "close": "Cerrar",
     "language": "Idioma",
+    "mainNav": "Navegación principal",
     "soon": "Próximamente",
     "go": "Ir",
     "active": "Activo",
@@ -53,6 +54,10 @@
     "contactTitle": "Conversemos sobre el próximo desafío.",
     "contactBody": "Nuestro equipo internacional está listo para escucharle y coordinar la atención adecuada.",
     "contactAction": "Conversemos"
+    ,"consortiumImageAlt": "Interior contemporáneo de una oficina con salas de reunión acristaladas",
+    "specialtiesImageAlt": "Documentos financieros, calculadora y materiales de análisis sobre un escritorio",
+    "perspectivesImageAlt": "Profesionales colaborando durante una reunión de trabajo",
+    "perspectivesImageCaption": "Acompañamiento coordinado para decisiones complejas."
   },
   "consortium": {
     "metaTitle": "El Consorcio | AUDITAXES Global",
@@ -76,6 +81,7 @@
       { "title": "Cercanía", "body": "Relaciones duraderas y atención directa en cada mercado." }
     ],
     "modelTitle": "Cómo trabajamos",
+    "imageAlt": "Interior contemporáneo de una oficina con salas de reunión acristaladas",
     "modelBody": "Un método común permite mantener claridad y consistencia, desde el primer diagnóstico hasta la entrega de resultados.",
     "modelSteps": [
       { "title": "Comprender", "body": "Escuchamos el contexto, los objetivos y los riesgos particulares de su organización." },
@@ -92,6 +98,8 @@
     "selectedLabel": "Sede seleccionada",
     "statusLabel": "Estado",
     "statusPlanned": "Próximamente",
+    "constructionTitle": "Sitio en construcción",
+    "constructionBody": "Esta sede estará disponible próximamente.",
     "supportTitle": "Cobertura diseñada para operaciones regionales.",
     "supportBody": "La red permite identificar necesidades comunes, coordinar especialistas y mantener una experiencia consistente entre mercados.",
     "supportItems": [

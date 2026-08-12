@@ -24,7 +24,7 @@ const homePath = localizedPath(locale);
 <header class="site-header">
   <div class="header-inner">
     <Logo {locale} />
-    <nav class="desktop-nav" aria-label="Principal">
+    <nav class="desktop-nav" aria-label={catalog.common.mainNav}>
       {nav.map(([page, label]) => (
         <a href={`${homePath}#${page}`}>{label}</a>
       ))}
@@ -40,7 +40,7 @@ const homePath = localizedPath(locale);
     <details class="mobile-menu">
       <summary><span>{catalog.common.menu}</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14"/></svg></summary>
       <div class="mobile-panel">
-        <nav aria-label="Principal">
+        <nav aria-label={catalog.common.mainNav}>
           {nav.map(([page, label]) => <a href={`${homePath}#${page}`}>{label}</a>)}
         </nav>
         <nav class="mobile-languages" aria-label={catalog.common.language}>

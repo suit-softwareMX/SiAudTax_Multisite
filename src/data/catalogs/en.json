@@ -8,6 +8,7 @@
     "menu": "Menu",
     "close": "Close",
     "language": "Language",
+    "mainNav": "Main navigation",
     "soon": "Coming soon",
     "go": "Go",
     "active": "Active",
@@ -52,7 +53,11 @@
     "perspectivesLink": "View perspectives",
     "contactTitle": "Let us discuss your next challenge.",
     "contactBody": "Our international team is ready to listen and coordinate the right support.",
-    "contactAction": "Let’s talk"
+    "contactAction": "Let’s talk",
+    "consortiumImageAlt": "Contemporary office interior with glass-walled meeting rooms",
+    "specialtiesImageAlt": "Financial documents, calculator and analysis materials on a desk",
+    "perspectivesImageAlt": "Professionals collaborating during a business meeting",
+    "perspectivesImageCaption": "Coordinated support for complex decisions."
   },
   "consortium": {
     "metaTitle": "The Consortium | AUDITAXES Global",
@@ -73,9 +78,10 @@
     "values": [
       { "title": "Independence", "body": "Professional judgment and accountability in every engagement." },
       { "title": "Precision", "body": "Decisions grounded in evidence, method and technical rigor." },
-      { "title": "Proximity", "body": "Long-term relationships and direct attention in every market." }
+      { "title": "Client focus", "body": "Long-term relationships and personal service in every market." }
     ],
     "modelTitle": "How we work",
+    "imageAlt": "Contemporary office interior with glass-walled meeting rooms",
     "modelBody": "A common method maintains clarity and consistency from the first diagnosis through delivery of results.",
     "modelSteps": [
       { "title": "Understand", "body": "We listen to your organization’s context, objectives and specific risks." },
@@ -92,11 +98,13 @@
     "selectedLabel": "Selected location",
     "statusLabel": "Status",
     "statusPlanned": "Coming soon",
+    "constructionTitle": "Site under construction",
+    "constructionBody": "This local office website will be available soon.",
     "supportTitle": "Coverage designed for regional operations.",
     "supportBody": "The network identifies shared needs, coordinates specialists and maintains a consistent experience across markets.",
     "supportItems": [
-      { "title": "One coordination point", "body": "We centralize the conversation and connect teams in every jurisdiction." },
-      { "title": "Market-specific knowledge", "body": "Execution considers local practices, obligations and particularities." },
+      { "title": "A single point of coordination", "body": "We centralize communication and connect teams in every jurisdiction." },
+      { "title": "Market-specific knowledge", "body": "Our work reflects local practices, obligations and requirements." },
       { "title": "Shared standards", "body": "We work under common principles of quality, confidentiality and professional ethics." }
     ]
   },
@@ -105,9 +113,9 @@
     "title": "Connected capabilities around your business.",
     "intro": "We integrate financial, tax and regulatory disciplines to address complex challenges with one vision.",
     "services": [
-      { "id": "audit", "title": "Audit and assurance", "body": "Independent assessment, control and confidence over financial information and critical processes.", "details": ["Financial statement audit", "Tax and compliance audit", "Controls and process review", "Accounting and financial expert reports"] },
-      { "id": "tax", "title": "Tax", "body": "Planning, compliance and tax support with a local and international perspective.", "details": ["Tax compliance", "Responsible tax planning", "Refunds and recoverable balances", "Support before authorities"] },
-      { "id": "advisory", "title": "Financial advisory", "body": "Analysis and support to transform complex information into clear decisions.", "details": ["Financial diagnosis", "Accounting and management reporting", "Process optimization", "Administrative outsourcing"] },
+      { "id": "audit", "title": "Audit and assurance", "body": "Independent assessment, control and confidence over financial information and critical processes.", "details": ["Financial statement audits", "Tax and compliance audits", "Controls and process reviews", "Forensic accounting and financial expert services"] },
+      { "id": "tax", "title": "Tax", "body": "Planning, compliance and tax support from both local and international perspectives.", "details": ["Tax compliance", "Responsible tax planning", "Tax refunds and recoverable balances", "Support in dealings with tax authorities"] },
+      { "id": "advisory", "title": "Financial advisory", "body": "Analysis and support to transform complex information into clear decisions.", "details": ["Financial assessment", "Accounting and management reporting", "Process optimization", "Administrative outsourcing"] },
       { "id": "customs", "title": "Customs and international trade", "body": "Advice for operating regional supply chains with compliance, efficiency and risk control.", "details": ["Customs diagnosis", "Regulatory compliance", "Document review", "International trade strategy"] }
     ]
   },
@@ -179,7 +187,7 @@
           { "title": "Principles", "body": "Network firms promote objectivity, professional competence, confidentiality and compliance with the rules applicable in each market." },
           { "title": "Conflicts of interest", "body": "Before accepting an engagement, independence conditions and potential conflicts are evaluated and appropriate safeguards are applied." },
           { "title": "Confidentiality", "body": "Client and third-party information is used only for authorized purposes and protected according to professional and legal obligations." },
-          { "title": "Responsible reporting", "body": "Any concern regarding professional conduct or compliance may be reported in good faith to info@audit-taxes.com.mx for confidential routing." }
+          { "title": "Responsible communication", "body": "Any concern regarding professional conduct or compliance may be reported in good faith to info@audit-taxes.com.mx and will be handled confidentially." }
         ]
       }
     }

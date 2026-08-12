@@ -1,6 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import officeImage from "../../desing/minimalist_interior_of_a_high_end_corporate_office_with_vast_glass_windows/screen.png";
 import ArrowIcon from "./ArrowIcon.astro";
 import ContactSection from "./ContactSection.astro";
 import WorldMap from "./WorldMap.astro";
@@ -18,7 +16,7 @@ const legalPage = catalog.legal.pages[legalKey];
     <header class="page-hero section-shell"><p class="section-label">{catalog.nav.consortium}</p><h1>{catalog.consortium.title}</h1><p>{catalog.consortium.intro}</p></header>
     <section class="editorial-split section-shell">
       <div class="prose-stack">{catalog.consortium.body.map((paragraph) => <p>{paragraph}</p>)}</div>
-      <Image src={officeImage} alt="Sala de reunión contemporánea para equipos de trabajo" widths={[720, 1080]} sizes="(max-width: 800px) 100vw, 50vw" />
+      <img src="/images/modern-office-glass.webp" alt={catalog.consortium.imageAlt} width="1800" height="1200" loading="eager" decoding="async" />
     </section>
     <section class="promise-section section-shell">
       <div><h2>{catalog.consortium.promiseTitle}</h2><p>{catalog.consortium.promiseBody}</p></div>

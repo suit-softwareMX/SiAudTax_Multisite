@@ -4,10 +4,11 @@
     "defaultDescription": "Rede internacional de firmas de auditoria, impostos, consultoria e outsourcing."
   },
   "common": {
-    "skip": "Pular para o conteúdo",
+    "skip": "Ir para o conteúdo",
     "menu": "Menu",
     "close": "Fechar",
     "language": "Idioma",
+    "mainNav": "Navegação principal",
     "soon": "Em breve",
     "go": "Ir",
     "active": "Ativo",
@@ -52,7 +53,11 @@
     "perspectivesLink": "Ver perspectivas",
     "contactTitle": "Vamos conversar sobre o próximo desafio.",
     "contactBody": "Nossa equipe internacional está pronta para ouvir você e coordenar o atendimento adequado.",
-    "contactAction": "Vamos conversar"
+    "contactAction": "Vamos conversar",
+    "consortiumImageAlt": "Interior contemporâneo de um escritório com salas de reunião envidraçadas",
+    "specialtiesImageAlt": "Documentos financeiros, calculadora e materiais de análise sobre uma mesa",
+    "perspectivesImageAlt": "Profissionais colaborando durante uma reunião de trabalho",
+    "perspectivesImageCaption": "Atendimento coordenado para decisões complexas."
   },
   "consortium": {
     "metaTitle": "O Consórcio | AUDITAXES Global",
@@ -72,6 +77,7 @@
       { "title": "Proximidade", "body": "Relações duradouras e atendimento direto em cada mercado." }
     ],
     "modelTitle": "Como trabalhamos",
+    "imageAlt": "Interior contemporâneo de um escritório com salas de reunião envidraçadas",
     "modelBody": "Um método comum mantém clareza e consistência desde o primeiro diagnóstico até a entrega dos resultados.",
     "modelSteps": [
       { "title": "Compreender", "body": "Ouvimos o contexto, os objetivos e os riscos específicos da sua organização." },
@@ -88,6 +94,8 @@
     "selectedLabel": "Escritório selecionado",
     "statusLabel": "Status",
     "statusPlanned": "Em breve",
+    "constructionTitle": "Site em construção",
+    "constructionBody": "O site deste escritório estará disponível em breve.",
     "supportTitle": "Cobertura pensada para operações regionais.",
     "supportBody": "A rede identifica necessidades comuns, coordena especialistas e mantém uma experiência consistente entre mercados.",
     "supportItems": [
@@ -104,7 +112,7 @@
       { "id": "audit", "title": "Auditoria e asseguração", "body": "Avaliação independente, controle e confiança sobre informações financeiras e processos críticos.", "details": ["Auditoria de demonstrações financeiras", "Auditoria fiscal e de conformidade", "Revisão de controles e processos", "Perícias contábeis e financeiras"] },
       { "id": "tax", "title": "Impostos", "body": "Planejamento, conformidade e apoio tributário com perspectiva local e internacional.", "details": ["Conformidade tributária", "Planejamento fiscal responsável", "Restituições e saldos a favor", "Atendimento perante autoridades"] },
       { "id": "advisory", "title": "Consultoria financeira", "body": "Análise e apoio para transformar informações complexas em decisões claras.", "details": ["Diagnóstico financeiro", "Contabilidade e relatórios gerenciais", "Otimização de processos", "Outsourcing administrativo"] },
-      { "id": "customs", "title": "Aduanas e comércio exterior", "body": "Assessoria para operar cadeias regionais com conformidade, eficiência e controle de riscos.", "details": ["Diagnóstico aduaneiro", "Conformidade regulatória", "Revisão documental", "Estratégia de comércio exterior"] }
+      { "id": "customs", "title": "Aduana e comércio exterior", "body": "Assessoria para operar cadeias regionais com conformidade, eficiência e controle de riscos.", "details": ["Diagnóstico aduaneiro", "Conformidade regulatória", "Revisão documental", "Estratégia de comércio exterior"] }
     ]
   },
   "perspectives": {

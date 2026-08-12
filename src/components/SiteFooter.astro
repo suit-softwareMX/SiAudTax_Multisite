@@ -1,10 +1,13 @@
 ---
 import Logo from "./Logo.astro";
+import countries from "../data/countries.json";
 import { getCatalog, localizedPath, type Locale } from "../lib/i18n";
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
 const catalog = getCatalog(locale);
+const mexico = countries.find((country) => country.id === "mexico");
+const elSalvador = countries.find((country) => country.id === "el-salvador");
 ---
 
 <footer class="site-footer">
@@ -22,8 +25,8 @@ const catalog = getCatalog(locale);
     <nav aria-label={catalog.footer.network}>
       <strong>{catalog.footer.network}</strong>
       <a href={`${localizedPath(locale)}#red-global`}>{catalog.nav.network}</a>
-      <span aria-disabled="true">{catalog.countries.mexico} · {catalog.common.soon}</span>
-      <span aria-disabled="true">{catalog.countries.panama} · {catalog.common.soon}</span>
+      {mexico?.href && <a href={mexico.href}>{catalog.countries.mexico}</a>}
+      {elSalvador?.href && <a href={elSalvador.href}>{catalog.countries["el-salvador"]}</a>}
     </nav>
     <nav aria-label={catalog.footer.legal}>
       <strong>{catalog.footer.legal}</strong>

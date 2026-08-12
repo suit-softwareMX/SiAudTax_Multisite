@@ -90,10 +90,10 @@ const overviewLabel = {
   </div>
   <div class="construction-modal" data-construction-modal hidden>
     <div class="construction-modal-card" role="dialog" aria-modal="true" aria-labelledby={`construction-title-${locale}`}>
-      <button class="construction-modal-close" type="button" data-construction-close aria-label="Cerrar">×</button>
+      <button class="construction-modal-close" type="button" data-construction-close aria-label={catalog.common.close}>×</button>
       <p class="section-label">AUDITAXES Global</p>
-      <h2 id={`construction-title-${locale}`}>Sitio en construcción</h2>
-      <p>Esta sede estará disponible próximamente.</p>
+      <h2 id={`construction-title-${locale}`}>{catalog.network.constructionTitle}</h2>
+      <p>{catalog.network.constructionBody}</p>
     </div>
   </div>
 </section>
