@@ -10,7 +10,7 @@ El proyecto es completamente estático: no usa backend ni base de datos. La matr
 - CSS nativo
 - Contenido editable en JSON
 - Generación estática para hosting CDN
-- Español, inglés y portugués
+- Español, inglés, portugués y francés
 
 ## Estructura
 
@@ -68,7 +68,7 @@ En Windows también se puede ejecutar `iniciar.bat`, que levanta simultáneament
 
 ## Editar contenido
 
-- Matriz global: `src/data/catalogs/es.json`, `en.json` y `pt.json`.
+- Matriz global: `src/data/catalogs/es.json`, `en.json`, `pt.json` y `fr.json`.
 - Países y nodos del mapa: `src/data/countries.json`.
 - Sitios locales: `sites/shared/local-sites.json`.
 - Datos generales: `src/data/site.json`.

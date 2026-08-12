@@ -4,7 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCatalog, type Locale } from "../../lib/i18n";
 
 export function getStaticPaths() {
-  return (["en", "pt"] as Locale[]).map((locale) => ({ params: { locale }, props: { locale } }));
+  return (["en", "pt", "fr"] as Locale[]).map((locale) => ({ params: { locale }, props: { locale } }));
 }
 
 interface Props { locale: Locale; }

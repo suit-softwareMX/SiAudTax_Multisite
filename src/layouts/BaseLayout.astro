@@ -5,7 +5,7 @@ import "../styles/global.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import NetworkBackground from "../components/NetworkBackground.astro";
-import { htmlLang, localizedPath, type Locale, type PageId } from "../lib/i18n";
+import { getCatalog, htmlLang, localizedPath, type Locale, type PageId } from "../lib/i18n";
 
 interface Props {
   locale: Locale;
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const { locale, title, description, currentPage } = Astro.props;
+const catalog = getCatalog(locale);
 const canonical = new URL(localizedPath(locale, currentPage), Astro.site);
 ---
 
@@ -30,6 +31,7 @@ const canonical = new URL(localizedPath(locale, currentPage), Astro.site);
     <link rel="alternate" hreflang="es" href={new URL(localizedPath("es", currentPage), Astro.site)} />
     <link rel="alternate" hreflang="en" href={new URL(localizedPath("en", currentPage), Astro.site)} />
     <link rel="alternate" hreflang="pt-BR" href={new URL(localizedPath("pt", currentPage), Astro.site)} />
+    <link rel="alternate" hreflang="fr" href={new URL(localizedPath("fr", currentPage), Astro.site)} />
     <link rel="alternate" hreflang="x-default" href={new URL(localizedPath("es", currentPage), Astro.site)} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -46,7 +48,7 @@ const canonical = new URL(localizedPath(locale, currentPage), Astro.site);
   </head>
   <body>
     <NetworkBackground />
-    <a class="skip-link" href="#main-content">{locale === "es" ? "Saltar al contenido" : locale === "en" ? "Skip to content" : "Pular para o conteúdo"}</a>
+    <a class="skip-link" href="#main-content">{catalog.common.skip}</a>
     <SiteHeader {locale} {currentPage} />
     <main id="main-content"><slot /></main>
     <SiteFooter {locale} />

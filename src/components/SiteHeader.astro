@@ -17,7 +17,7 @@ const nav = [
   ["perspectivas", catalog.nav.perspectives],
   ["contacto", catalog.nav.contact],
 ] as const;
-const languageNames: Record<Locale, string> = { es: "Español", en: "English", pt: "Português" };
+const languageNames: Record<Locale, string> = { es: "Español", en: "English", pt: "Português", fr: "Français" };
 const homePath = localizedPath(locale);
 ---
 
@@ -32,7 +32,7 @@ const homePath = localizedPath(locale);
     <details class="language-switcher desktop-languages">
       <summary aria-label={`${catalog.common.language}: ${languageNames[locale]}`}><FlagIcon locale={locale} /><span>{languageNames[locale]}</span><svg class="language-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></summary>
       <nav aria-label={catalog.common.language}>
-        {(["es", "en", "pt"] as Locale[]).map((target) => (
+        {(["es", "en", "pt", "fr"] as Locale[]).map((target) => (
           <a href={localizedPath(target, currentPage)} lang={target} aria-current={target === locale ? "page" : undefined}><FlagIcon locale={target} /><span>{languageNames[target]}</span><small>{target.toUpperCase()}</small></a>
         ))}
       </nav>
@@ -44,7 +44,7 @@ const homePath = localizedPath(locale);
           {nav.map(([page, label]) => <a href={`${homePath}#${page}`}>{label}</a>)}
         </nav>
         <nav class="mobile-languages" aria-label={catalog.common.language}>
-          {(["es", "en", "pt"] as Locale[]).map((target) => (
+          {(["es", "en", "pt", "fr"] as Locale[]).map((target) => (
             <a href={localizedPath(target, currentPage)} lang={target} aria-current={target === locale ? "page" : undefined}><FlagIcon locale={target} /><span>{languageNames[target]}</span></a>
           ))}
         </nav>

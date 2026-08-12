@@ -9,14 +9,24 @@ interface Props {
 
 const { locale, compact = false } = Astro.props;
 const catalog = getCatalog(locale);
-const projected = countries.map((country) => ({
-  ...country,
-  x: ((country.longitude + 180) / 360) * 100,
-  y: ((90 - country.latitude) / 180) * 100,
-  name: catalog.countries[country.id as keyof typeof catalog.countries],
-}));
-const initialCountry = projected.find((country) => country.id === "mexico") ?? projected[0]!;
+const localSites = { mexico: "http://localhost:4322/", "el-salvador": "http://localhost:4323/" } as const;
+const projected = countries.map((country) => {
+  const siteHref = import.meta.env.DEV ? localSites[country.id as keyof typeof localSites] ?? country.href : country.href;
+  return {
+    ...country,
+    href: siteHref ? `${siteHref}?lang=${locale}` : null,
+    x: ((country.longitude + 180) / 360) * 100,
+    y: ((90 - country.latitude) / 180) * 100,
+    name: catalog.countries[country.id as keyof typeof catalog.countries],
+  };
+});
 const statusFor = (country?: { status: string }) => country?.status === "active" ? catalog.common.active : catalog.common.inactive;
+const overviewLabel = {
+  es: "Ver mapa global",
+  en: "View global map",
+  pt: "Ver mapa global",
+  fr: "Voir la carte mondiale",
+}[locale];
 ---
 
 <section class:list={["world-network", { compact }]} data-world-network>
@@ -32,28 +42,36 @@ const statusFor = (country?: { status: string }) => country?.status === "active"
       <h3>{catalog.common.allLocations}</h3>
       <ul>
         {projected.map((country) => (
-          <li><button class:list={["country-list-button", country.id, { "is-selected": country.id === initialCountry?.id }]} type="button" data-country={country.id} data-country-name={country.name} data-country-status={statusFor(country)} data-country-href={country.href ?? undefined} data-country-x={country.x.toFixed(3)} data-country-y={country.y.toFixed(3)}><span class="status-dot"></span>{country.name}<small>{statusFor(country)}</small></button></li>
+          <li><button class:list={["country-list-button", country.id]} type="button" data-country={country.id} data-country-name={country.name} data-country-status={statusFor(country)} data-country-active={country.status === "active" ? "true" : "false"} data-country-href={country.href ?? undefined} data-country-x={country.x.toFixed(3)} data-country-y={country.y.toFixed(3)}><span class="status-dot"></span>{country.name}<small>{statusFor(country)}</small></button></li>
         ))}
       </ul>
     </div>
 
     <div class="map-column">
       <div class="map-canvas" role="group" aria-describedby={`map-help-${locale}`}>
-        <div class="map-stage" style={`--focus-x:${initialCountry.x.toFixed(3)}%;--focus-y:${initialCountry.y.toFixed(3)}%;--pan-x:-${initialCountry.x.toFixed(3)}%;--pan-y:-${initialCountry.y.toFixed(3)}%;--zoom:2.2`}>
+        <div class="map-grid" aria-hidden="true"></div>
+        <div class="map-canvas-label" aria-hidden="true"><span></span>AUDITAXES GLOBAL NETWORK</div>
+        <button class="map-reset" type="button" data-map-reset hidden aria-label={overviewLabel}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.3-5.7M4 5v5h5" /></svg>
+          {overviewLabel}
+        </button>
+        <div class="map-stage" style="--focus-x:50%;--focus-y:50%;--zoom:1;--node-scale:1">
           <img src="/world-map.svg" alt="" width="1200" height="600" loading={compact ? "lazy" : "eager"} />
-          <svg class="map-orbits" viewBox="0 0 1200 600" aria-hidden="true">
-            <path d="M250 185C470 35 760 55 1010 175" />
-            <path d="M280 240C540 90 830 160 1035 285" />
-            <path d="M350 360C580 255 780 285 950 425" />
+          <svg class="map-routes" viewBox="0 0 1200 600" aria-hidden="true">
+            <path data-route="0" data-route-kind="near" />
+            <path data-route="1" data-route-kind="near" />
+            <path data-route="2" data-route-kind="near" />
+            <path data-route="3" data-route-kind="far" />
           </svg>
           {projected.map((country) => (
             <button
-              class:list={["map-node", country.id, "featured", { active: country.status === "active", "is-selected": country.id === initialCountry.id }]}
+              class:list={["map-node", country.id, { featured: country.featured, active: country.status === "active" }]}
               type="button"
               style={`--x:${country.x.toFixed(3)}%;--y:${country.y.toFixed(3)}%`}
               data-country={country.id}
               data-country-name={country.name}
               data-country-status={statusFor(country)}
+              data-country-active={country.status === "active" ? "true" : "false"}
               data-country-href={country.href ?? undefined}
               data-country-x={country.x.toFixed(3)}
               data-country-y={country.y.toFixed(3)}
@@ -61,11 +79,11 @@ const statusFor = (country?: { status: string }) => country?.status === "active"
             ><span></span></button>
           ))}
         </div>
-        <div class="map-status" aria-live="polite">
+        <div class="map-status" data-map-status aria-live="polite" hidden>
           <span>{catalog.network.selectedLabel}</span>
-          <strong data-selected-country>{initialCountry?.name}</strong>
-          <p><span>{catalog.network.statusLabel}</span> <b data-selected-status>{catalog.common.active}</b></p>
-          <a class="map-status-action" data-selected-link href={initialCountry?.href ?? undefined}>{catalog.common.go}<span aria-hidden="true">↗</span></a>
+          <strong data-selected-country></strong>
+          <p><span>{catalog.network.statusLabel}</span> <b data-selected-status></b></p>
+          <a class="map-status-action" data-selected-link href="#">{catalog.common.go}<span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </div>
@@ -85,27 +103,92 @@ const statusFor = (country?: { status: string }) => country?.status === "active"
     const output = network.querySelector<HTMLElement>("[data-selected-country]");
     const status = network.querySelector<HTMLElement>("[data-selected-status]");
     const link = network.querySelector<HTMLAnchorElement>("[data-selected-link]");
+    const statusCard = network.querySelector<HTMLElement>("[data-map-status]");
+    const reset = network.querySelector<HTMLButtonElement>("[data-map-reset]");
     const modal = network.querySelector<HTMLElement>("[data-construction-modal]");
     const closeModal = network.querySelector<HTMLButtonElement>("[data-construction-close]");
     const stage = network.querySelector<HTMLElement>(".map-stage");
+    const canvas = network.querySelector<HTMLElement>(".map-canvas");
+    const routes = [...network.querySelectorAll<SVGPathElement>("[data-route]")];
     const controls = network.querySelectorAll<HTMLButtonElement>("[data-country]");
+    const mapNodes = [...network.querySelectorAll<HTMLButtonElement>(".map-node[data-country]")];
+    let zoomTimer = 0;
+    let dragX = 0;
+    let dragY = 0;
+    let startX = 0;
+    let startY = 0;
+    let dragging = false;
+    const setDrag = (x: number, y: number) => {
+      dragX = x;
+      dragY = y;
+      stage?.style.setProperty("--drag-x", `${x}px`);
+      stage?.style.setProperty("--drag-y", `${y}px`);
+    };
+    const zoomFor = (id?: string) => {
+      const close = new Set(["guatemala", "el-salvador", "costa-rica", "panama", "belize", "dominican-republic"]);
+      const broad = new Set(["argentina", "mexico", "peru"]);
+      const zoom = close.has(id ?? "") ? 4.6 : broad.has(id ?? "") ? 2.85 : 3.5;
+      return matchMedia("(max-width: 820px)").matches ? zoom * .78 : zoom;
+    };
+    const drawRoutes = (selectedId: string, x: number, y: number) => {
+      const origin = { x: x * 12, y: y * 6 };
+      const destinations = mapNodes
+        .filter((node) => node.dataset.country !== selectedId)
+        .map((node) => {
+          const target = { x: Number(node.dataset.countryX) * 12, y: Number(node.dataset.countryY) * 6 };
+          return { ...target, distance: Math.hypot(target.x - origin.x, target.y - origin.y) };
+        })
+        .sort((a, b) => a.distance - b.distance);
+      const connected = [...destinations.slice(0, 3), destinations.at(-1)];
+      routes.forEach((route, index) => {
+        const destination = connected[index];
+        if (!destination) return route.removeAttribute("d");
+        const curve = Math.max(32, destination.distance * .16) * (index % 2 ? 1 : -1);
+        route.setAttribute("d", `M${origin.x} ${origin.y} Q${(origin.x + destination.x) / 2} ${(origin.y + destination.y) / 2 + curve} ${destination.x} ${destination.y}`);
+      });
+    };
+    const resetMap = () => {
+      window.clearTimeout(zoomTimer);
+      stage?.style.setProperty("--focus-x", "50%");
+      stage?.style.setProperty("--focus-y", "50%");
+      stage?.style.setProperty("--zoom", "1");
+      stage?.style.setProperty("--node-scale", "1");
+      setDrag(0, 0);
+      canvas?.classList.remove("is-focused", "is-zooming");
+      controls.forEach((candidate) => candidate.classList.remove("is-selected"));
+      if (statusCard) statusCard.hidden = true;
+      if (reset) reset.hidden = true;
+    };
     const showConstruction = () => { if (modal) modal.hidden = false; };
     closeModal?.addEventListener("click", () => { if (modal) modal.hidden = true; });
     modal?.addEventListener("click", (event) => { if (event.target === modal) modal.hidden = true; });
+    reset?.addEventListener("click", resetMap);
     controls.forEach((control) => control.addEventListener("click", () => {
       const id = control.dataset.country;
       const label = control.dataset.countryName ?? "";
       const state = control.dataset.countryStatus ?? "";
       const href = control.dataset.countryHref;
+      const isActive = control.dataset.countryActive === "true";
       const x = control.dataset.countryX;
       const y = control.dataset.countryY;
       if (stage && x && y) {
+        setDrag(0, 0);
         stage.style.setProperty("--focus-x", `${x}%`);
         stage.style.setProperty("--focus-y", `${y}%`);
-        stage.style.setProperty("--pan-x", `-${x}%`);
-        stage.style.setProperty("--pan-y", `-${y}%`);
+        const zoom = zoomFor(id);
+        stage.style.setProperty("--zoom", `${zoom}`);
+        stage.style.setProperty("--node-scale", `${1 / zoom}`);
+        drawRoutes(id ?? "", Number(x), Number(y));
       }
+      window.clearTimeout(zoomTimer);
+      canvas?.classList.add("is-focused", "is-zooming");
+      zoomTimer = window.setTimeout(() => canvas?.classList.remove("is-zooming"), 1100);
       controls.forEach((candidate) => candidate.classList.toggle("is-selected", candidate.dataset.country === id));
+      if (statusCard) {
+        statusCard.hidden = false;
+        statusCard.dataset.active = isActive ? "true" : "false";
+      }
+      if (reset) reset.hidden = false;
       if (output) output.textContent = label;
       if (status) status.textContent = state;
       if (link) {
@@ -114,5 +197,29 @@ const statusFor = (country?: { status: string }) => country?.status === "active"
         link.onclick = href ? null : (event) => { event.preventDefault(); showConstruction(); };
       }
     }));
+    canvas?.addEventListener("pointerdown", (event) => {
+      if (!canvas.classList.contains("is-focused") || event.button !== 0 || (event.target as Element).closest("a, button")) return;
+      dragging = true;
+      startX = event.clientX - dragX;
+      startY = event.clientY - dragY;
+      canvas.setPointerCapture(event.pointerId);
+      canvas.classList.add("is-dragging");
+    });
+    canvas?.addEventListener("pointermove", (event) => {
+      if (!dragging) return;
+      const nextX = event.clientX - startX;
+      const nextY = event.clientY - startY;
+      const maxX = canvas.clientWidth * .4;
+      const maxY = canvas.clientHeight * .4;
+      setDrag(Math.max(-maxX, Math.min(maxX, nextX)), Math.max(-maxY, Math.min(maxY, nextY)));
+    });
+    const stopDragging = (event: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      if (canvas?.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+      canvas?.classList.remove("is-dragging");
+    };
+    canvas?.addEventListener("pointerup", stopDragging);
+    canvas?.addEventListener("pointercancel", stopDragging);
   });
 </script>

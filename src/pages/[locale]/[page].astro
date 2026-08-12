@@ -5,7 +5,7 @@ import { pageIds, type Locale, type PageId } from "../../lib/i18n";
 import { pageMeta } from "../../lib/page-meta";
 
 export function getStaticPaths() {
-  return (["en", "pt"] as Locale[]).flatMap((locale) => pageIds.map((page) => ({
+  return (["en", "pt", "fr"] as Locale[]).flatMap((locale) => pageIds.map((page) => ({
     params: { locale, page },
     props: { locale, page },
   })));
