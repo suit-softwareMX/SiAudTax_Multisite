@@ -1,5 +1,6 @@
 {
   "mexico": {
+    "firmImage": "/images/mexico-architecture.jpg",
     "labels": {
       "menu": { "es": "Menú", "en": "Menu", "pt": "Menu", "fr": "Menu" },
       "firm": {
@@ -114,6 +115,7 @@
     "partners": [
       {
         "name": "Mariana Ortega",
+        "image": "/images/partner-mariana.webp",
         "role": {
           "es": "Socia directora",
           "en": "Managing partner",
@@ -123,6 +125,7 @@
       },
       {
         "name": "Ricardo Salinas",
+        "image": "/images/partner-ricardo.webp",
         "role": {
           "es": "Socio de auditoría",
           "en": "Audit partner",
@@ -154,6 +157,7 @@
     }
   },
   "paraguay": {
+    "firmImage": "/images/el-salvador-city.webp",
     "labels": {
       "menu": { "es": "Menú", "en": "Menu", "pt": "Menu", "fr": "Menu" },
       "firm": {
@@ -268,6 +272,7 @@
     "partners": [
       {
         "name": "Sofía Benítez",
+        "image": "/images/partner-sofia.webp",
         "role": {
           "es": "Socia directora",
           "en": "Managing partner",
@@ -277,6 +282,7 @@
       },
       {
         "name": "Diego Acosta",
+        "image": "/images/partner-diego.webp",
         "role": {
           "es": "Socio de impuestos",
           "en": "Tax partner",

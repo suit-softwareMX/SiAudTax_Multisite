@@ -41,6 +41,7 @@
     document.querySelector("[data-hero-body]").textContent = text("intro");
     document.querySelector("[data-firm-title]").textContent = text("firmTitle");
     document.querySelector("[data-firm-body]").textContent = text("firmBody");
+    document.querySelector("[data-firm-image]")?.setAttribute("src", site.firmImage);
     document.querySelector("[data-practice-title]").textContent = text("practiceTitle");
     document.querySelector("[data-partners-title]").textContent = text("partnersTitle");
     document.querySelector("[data-partners-body]").textContent = text("partnersBody");
@@ -60,7 +61,13 @@
     document.querySelector("[data-local-cta]").textContent = text("contactTitle");
     document.querySelector("[data-service-line]").textContent = site.labels.serviceLine[locale];
     document.querySelector("[data-practices]").innerHTML = site.practices[locale].map((practice) => `<li>${practice}</li>`).join("");
-    document.querySelector("[data-partners]").innerHTML = site.partners.map((partner) => `<article class="local-partner"><strong>${partner.name}</strong><span>${partner.role[locale]}</span></article>`).join("");
+    const profileNotice = {
+      es: "Perfiles e imágenes ilustrativos para esta demostración.",
+      en: "Illustrative profiles and images for this demonstration.",
+      pt: "Perfis e imagens ilustrativos para esta demonstração.",
+      fr: "Profils et images illustratifs pour cette démonstration.",
+    }[locale];
+    document.querySelector("[data-partners]").innerHTML = site.partners.map((partner) => `<article class="local-partner"><img src="${partner.image}" alt="" width="900" height="1100" loading="lazy" decoding="async"><div><strong>${partner.name}</strong><span>${partner.role[locale]}</span></div></article>`).join("") + `<p class="local-partners-disclaimer">${profileNotice}</p>`;
     document.querySelectorAll("[data-language]").forEach((button) => {
       button.setAttribute("aria-current", button.dataset.language === locale ? "true" : "false");
     });
