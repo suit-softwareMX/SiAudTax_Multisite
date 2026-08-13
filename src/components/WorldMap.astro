@@ -11,10 +11,11 @@ const { locale, compact = false } = Astro.props;
 const catalog = getCatalog(locale);
 const localSites = { mexico: "http://localhost:4322/", "el-salvador": "http://localhost:4323/" } as const;
 const projected = countries.map((country) => {
-  const siteHref = import.meta.env.DEV ? localSites[country.id as keyof typeof localSites] ?? country.href : country.href;
+  const localHref = localSites[country.id as keyof typeof localSites];
   return {
     ...country,
-    href: siteHref ? `${siteHref}?lang=${locale}` : null,
+    href: country.href ? `${country.href}?lang=${locale}` : null,
+    localHref: localHref ? `${localHref}?lang=${locale}` : null,
     x: ((country.longitude + 180) / 360) * 100,
     y: ((90 - country.latitude) / 180) * 100,
     name: catalog.countries[country.id as keyof typeof catalog.countries],
@@ -42,7 +43,7 @@ const overviewLabel = {
       <h3>{catalog.common.allLocations}</h3>
       <ul>
         {projected.map((country) => (
-          <li><button class:list={["country-list-button", country.id]} type="button" data-country={country.id} data-country-name={country.name} data-country-status={statusFor(country)} data-country-active={country.status === "active" ? "true" : "false"} data-country-href={country.href ?? undefined} data-country-x={country.x.toFixed(3)} data-country-y={country.y.toFixed(3)}><span class="status-dot"></span>{country.name}<small>{statusFor(country)}</small></button></li>
+          <li><button class:list={["country-list-button", country.id]} type="button" data-country={country.id} data-country-name={country.name} data-country-status={statusFor(country)} data-country-active={country.status === "active" ? "true" : "false"} data-country-href={country.href ?? undefined} data-country-local-href={country.localHref ?? undefined} data-country-x={country.x.toFixed(3)} data-country-y={country.y.toFixed(3)}><span class="status-dot"></span>{country.name}<small>{statusFor(country)}</small></button></li>
         ))}
       </ul>
     </div>
@@ -73,6 +74,7 @@ const overviewLabel = {
               data-country-status={statusFor(country)}
               data-country-active={country.status === "active" ? "true" : "false"}
               data-country-href={country.href ?? undefined}
+              data-country-local-href={country.localHref ?? undefined}
               data-country-x={country.x.toFixed(3)}
               data-country-y={country.y.toFixed(3)}
               aria-label={`${country.name}: ${statusFor(country)}`}
@@ -167,7 +169,8 @@ const overviewLabel = {
       const id = control.dataset.country;
       const label = control.dataset.countryName ?? "";
       const state = control.dataset.countryStatus ?? "";
-      const href = control.dataset.countryHref;
+      const isLocal = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+      const href = isLocal ? control.dataset.countryLocalHref ?? control.dataset.countryHref : control.dataset.countryHref;
       const isActive = control.dataset.countryActive === "true";
       const x = control.dataset.countryX;
       const y = control.dataset.countryY;
