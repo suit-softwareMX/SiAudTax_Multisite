@@ -10,6 +10,20 @@
   { "id": "argentina", "latitude": -38.4161, "longitude": -63.6167, "featured": false, "status": "inactive", "href": null },
   { "id": "dominican-republic", "latitude": 18.7357, "longitude": -70.1627, "featured": false, "status": "inactive", "href": null },
   { "id": "venezuela", "latitude": 6.4238, "longitude": -66.5897, "featured": false, "status": "inactive", "href": null },
-  { "id": "united-kingdom", "latitude": 55.3781, "longitude": -3.436, "featured": false, "status": "inactive", "href": null }
-  ,{ "id": "paraguay", "latitude": -23.4425, "longitude": -58.4438, "featured": false, "status": "inactive", "href": null }
+  { "id": "united-kingdom", "latitude": 55.3781, "longitude": -3.436, "featured": false, "status": "inactive", "href": null },
+  { "id": "paraguay", "latitude": -23.4425, "longitude": -58.4438, "featured": false, "status": "inactive", "href": null },
+  { "id": "ecuador", "latitude": -1.8312, "longitude": -78.1834, "featured": false, "status": "inactive", "href": null },
+  { "id": "uruguay", "latitude": -32.5228, "longitude": -55.7658, "featured": false, "status": "inactive", "href": null },
+  { "id": "spain", "latitude": 40.4637, "longitude": -3.7492, "featured": false, "status": "inactive", "href": null },
+  { "id": "albania", "latitude": 41.1533, "longitude": 20.1683, "featured": false, "status": "inactive", "href": null },
+  { "id": "cyprus", "latitude": 35.1264, "longitude": 33.4299, "featured": false, "status": "inactive", "href": null },
+  { "id": "egypt", "latitude": 26.8206, "longitude": 30.8025, "featured": false, "status": "inactive", "href": null },
+  { "id": "france", "latitude": 46.2276, "longitude": 2.2137, "featured": false, "status": "inactive", "href": null },
+  { "id": "united-states", "latitude": 37.0902, "longitude": -95.7129, "featured": false, "status": "inactive", "href": null },
+  { "id": "nicaragua", "latitude": 12.8654, "longitude": -85.2072, "featured": false, "status": "inactive", "href": null },
+  { "id": "jamaica", "latitude": 18.1096, "longitude": -77.2975, "featured": false, "status": "inactive", "href": null },
+  { "id": "saint-kitts", "latitude": 17.3578, "longitude": -62.783, "featured": false, "status": "inactive", "href": null },
+  { "id": "dominica", "latitude": 15.415, "longitude": -61.371, "featured": false, "status": "inactive", "href": null },
+  { "id": "grenada", "latitude": 12.1165, "longitude": -61.679, "featured": false, "status": "inactive", "href": null },
+  { "id": "saint-vincent", "latitude": 12.9843, "longitude": -61.2872, "featured": false, "status": "inactive", "href": null }
 ]

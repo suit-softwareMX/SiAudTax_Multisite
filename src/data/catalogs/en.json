@@ -205,7 +205,21 @@
     "argentina": "Argentina",
     "dominican-republic": "Dominican Republic",
     "venezuela": "Venezuela",
-    "united-kingdom": "United Kingdom"
+    "united-kingdom": "United Kingdom",
+    "ecuador": "Ecuador",
+    "uruguay": "Uruguay",
+    "spain": "Spain",
+    "albania": "Albania",
+    "cyprus": "Cyprus",
+    "egypt": "Egypt",
+    "france": "France",
+    "united-states": "United States",
+    "nicaragua": "Nicaragua",
+    "jamaica": "Jamaica",
+    "saint-kitts": "Saint Kitts",
+    "dominica": "Dominica",
+    "grenada": "Grenada",
+    "saint-vincent": "Saint Vincent"
   },
   "footer": {
     "tagline": "Audit · Tax · Consulting · Outsourcing",

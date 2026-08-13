@@ -23,8 +23,8 @@ for (const locale of locales.slice(1)) {
 }
 
 const countries = await load("src/data/countries.json");
-if (countries.length !== 13) throw new Error(`Expected 13 countries, found ${countries.length}`);
-const expectedCountries = ["mexico", "guatemala", "el-salvador", "costa-rica", "panama", "belize", "colombia", "peru", "argentina", "dominican-republic", "venezuela", "united-kingdom", "paraguay"];
+if (countries.length !== 27) throw new Error(`Expected 27 countries, found ${countries.length}`);
+const expectedCountries = ["mexico", "guatemala", "el-salvador", "costa-rica", "panama", "belize", "colombia", "peru", "argentina", "dominican-republic", "venezuela", "united-kingdom", "paraguay", "ecuador", "uruguay", "spain", "albania", "cyprus", "egypt", "france", "united-states", "nicaragua", "jamaica", "saint-kitts", "dominica", "grenada", "saint-vincent"];
 if (
   countries
     .map(({ id }) => id)
@@ -52,4 +52,4 @@ if (countries.some(({ latitude, longitude }) => Math.abs(latitude) > 90 || Math.
   throw new Error("Invalid map coordinates");
 }
 
-console.log("Content catalogs and 13 country nodes are valid; Mexico and El Salvador are active.");
+console.log("Content catalogs and 27 country nodes are valid; Mexico and El Salvador are active.");
