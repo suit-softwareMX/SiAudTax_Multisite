@@ -47,7 +47,7 @@
     ]
   },
   "countries": {
-    "mexico": "Mexique", "guatemala": "Guatemala", "el-salvador": "Salvador", "costa-rica": "Costa Rica", "panama": "Panama", "belize": "Belize", "colombia": "Colombie", "peru": "Pérou", "argentina": "Argentine", "dominican-republic": "République dominicaine", "venezuela": "Venezuela", "united-kingdom": "Royaume-Uni", "ecuador": "Équateur", "uruguay": "Uruguay", "spain": "Espagne", "albania": "Albanie", "cyprus": "Chypre", "egypt": "Égypte", "france": "France", "united-states": "États-Unis", "nicaragua": "Nicaragua", "jamaica": "Jamaïque", "saint-kitts": "Saint-Christophe", "dominica": "Dominique", "grenada": "Grenade", "saint-vincent": "Saint-Vincent"
+    "mexico": "Mexique", "guatemala": "Guatemala", "el-salvador": "Salvador", "costa-rica": "Costa Rica", "panama": "Panama", "belize": "Belize", "colombia": "Colombie", "peru": "Pérou", "argentina": "Argentine", "dominican-republic": "République dominicaine", "venezuela": "Venezuela", "united-kingdom": "Royaume-Uni", "paraguay": "Paraguay", "ecuador": "Équateur", "uruguay": "Uruguay", "spain": "Espagne", "albania": "Albanie", "cyprus": "Chypre", "egypt": "Égypte", "france": "France", "united-states": "États-Unis", "nicaragua": "Nicaragua", "jamaica": "Jamaïque", "saint-kitts": "Saint-Christophe", "dominica": "Dominique", "grenada": "Grenade", "saint-vincent": "Saint-Vincent"
   },
   "footer": {
     "tagline": "Audit · Fiscalité · Conseil · Externalisation",
