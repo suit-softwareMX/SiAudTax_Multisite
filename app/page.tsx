@@ -9,7 +9,7 @@ export default function Home(){
   const host=location.hostname.toLowerCase();const port=location.port;
   const routedPage:PageKey=host==="mexico-auditaxes.suitmx.com"||port==="4322"?"mexico":host==="elsalvador-auditaxes.suitmx.com"||port==="4323"?"salvador":"global";
   const s=(q.get("sitio")??routedPage) as PageKey;
-  if([1,2,3].includes(p))setProposal(p);if(["global","mexico","salvador"].includes(s))setPage(s);if(["es","en","pt"].includes(l))setLocale(l)
+  if([1,2,3].includes(p))setProposal(p);if(["global","mexico","salvador"].includes(s))setPage(s);if(["es","en","pt","fr"].includes(l))setLocale(l)
  },[]);
  useEffect(()=>{document.documentElement.lang=locale},[locale]);
  const update=(nextProposal=proposal,nextPage=page,nextLocale=locale)=>{

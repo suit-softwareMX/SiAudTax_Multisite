@@ -1,0 +1,58 @@
+{
+  "common": {
+    "soon": "Bientôt disponible",
+    "active": "Actif",
+    "allLocations": "Toutes les implantations"
+  },
+  "nav": {
+    "consortium": "Le Consortium",
+    "network": "Réseau mondial",
+    "specialties": "Expertises",
+    "perspectives": "Perspectives",
+    "contact": "Contact"
+  },
+  "home": {
+    "heroTitle": "La confiance au-delà des frontières.",
+    "heroBody": "Un réseau international de cabinets d’audit, de fiscalité, de conseil et d’externalisation.",
+    "heroPrimary": "Découvrir notre réseau",
+    "consortiumTitle": "Une approche intégrée. Une portée mondiale.",
+    "consortiumBody": "Nous associons l’expertise locale aux normes internationales afin d’accompagner votre organisation face à chaque défi, partout dans la région.",
+    "pillars": [
+      { "title": "Audit", "label": "Rigueur technique" },
+      { "title": "Fiscalité", "label": "Vision régionale" },
+      { "title": "Conseil et externalisation", "label": "Relations à long terme" }
+    ],
+    "networkTitle": "Une présence régionale. Une vision commune.",
+    "networkBody": "Explorez notre réseau et découvrez les cabinets qui représentent AUDITAXES sur chaque marché.",
+    "specialtiesTitle": "Une expertise au service des décisions complexes.",
+    "specialtiesBody": "Des solutions coordonnées pour renforcer le contrôle, la conformité et la croissance de votre organisation."
+  },
+  "network": {
+    "selectedLabel": "Implantation sélectionnée"
+  },
+  "specialties": {
+    "services": [
+      { "id": "audit", "title": "Audit et assurance", "body": "Évaluation indépendante, contrôle et fiabilité de l’information financière et des processus critiques.", "details": ["Audit des états financiers", "Audit fiscal et de conformité", "Revue des contrôles et des processus", "Expertises comptables et financières"] },
+      { "id": "tax", "title": "Fiscalité", "body": "Planification, conformité et accompagnement fiscal dans une perspective locale et internationale.", "details": ["Conformité fiscale", "Planification fiscale responsable", "Remboursements et soldes récupérables", "Accompagnement auprès des autorités"] },
+      { "id": "advisory", "title": "Conseil financier", "body": "Analyse et accompagnement pour transformer des informations complexes en décisions claires.", "details": ["Diagnostic financier", "Reporting comptable et de gestion", "Optimisation des processus", "Externalisation administrative"] },
+      { "id": "customs", "title": "Douanes et commerce international", "body": "Conseil pour gérer les chaînes d’approvisionnement régionales avec conformité, efficacité et maîtrise des risques.", "details": ["Diagnostic douanier", "Conformité réglementaire", "Revue documentaire", "Stratégie de commerce international"] }
+    ]
+  },
+  "perspectives": {
+    "title": "Des idées pour anticiper l’avenir.",
+    "topics": [
+      { "category": "Audit", "title": "Des contrôles internes qui préparent l’entreprise à grandir", "body": "Cinq domaines à examiner avant d’étendre les activités, d’accueillir des investisseurs ou de professionnaliser la gestion." },
+      { "category": "Fiscalité", "title": "La conformité fiscale sans perdre de vue l’entreprise", "body": "Comment intégrer calendriers, justificatifs et responsables afin de réduire les risques et de prendre des décisions au bon moment." },
+      { "category": "Gestion", "title": "Une information financière utile à la direction", "body": "Ce qu’un rapport mensuel doit contenir pour transformer les données comptables en échanges stratégiques." }
+    ]
+  },
+  "countries": {
+    "mexico": "Mexique", "guatemala": "Guatemala", "el-salvador": "Salvador", "costa-rica": "Costa Rica", "panama": "Panama", "belize": "Belize", "colombia": "Colombie", "peru": "Pérou", "argentina": "Argentine", "dominican-republic": "République dominicaine", "venezuela": "Venezuela", "united-kingdom": "Royaume-Uni", "ecuador": "Équateur", "uruguay": "Uruguay", "spain": "Espagne", "albania": "Albanie", "cyprus": "Chypre", "egypt": "Égypte", "france": "France", "united-states": "États-Unis", "nicaragua": "Nicaragua", "jamaica": "Jamaïque", "saint-kitts": "Saint-Christophe", "dominica": "Dominique", "grenada": "Grenade", "saint-vincent": "Saint-Vincent"
+  },
+  "footer": {
+    "tagline": "Audit · Fiscalité · Conseil · Externalisation",
+    "network": "Réseau",
+    "services": "Services",
+    "copyright": "© 2026 AUDITAXES Global. Tous droits réservés."
+  }
+}
