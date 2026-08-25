@@ -21,7 +21,7 @@ Abrir `http://localhost:3000`.
 - Propuesta 2: `/?propuesta=2&sitio=mexico`
 - Propuesta 3: `/?propuesta=3&sitio=salvador`
 
-El selector fijo de la esquina superior izquierda cambia la propuesta sin perder la página activa. La navegación del encabezado permite alternar entre Global, México y El Salvador.
+El selector flotante de la esquina inferior izquierda cambia la propuesta sin perder la página activa. La navegación del encabezado permite alternar entre Global, México y El Salvador.
 
 ## Estructura
 

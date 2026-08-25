@@ -35,5 +35,9 @@ export const countries = [
   ["costa-rica","Costa Rica",9.7489,-83.7534,false],["panama","Panamá",8.538,-80.7821,false],["belize","Belice",17.1899,-88.4976,false],
   ["colombia","Colombia",4.5709,-74.2973,false],["peru","Perú",-9.19,-75.0152,false],["argentina","Argentina",-38.4161,-63.6167,false],
   ["dominican-republic","República Dominicana",18.7357,-70.1627,false],["venezuela","Venezuela",6.4238,-66.5897,false],["united-kingdom","Reino Unido",55.3781,-3.436,false],
-  ["paraguay","Paraguay",-23.4425,-58.4438,false]
+  ["paraguay","Paraguay",-23.4425,-58.4438,false],["ecuador","Ecuador",-1.8312,-78.1834,false],["uruguay","Uruguay",-32.5228,-55.7658,false],
+  ["spain","España",40.4637,-3.7492,false],["albania","Albania",41.1533,20.1683,false],["cyprus","Chipre",35.1264,33.4299,false],
+  ["egypt","Egipto",26.8206,30.8025,false],["france","Francia",46.2276,2.2137,false],["united-states","Estados Unidos",37.0902,-95.7129,false],
+  ["nicaragua","Nicaragua",12.8654,-85.2072,false],["jamaica","Jamaica",18.1096,-77.2975,false],["saint-kitts","San Cristóbal",17.3578,-62.783,false],
+  ["dominica","Dominica",15.415,-61.371,false],["grenada","Granada",12.1165,-61.679,false],["saint-vincent","San Vicente",12.9843,-61.2872,false]
 ] as const;

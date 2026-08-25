@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { GlobalPage, Header, LocalPage, Locale, PageKey, ProposalSelector } from "./components";
+import { GlobalPage, Header, LocalPage, Locale, NetworkBackground, PageKey, ProposalSelector } from "./components";
 
 export default function Home(){
  const [proposal,setProposal]=useState(1); const [page,setPage]=useState<PageKey>("global"); const [locale,setLocale]=useState<Locale>("es");
@@ -14,5 +14,5 @@ export default function Home(){
   history.replaceState(null,"",`?propuesta=${nextProposal}&sitio=${nextPage}&lang=${nextLocale}`);
  };
  const viewKey=`${proposal}-${page}-${locale}`;
- return <main className={`proposal proposal-${proposal}`}><ProposalSelector proposal={proposal} locale={locale} onChange={n=>update(n,page,locale)}/><Header proposal={proposal} page={page} locale={locale} onLocale={l=>update(proposal,page,l)} onPage={p=>update(proposal,p,locale)}/>{page==="global"?<GlobalPage key={viewKey} proposal={proposal} locale={locale} onPage={p=>update(proposal,p,locale)}/>:<LocalPage key={viewKey} site={page} locale={locale} onPage={p=>update(proposal,p,locale)}/>}</main>
+ return <main className={`proposal proposal-${proposal}`}><NetworkBackground/><ProposalSelector proposal={proposal} locale={locale} onChange={n=>update(n,page,locale)}/><Header proposal={proposal} page={page} locale={locale} onLocale={l=>update(proposal,page,l)} onPage={p=>update(proposal,p,locale)}/>{page==="global"?<GlobalPage key={viewKey} proposal={proposal} locale={locale} onPage={p=>update(proposal,p,locale)}/>:<LocalPage key={viewKey} site={page} locale={locale} onPage={p=>update(proposal,p,locale)}/>}</main>
 }
