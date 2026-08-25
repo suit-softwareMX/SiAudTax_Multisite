@@ -4,7 +4,13 @@ Proyecto independiente con tres direcciones visuales para AUDITAXES. Cada propue
 
 ## Ejecutar localmente
 
-En Windows, haz doble clic en `iniciar-proyecto.cmd`. Este iniciador configura automáticamente el entorno incluido con Codex y levanta el sitio en `http://localhost:3000`.
+En Windows, haz doble clic en `iniciar.bat` (o `iniciar-proyecto.cmd`). El iniciador construye la versión de producción y levanta los tres sitios:
+
+| Sitio | Puerto local | Dominio del servidor |
+| --- | --- | --- |
+| Global | `4321` | `auditaxes.suitmx.com` |
+| México | `4322` | `mexico-auditaxes.suitmx.com` |
+| El Salvador | `4323` | `elsalvador-auditaxes.suitmx.com` |
 
 Si ya tienes Node.js y pnpm instalados globalmente, también puedes usar:
 
