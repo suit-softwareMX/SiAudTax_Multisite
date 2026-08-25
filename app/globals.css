@@ -132,3 +132,107 @@ footer nav strong{font-size:.75rem}footer nav a,footer nav button,footer nav spa
 /* Mayor presencia para los principios del consorcio en la propuesta 2. */
 .proposal-2 .consortium{grid-template-columns:.92fr 1.08fr;gap:clamp(4rem,7vw,7rem)}.proposal-2 .consortium>div:last-child>p{font-size:1.18rem;line-height:1.75;max-width:42rem}.proposal-2 .consortium ol{gap:1.25rem}.proposal-2 .consortium li{min-height:17rem;padding:2rem 1.35rem}.proposal-2 .consortium li span{font-size:.75rem}.proposal-2 .consortium li b{font-size:1.08rem;line-height:1.35}.proposal-2 .consortium li>p{font-size:.92rem;line-height:1.62}
 @media(max-width:1100px){.proposal-2 .consortium{grid-template-columns:1fr}.proposal-2 .consortium h2{max-width:12ch}.proposal-2 .consortium li{min-height:14rem}}
+
+/* Navegación local, menú móvil e iconografía accesible. */
+.header-identity{display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;min-width:0}.brand-button{display:flex;align-items:center;gap:.75rem;color:var(--ink)}.country-name{display:flex;align-items:center;gap:.65rem;font-size:.7rem;font-weight:700;letter-spacing:.04em;white-space:nowrap}.country-name i{display:block;width:1px;height:1.25rem;background:var(--line)}.global-return{border:0;background:none;color:var(--cyan);padding:0;font-size:.62rem;font-weight:700}.mobile-menu-button{display:none;border:0;background:transparent;width:2.7rem;height:2.7rem;padding:.65rem;place-content:center;gap:.3rem}.mobile-menu-button span{display:block;width:1.35rem;height:2px;background:var(--ink);transition:transform .25s,opacity .2s}.mobile-menu-button.active span:first-child{transform:translateY(.4rem) rotate(45deg)}.mobile-menu-button.active span:nth-child(2){opacity:0}.mobile-menu-button.active span:last-child{transform:translateY(-.4rem) rotate(-45deg)}
+
+/* Las fases incorporan fotografía sin sacrificar legibilidad. */
+.method-steps article{padding:0!important;justify-content:stretch}.method-steps article>img{width:100%;height:10rem;object-fit:cover;display:block;filter:saturate(.72);transition:transform .45s,filter .35s}.method-steps article>div{padding:1.6rem 2rem;display:flex;flex:1;flex-direction:column}.method-steps article>div>span{color:var(--cyan);font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:auto}.method-steps article:hover>img{transform:scale(1.025);filter:saturate(1)}.proposal-1 .method-steps article{grid-template-columns:10rem 1fr}.proposal-1 .method-steps article>img{height:100%;min-height:9rem}.proposal-1 .method-steps article>div{padding:1.4rem 1.7rem}.proposal-1 .method-steps article>div>span{margin-bottom:.6rem}.proposal-2 .method-steps article>img{height:12rem}.proposal-3 .method-steps article>img{height:11rem;border-radius:999px 999px 0 0}.proposal-3 .method-steps article>div>span{margin-bottom:2rem}
+
+/* Iconos reales para redes sociales. */
+.contact-social a{display:inline-flex;align-items:center;gap:.55rem}.contact-social a svg{width:1.15rem;height:1.15rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.contact-social a svg.facebook path{fill:currentColor;stroke:none}.contact-social a svg .fill{fill:currentColor;stroke:none}.contact-social a b{font-size:inherit}
+
+@media(max-width:760px){
+ .proposal-switcher{top:auto;bottom:.8rem;left:50%;transform:translateX(-50%);z-index:110;border-radius:.35rem}
+ .proposal .original-banner{height:4.7rem!important;min-height:4.7rem;grid-template-columns:minmax(0,1fr) auto auto;padding:0 .75rem!important;gap:.25rem}
+ .header-identity{gap:.05rem}.brand{font-size:1.35rem}.brand .globe{font-size:.9rem;margin-left:.2rem}.brand-button{gap:.4rem;max-width:100%}.country-name{font-size:.57rem;gap:.35rem}.country-name i{height:1rem}.global-return{font-size:.55rem;line-height:1.2}
+ .mobile-menu-button{display:grid}.proposal .original-banner .section-navigation{display:none;position:absolute;left:.75rem;right:.75rem;top:calc(100% + .4rem);height:auto;max-height:calc(100vh - 7rem);overflow-y:auto;background:#fff;border:1px solid var(--line);box-shadow:0 18px 45px #071d2c24;padding:.55rem;flex-direction:column;align-items:stretch;gap:0;z-index:70}.proposal .original-banner .section-navigation.open{display:flex}.proposal .original-banner .section-navigation button{font-size:.82rem;text-align:left;padding:1rem;border-bottom:1px solid var(--line)}.proposal .original-banner .section-navigation button:last-child{border-bottom:0}.proposal .original-banner .section-navigation button:after{display:none}
+ .language-pill{padding:.55rem}.language-pill b{display:none}.language-menu>div{position:fixed;right:.75rem;top:5.2rem}
+ .global-hero,.local-hero{margin-top:0}.hero-copy,.local-hero>div{padding:4.5rem 1.25rem 3.5rem}.hero-copy h1,.local-hero h1{font-size:clamp(2.8rem,14vw,4.5rem);overflow-wrap:anywhere}.hero-copy>a,.local-hero a{width:max-content;max-width:100%;gap:1.5rem;padding:1rem 1.1rem;white-space:normal}
+ .hero-media,.local-hero>img{min-height:19rem;height:19rem}.hero-media>span{padding:1rem 1.25rem}.consortium,.world-map,.services,.perspectives,.local-firm,.practice-area,.partners,.local-method,.local-industries,.contact-section{padding-left:1.25rem!important;padding-right:1.25rem!important}.consortium h2,.section-intro h2,.map-heading h2,.perspectives h2,.local-firm h2,.practice-area>h2,.partners h2,.local-method-heading h2,.local-industries h2,.contact-section>header h2{font-size:clamp(2.6rem,13vw,4rem)}
+ .consortium,.section-intro,.perspectives,.local-firm,.partners{gap:2rem}.consortium ol{margin-top:2rem}.consortium li,.proposal-1 .consortium li{display:block;padding:1.2rem 0}.consortium li span,.consortium li b{display:block;margin-bottom:.55rem}.proposal-2 .consortium{padding-top:5rem;padding-bottom:5rem}.proposal-2 .consortium h2{font-size:clamp(3.4rem,16vw,5rem)}
+ .map-layout{margin-top:2rem}.location-list,.proposal-3 .location-list{display:flex;overflow:visible}.map-canvas,.proposal-2 .map-canvas,.proposal-3 .map-canvas{min-height:26rem}.map-card{left:.75rem;right:.75rem;bottom:.75rem;min-width:0}.global-map-button{right:.75rem;top:.75rem}.map-stage{min-width:46rem}
+ .service-grid{margin-top:2rem}.service-grid article,.proposal-2 .service-grid article,.proposal-3 .service-grid article{padding:1.6rem;min-height:0}.service-grid ul{grid-template-columns:1fr}.proposal-2 .services{display:block}.proposal-2 .section-intro{padding:4rem 1.25rem}.proposal-2 .service-grid{padding:1rem 1.25rem 4rem}.proposal-3 .services{padding-top:5rem;padding-bottom:5rem;gap:2rem}
+ .perspective-image img{aspect-ratio:4/3}.proposal-2 .perspectives>div:last-child{padding:3.5rem 0}.proposal-2 .perspectives article{display:block}.proposal-3 .perspectives{padding:5rem 1.25rem}.proposal-3 .perspective-image{height:auto}
+ .local-method{gap:2.5rem;padding-top:5rem;padding-bottom:5rem}.method-steps,.proposal-1 .method-steps,.proposal-3 .method-steps{grid-template-columns:1fr;gap:1rem}.method-steps article,.proposal-1 .method-steps article,.proposal-2 .method-steps article,.proposal-3 .method-steps article{display:block;min-height:0!important;transform:none!important;border-radius:1.25rem}.method-steps article>img,.proposal-1 .method-steps article>img,.proposal-2 .method-steps article>img,.proposal-3 .method-steps article>img{height:12rem;min-height:0;border-radius:1.25rem 1.25rem 0 0}.method-steps article>div{padding:1.5rem}.method-steps article>div>span,.proposal-3 .method-steps article>div>span{display:block;margin-bottom:1rem}.method-steps h3{font-size:2rem}.proposal-2 .local-method-heading{display:block}.proposal-2 .method-steps{margin-top:2.5rem}
+ .practice-area,.local-industries,.partners,.contact-section{padding-top:5rem;padding-bottom:5rem}.practice-area>div,.proposal-3 .practice-area>div{margin-top:2.5rem}.practice-area article,.proposal-1 .practice-area article,.proposal-2 .practice-area article,.proposal-3 .practice-area article{min-height:0;padding:1.6rem;border-radius:1.25rem!important}.industry-grid{margin-top:2.5rem}.industry-grid article,.proposal-3 .industry-grid article{min-height:15rem;border-radius:1.25rem!important;transform:none!important}.partner-grid{gap:2rem}.partner-grid h3{font-size:1.65rem}
+ .contact-experience{margin-top:2.5rem;gap:1.5rem}.contact-experience aside,.proposal-2 .contact-experience aside,.proposal-3 .contact-experience aside{padding:1.4rem;border-radius:1.25rem}.contact-experience form,.proposal-2 .contact-experience form,.proposal-3 .contact-experience form{padding:1.4rem;border-radius:1.25rem}.contact-experience aside a{grid-template-columns:2rem minmax(0,1fr)}.contact-experience aside small{overflow-wrap:anywhere}.contact-social{gap:.5rem}.contact-social>a{width:2.7rem;height:2.7rem;padding:0;justify-content:center;border-radius:50%}.contact-social>a b{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+ footer{grid-template-columns:1fr;padding:3.5rem 1.25rem 5.5rem}footer>div{grid-column:auto}footer>small{grid-column:1}.proposal-3 .local-hero{padding:0!important}.proposal-3 .local-hero>div{padding:4.5rem 1.25rem 22rem}.proposal-3 .local-hero>img{width:22rem;height:22rem;max-width:90%;right:-4rem}.proposal-3 .partner-grid{width:100%;transform:none}
+}
+
+@media(max-width:380px){.brand{font-size:1.18rem}.country-name{font-size:.5rem}.mobile-menu-button{width:2.35rem;padding:.5rem}.language-pill{padding:.45rem}.flag-icon{width:1.2rem}.contact-section,.local-method,.local-industries,.practice-area,.partners,.services,.world-map{padding-left:1rem!important;padding-right:1rem!important}}
+
+/* Corrección final de las fases locales: una sola columna real en móvil. */
+@media(max-width:760px){
+ .proposal-1 .local-method,.proposal-2 .local-method,.proposal-3 .local-method{display:block!important;padding:4.5rem 1.25rem!important;text-align:left}
+ .proposal-1 .local-method-heading,.proposal-2 .local-method-heading,.proposal-3 .local-method-heading{display:block!important;width:100%;max-width:none;margin:0 0 2.5rem;text-align:left}
+ .proposal-1 .local-method-heading>p:last-child,.proposal-2 .local-method-heading>p:last-child,.proposal-3 .local-method-heading>p:last-child{max-width:32rem;font-size:1rem;line-height:1.7}
+ .proposal-1 .method-steps,.proposal-2 .method-steps,.proposal-3 .method-steps{display:grid!important;grid-template-columns:minmax(0,1fr)!important;width:100%;max-width:none;margin:0!important;gap:1.25rem;border:0}
+ .proposal-1 .method-steps article,.proposal-2 .method-steps article,.proposal-3 .method-steps article{display:grid!important;grid-template-columns:minmax(0,1fr)!important;width:100%;max-width:100%;min-width:0;min-height:0!important;margin:0!important;transform:none!important;overflow:hidden;border-radius:1.25rem!important}
+ .proposal-1 .method-steps article>img,.proposal-2 .method-steps article>img,.proposal-3 .method-steps article>img{display:block;width:100%;height:13rem;min-height:0;object-fit:cover;border-radius:0!important}
+ .proposal-1 .method-steps article>div,.proposal-2 .method-steps article>div,.proposal-3 .method-steps article>div{display:block;width:100%;min-width:0;padding:1.5rem!important}
+ .proposal-1 .method-steps article>div>span,.proposal-2 .method-steps article>div>span,.proposal-3 .method-steps article>div>span{display:block;margin:0 0 .8rem}
+ .proposal-1 .method-steps h3,.proposal-2 .method-steps h3,.proposal-3 .method-steps h3{font-size:clamp(2rem,10vw,2.7rem);line-height:1;overflow-wrap:anywhere;margin:0 0 1rem}
+ .proposal-1 .method-steps p,.proposal-2 .method-steps p,.proposal-3 .method-steps p{font-size:.92rem;line-height:1.65;margin:0;overflow-wrap:anywhere}
+}
+
+/* Portadas locales móviles: tratamientos diferenciados para propuestas 2 y 3. */
+@media(max-width:760px){
+ .proposal-2 .local-hero{display:block;position:relative;min-height:calc(100svh - 4.7rem);overflow:hidden;background:#111;isolation:isolate}
+ .proposal-2 .local-hero:after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,#111b 0%,#111d 75%,#111 100%)}
+ .proposal-2 .local-hero>img{display:block;position:absolute;z-index:-2;inset:-1rem;width:calc(100% + 2rem);height:calc(100% + 2rem);min-height:0;object-fit:cover;filter:blur(5px) grayscale(.18);opacity:.58;transform:scale(1.05);clip-path:none}
+ .proposal-2 .local-hero>div{position:relative;z-index:1;min-height:calc(100svh - 4.7rem);padding:5rem 1.5rem 4rem;justify-content:center}
+ .proposal-2 .local-hero h1{max-width:9ch;text-wrap:balance}.proposal-2 .local-hero>div>p:not(.section-label){max-width:32rem}
+
+ .proposal-3 .local-hero{display:flex!important;flex-direction:column;min-height:0;padding:0 0 3rem!important;overflow:hidden}
+ .proposal-3 .local-hero>div{order:1;width:100%;padding:4.5rem 1.25rem 2rem!important}
+ .proposal-3 .local-hero>img{order:2;display:block;position:relative;inset:auto;right:auto;bottom:auto;top:auto;width:calc(100% - 2.5rem);max-width:none;height:auto;min-height:0;aspect-ratio:4/3;object-fit:cover;margin:0 1.25rem;border-radius:3rem 1rem 3rem 1rem}
+}
+
+/* Directorio de socios: mayor presencia tipográfica y mejor uso del espacio. */
+.partner-grid article{background:#fff;padding:1.25rem;border:1px solid var(--line)}.partner-grid h3{font-size:clamp(2rem,2.8vw,2.7rem);line-height:1.02;margin:1.2rem 0 .55rem}.partner-grid p{font-size:.95rem;line-height:1.5;margin:.2rem 0}.proposal-2 .partner-grid{gap:1.5rem}.proposal-2 .partner-grid article{padding:0;border:0;background:transparent}.proposal-2 .partner-grid h3{font-size:clamp(2.1rem,3vw,3rem)}.proposal-2 .partner-grid p{font-size:1rem}
+
+@media(max-width:760px){
+ .proposal-1 .partners,.proposal-2 .partners,.proposal-3 .partners{display:block!important;padding:5rem 1.25rem!important}
+ .proposal-1 .partners>div:first-child,.proposal-2 .partners>div:first-child,.proposal-3 .partners>div:first-child{width:100%;max-width:34rem;margin:0 0 2.5rem}
+ .partners>div:first-child>p:last-child{font-size:1rem;line-height:1.7;max-width:30rem}
+ .proposal-1 .partner-grid,.proposal-3 .partner-grid{display:grid;grid-template-columns:1fr 1fr;width:100%;max-width:none;margin:0;gap:.8rem;transform:none}
+ .proposal-1 .partner-grid article,.proposal-3 .partner-grid article{min-width:0;padding:.8rem}
+ .proposal-1 .partner-grid h3,.proposal-3 .partner-grid h3{font-size:clamp(1.45rem,7vw,2rem);overflow-wrap:anywhere}
+ .proposal-1 .partner-grid p,.proposal-3 .partner-grid p{font-size:.86rem}
+ .proposal-2 .partner-grid{display:grid;grid-template-columns:1fr;width:100%;max-width:none;margin:0;gap:1rem;transform:none}
+ .proposal-2 .partner-grid article{display:grid;grid-template-columns:minmax(8rem,42%) minmax(0,1fr);align-items:center;gap:1.25rem;padding:1rem;background:#fff;border:1px solid var(--line)}
+ .proposal-2 .partner-photo{grid-column:1;grid-row:1/3;width:100%;overflow:hidden}.proposal-2 .partner-photo img{width:100%;height:auto;aspect-ratio:1;object-fit:cover}
+ .proposal-2 .partner-grid h3{grid-column:2;font-size:clamp(1.8rem,8vw,2.4rem);line-height:1;margin:0 0 .7rem;overflow-wrap:anywhere}
+ .proposal-2 .partner-grid p{grid-column:2;font-size:.95rem;margin:0;align-self:start}
+}
+
+@media(max-width:390px){.proposal-1 .partner-grid,.proposal-3 .partner-grid{grid-template-columns:1fr}.proposal-2 .partner-grid article{grid-template-columns:7.5rem minmax(0,1fr)}}
+
+/* Experiencia sectorial móvil: contenido más grande y centrado. */
+@media(max-width:760px){
+ .proposal-1 .industry-grid article,.proposal-2 .industry-grid article,.proposal-3 .industry-grid article{display:flex;min-height:16.5rem;padding:2rem 1.5rem;align-items:center;justify-content:center;text-align:center}
+ .proposal-1 .industry-grid h3,.proposal-2 .industry-grid h3,.proposal-3 .industry-grid h3{font-size:clamp(2rem,9vw,2.65rem);line-height:1.05;margin:0 0 1.25rem;text-align:center}
+ .proposal-1 .industry-grid p,.proposal-2 .industry-grid p,.proposal-3 .industry-grid p{font-size:1.02rem;line-height:1.65;max-width:22rem;margin:0 auto;text-align:center}
+ .proposal-1 .industry-grid article>span,.proposal-2 .industry-grid article>span,.proposal-3 .industry-grid article>span{margin:1.4rem auto 0;opacity:1;transform:none;text-align:center}
+}
+
+/* El CTA local conserva únicamente el ancho que necesita su contenido. */
+.proposal-1 .local-hero a,.proposal-2 .local-hero a,.proposal-3 .local-hero a{align-self:flex-start;width:max-content;max-width:100%;justify-content:flex-start;white-space:normal}
+
+/* Imágenes locales de prácticas profesionales. */
+.practice-photo{display:block;width:100%;object-fit:cover;transition:transform .55s ease,filter .35s ease}.practice-area article:hover .practice-photo{transform:scale(1.025);filter:saturate(1.08)}
+.proposal-1 .practice-area article{display:grid;grid-template-columns:minmax(10rem,38%) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:1.6rem;padding:1.2rem!important;align-items:start}.proposal-1 .practice-photo{grid-column:1;grid-row:1/3;height:100%;min-height:15rem;clip-path:polygon(0 0,88% 0,100% 12%,100% 100%,0 100%)}.proposal-1 .practice-area article h3,.proposal-1 .practice-area article>p{grid-column:2}.proposal-1 .practice-area article h3{margin-top:1rem}
+.proposal-2 .practice-area article{padding:0!important;overflow:hidden;justify-content:flex-start}.proposal-2 .practice-photo{height:13rem;filter:grayscale(.35);border-bottom:4px solid var(--green)}.proposal-2 .practice-area article h3,.proposal-2 .practice-area article>p{padding-left:1.5rem;padding-right:1.5rem}.proposal-2 .practice-area article h3{margin-top:1.6rem}.proposal-2 .practice-area article>p{padding-bottom:1.7rem}
+.proposal-3 .practice-area article{padding:1rem!important;overflow:hidden}.proposal-3 .practice-photo{height:14rem;border-radius:2.2rem .6rem 2.2rem .6rem}.proposal-3 .practice-area article:nth-child(even) .practice-photo{border-radius:.6rem 2.2rem .6rem 2.2rem}.proposal-3 .practice-area article h3{margin-top:1.2rem}
+
+/* Todas las tarjetas sectoriales comparten la misma altura por fila. */
+.industry-grid{grid-auto-rows:1fr;align-items:stretch}.industry-grid article,.proposal-1 .industry-grid article,.proposal-2 .industry-grid article,.proposal-3 .industry-grid article{height:100%;min-height:20rem}
+
+@media(max-width:760px){
+ .proposal-1 .practice-area article,.proposal-2 .practice-area article,.proposal-3 .practice-area article{display:flex!important;flex-direction:column;padding:1rem!important;gap:0}
+ .proposal-1 .practice-photo,.proposal-2 .practice-photo,.proposal-3 .practice-photo{order:0;display:block;width:100%;height:12rem;min-height:12rem;clip-path:none;border:0;border-radius:1rem 1rem .35rem .35rem!important;filter:none}
+ .proposal-1 .practice-area article h3,.proposal-2 .practice-area article h3,.proposal-3 .practice-area article h3{order:1;width:100%;padding:0;margin:1.4rem 0 .85rem;font-size:clamp(1.8rem,9vw,2.45rem)}
+ .proposal-1 .practice-area article>p,.proposal-2 .practice-area article>p,.proposal-3 .practice-area article>p{order:2;width:100%;padding:0 0 .5rem;font-size:.96rem}
+ .industry-grid{grid-auto-rows:auto}.industry-grid article,.proposal-1 .industry-grid article,.proposal-2 .industry-grid article,.proposal-3 .industry-grid article{height:auto;min-height:16.5rem}
+}
