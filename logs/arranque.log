@@ -1,0 +1,18 @@
+[04/09/2026 14:30:08.51] Inicio del diagnostico de AUDITAXES
+[04/09/2026 14:30:08.52] ETAPA 1/6 - Revisando Node.js y pnpm
+C:\Users\Ljjc2\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe
+C:\Program Files\nodejs\node.exe
+C:\Users\Ljjc2\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\fallback\pnpm.cmd
+C:\Users\Ljjc2\AppData\Roaming\npm\pnpm
+C:\Users\Ljjc2\AppData\Roaming\npm\pnpm.cmd
+[04/09/2026 14:30:11.15] Node v24.19.0 - pnpm 11.19.0
+[04/09/2026 14:30:11.31] ETAPA 2/6 - Revisando dependencias
+[04/09/2026 14:30:11.32] Dependencias completas; no se instalaran otra vez.
+[04/09/2026 14:30:11.33] ETAPA 3/6 - Construyendo la version de produccion
+[04/09/2026 14:30:19.90] ETAPA 4/6 - Comprobando que los puertos esten libres
+[04/09/2026 14:30:26.90] ETAPA 5/6 - Iniciando Global, Mexico y El Salvador
+[04/09/2026 14:30:26.94] ETAPA 6/6 - Esperando respuesta de los tres servicios (maximo 45 segundos)
+[04/09/2026 14:30:28.91] Puerto 4321 activo.
+[04/09/2026 14:30:29.18] Puerto 4322 activo.
+[04/09/2026 14:30:29.45] Puerto 4323 activo.
+[04/09/2026 14:30:29.47] AUDITAXES ESTA LISTO

@@ -27,5 +27,5 @@ export default function Home(){
   setState({page:nextPage,locale:nextLocale});
   history.replaceState(null,"",targetUrl);
  };
- return <main className="proposal proposal-2"><Header proposal={2} page={page} locale={locale} onLocale={l=>update(page,l)} onPage={p=>update(p,locale)}/>{page==="global"?<GlobalPage proposal={2} locale={locale} onPage={p=>update(p,locale)}/>:<LocalPage site={page} locale={locale==="fr"?"en":locale} onPage={p=>update(p,locale)}/>}</main>
+ return <main className="proposal proposal-2"><Header proposal={2} page={page} locale={locale} onLocale={l=>update(page,l)} onPage={p=>update(p,locale)}/>{page==="global"?<GlobalPage proposal={2} locale={locale} onPage={p=>update(p,locale)}/>:<LocalPage site={page} locale={locale} onPage={p=>update(p,locale)}/>}</main>
 }
