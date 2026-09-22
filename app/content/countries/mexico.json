@@ -1,0 +1,650 @@
+{
+  "schemaVersion": 2,
+  "id": "mexico",
+  "slug": "mexico",
+  "enabled": true,
+  "name": {
+    "es": "México",
+    "en": "Mexico",
+    "pt": "México",
+    "fr": "Mexique"
+  },
+  "metadata": {
+    "title": {
+      "es": "AUDITAXES México",
+      "en": "AUDITAXES Mexico",
+      "pt": "AUDITAXES México",
+      "fr": "AUDITAXES Mexique"
+    },
+    "description": {
+      "es": "Servicios especializados en México de auditoría, peritajes contables, finanzas corporativas, precios de transferencia, aduanas, consultoría fiscal y recursos humanos.",
+      "en": "Specialized services in Mexico covering audit, forensic accounting, corporate finance, transfer pricing, customs, tax advisory and human resources.",
+      "pt": "Serviços especializados no México de auditoria, perícias contábeis, finanças corporativas, preços de transferência, alfândega, consultoria fiscal e recursos humanos.",
+      "fr": "Services spécialisés au Mexique en audit, expertise comptable, finance d’entreprise, prix de transfert, douanes, conseil fiscal et ressources humaines."
+    }
+  },
+  "navigation": [
+    {
+      "id": "firma",
+      "sectionId": "firma",
+      "label": {
+        "es": "La Firma",
+        "en": "The Firm",
+        "pt": "A Firma",
+        "fr": "Le cabinet"
+      }
+    },
+    {
+      "id": "metodo",
+      "sectionId": "metodo",
+      "label": {
+        "es": "Nuestro Método",
+        "en": "Our Method",
+        "pt": "Nosso Método",
+        "fr": "Notre méthode"
+      }
+    },
+    {
+      "id": "capacidades",
+      "sectionId": "capacidades",
+      "label": {
+        "es": "Capacidades",
+        "en": "Capabilities",
+        "pt": "Capacidades",
+        "fr": "Compétences"
+      }
+    },
+    {
+      "id": "experiencia",
+      "sectionId": "experiencia",
+      "label": {
+        "es": "Experiencia",
+        "en": "Experience",
+        "pt": "Experiência",
+        "fr": "Expérience"
+      }
+    },
+    {
+      "id": "equipo",
+      "sectionId": "equipo",
+      "label": {
+        "es": "Nuestro Equipo",
+        "en": "Our Team",
+        "pt": "Nossa Equipe",
+        "fr": "Notre équipe"
+      }
+    },
+    {
+      "id": "contacto",
+      "sectionId": "contacto",
+      "label": {
+        "es": "Contacto",
+        "en": "Contact",
+        "pt": "Contato",
+        "fr": "Contact"
+      }
+    }
+  ],
+  "sections": {
+    "hero": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "Rigor global. Precisión en México.",
+        "en": "Global rigor. Precision in Mexico.",
+        "pt": "Rigor global. Precisão no México.",
+        "fr": "Rigueur mondiale. Précision au Mexique."
+      },
+      "title": {
+        "es": "La confianza global, con conocimiento local.",
+        "en": "Global confidence, local knowledge.",
+        "pt": "Confiança global, conhecimento local.",
+        "fr": "La confiance mondiale, avec une connaissance locale."
+      },
+      "body": {
+        "es": "Auditoría, finanzas, impuestos, comercio exterior y recursos humanos para organizaciones que operan en México, con atención local y perspectiva internacional.",
+        "en": "Audit, finance, tax, international trade and human resources for organizations operating in Mexico, with local attention and an international perspective.",
+        "pt": "Auditoria, finanças, impostos, comércio exterior e recursos humanos para organizações que atuam no México, com atendimento local e perspectiva internacional.",
+        "fr": "Audit, finance, fiscalité, commerce international et ressources humaines pour les organisations actives au Mexique, avec une attention locale et une perspective internationale."
+      },
+      "image": {
+        "src": "/images/mexico-inicio.jpg",
+        "alt": {
+          "es": "Ángel de la Independencia y paisaje urbano de Ciudad de México",
+          "en": "Angel of Independence and Mexico City skyline",
+          "pt": "Anjo da Independência e paisagem urbana da Cidade do México",
+          "fr": "Ange de l’Indépendance et panorama de Mexico"
+        }
+      },
+      "action": {
+        "label": {
+          "es": "Contactar oficina local",
+          "en": "Contact the local office",
+          "pt": "Contatar o escritório local",
+          "fr": "Contacter le bureau local"
+        },
+        "href": "#contacto"
+      }
+    },
+    "firm": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "AUDITAXES MÉXICO",
+        "en": "AUDITAXES MEXICO",
+        "pt": "AUDITAXES MÉXICO",
+        "fr": "AUDITAXES MEXIQUE"
+      },
+      "title": {
+        "es": "La firma en México",
+        "en": "The firm in Mexico",
+        "pt": "A firma no México",
+        "fr": "Le cabinet au Mexique"
+      },
+      "body": {
+        "es": "Nuestro equipo en México presta servicios de auditoría financiera y gubernamental, peritajes contables, finanzas corporativas, precios de transferencia, aduanas, consultoría fiscal y administración de personal.",
+        "en": "Our Mexico team provides financial and government audit, forensic accounting, corporate finance, transfer pricing, customs, tax advisory and workforce administration services.",
+        "pt": "Nossa equipe no México presta serviços de auditoria financeira e governamental, perícias contábeis, finanças corporativas, preços de transferência, alfândega, consultoria fiscal e administração de pessoal.",
+        "fr": "Notre équipe au Mexique propose des services d’audit financier et public, d’expertise comptable, de finance d’entreprise, de prix de transfert, de douanes, de conseil fiscal et d’administration du personnel."
+      },
+      "image": {
+        "src": "/images/finance.jpg",
+        "alt": {
+          "es": "La firma en México",
+          "en": "The firm in Mexico",
+          "pt": "A firma no México",
+          "fr": "Le cabinet au Mexique"
+        }
+      }
+    },
+    "method": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "NUESTRO MÉTODO",
+        "en": "OUR METHOD",
+        "pt": "NOSSO MÉTODO",
+        "fr": "NOTRE MÉTHODE"
+      },
+      "title": {
+        "es": "Claridad en cada etapa.",
+        "en": "Clarity at every stage.",
+        "pt": "Clareza em cada etapa.",
+        "fr": "La clarté à chaque étape."
+      },
+      "intro": {
+        "es": "Un proceso común mantiene la conversación enfocada y convierte la complejidad en decisiones concretas.",
+        "en": "A shared process keeps the conversation focused and turns complexity into concrete decisions.",
+        "pt": "Um processo comum mantém a conversa focada e transforma complexidade em decisões concretas.",
+        "fr": "Un processus commun maintient la conversation ciblée et transforme la complexité en décisions concrètes."
+      },
+      "phaseLabel": {
+        "es": "Fase",
+        "en": "Phase",
+        "pt": "Fase",
+        "fr": "Étape"
+      },
+      "steps": [
+        {
+          "id": "step-1",
+          "title": {
+            "es": "Comprender",
+            "en": "Understand",
+            "pt": "Compreender",
+            "fr": "Understand"
+          },
+          "body": {
+            "es": "Escuchamos el contexto, los objetivos y los riesgos particulares de su organización.",
+            "en": "We listen to your organization’s context, objectives and specific risks.",
+            "pt": "Ouvimos o contexto, os objetivos e os riscos específicos da sua organização.",
+            "fr": "Nous écoutons le contexte, les objectifs et les risques propres à votre organisation."
+          }
+        },
+        {
+          "id": "step-2",
+          "title": {
+            "es": "Coordinar",
+            "en": "Coordinate",
+            "pt": "Coordenar",
+            "fr": "Coordinate"
+          },
+          "body": {
+            "es": "Integramos las capacidades técnicas y territoriales adecuadas para cada proyecto.",
+            "en": "We integrate the right technical and territorial capabilities for each project.",
+            "pt": "Integramos as capacidades técnicas e territoriais adequadas para cada projeto.",
+            "fr": "Nous réunissons les compétences techniques et territoriales adaptées à chaque projet."
+          }
+        },
+        {
+          "id": "step-3",
+          "title": {
+            "es": "Resolver",
+            "en": "Resolve",
+            "pt": "Resolver",
+            "fr": "Resolve"
+          },
+          "body": {
+            "es": "Entregamos conclusiones accionables, documentación clara y seguimiento cercano.",
+            "en": "We deliver actionable conclusions, clear documentation and close follow-up.",
+            "pt": "Entregamos conclusões acionáveis, documentação clara e acompanhamento próximo.",
+            "fr": "Nous livrons des conclusions exploitables, une documentation claire et un suivi attentif."
+          }
+        }
+      ]
+    },
+    "practices": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "SERVICIOS EN MÉXICO",
+        "en": "SERVICES IN MEXICO",
+        "pt": "SERVIÇOS NO MÉXICO",
+        "fr": "SERVICES AU MEXIQUE"
+      },
+      "title": {
+        "es": "Servicios especializados para operar con certeza.",
+        "en": "Specialized services for confident decisions.",
+        "pt": "Serviços especializados para decisões seguras.",
+        "fr": "Des services spécialisés pour décider avec confiance."
+      },
+      "items": [
+        {
+          "id": "financial-audit",
+          "title": {
+            "es": "Auditoría de estados financieros",
+            "en": "Financial statement audit",
+            "pt": "Auditoria de demonstrações financeiras",
+            "fr": "Audit des états financiers"
+          },
+          "body": {
+            "es": "Dictámenes bajo NIF, IFRS o US GAAP; auditoría fiscal, revisión de control interno, debida diligencia y auditoría forense.",
+            "en": "Opinions under NIF, IFRS or US GAAP; tax audit, internal control reviews, due diligence and forensic audit.",
+            "pt": "Pareceres conforme NIF, IFRS ou US GAAP; auditoria fiscal, revisão de controles internos, due diligence e auditoria forense.",
+            "fr": "Opinions selon les NIF, IFRS ou US GAAP ; audit fiscal, contrôle interne, diligence raisonnable et audit judiciaire."
+          }
+        },
+        {
+          "id": "government-audit",
+          "title": {
+            "es": "Auditoría gubernamental",
+            "en": "Government audit",
+            "pt": "Auditoria governamental",
+            "fr": "Audit du secteur public"
+          },
+          "body": {
+            "es": "Informes financieros y presupuestales, revisión de contribuciones y seguridad social, y evaluación de hallazgos para mejorar la información pública.",
+            "en": "Financial and budget reports, review of taxes and social security, and assessment of findings to improve public reporting.",
+            "pt": "Relatórios financeiros e orçamentários, revisão de tributos e seguridade social e avaliação de achados para melhorar a informação pública.",
+            "fr": "Rapports financiers et budgétaires, revue des contributions et de la sécurité sociale, et analyse des constats pour améliorer l’information publique."
+          }
+        },
+        {
+          "id": "expert-witness",
+          "title": {
+            "es": "Peritajes contables y financieros",
+            "en": "Accounting and financial expert reports",
+            "pt": "Perícias contábeis e financeiras",
+            "fr": "Expertises comptables et financières"
+          },
+          "body": {
+            "es": "Dictámenes periciales para controversias civiles, mercantiles, laborales, penales y fiscales; participación y explicación técnica en audiencias.",
+            "en": "Expert reports for civil, commercial, labor, criminal and tax disputes, with technical explanation at hearings.",
+            "pt": "Laudos periciais para controvérsias civis, comerciais, trabalhistas, penais e fiscais, com esclarecimento técnico em audiências.",
+            "fr": "Rapports d’expertise pour les litiges civils, commerciaux, sociaux, pénaux et fiscaux, avec explications techniques lors des audiences."
+          }
+        },
+        {
+          "id": "corporate-finance",
+          "title": {
+            "es": "Finanzas corporativas",
+            "en": "Corporate finance",
+            "pt": "Finanças corporativas",
+            "fr": "Finance d’entreprise"
+          },
+          "body": {
+            "es": "Valuación de negocios, reestructuración financiera, sucesión, preparación para venta, estrategias de salida y proyecciones financieras.",
+            "en": "Business valuation, financial restructuring, succession planning, sale readiness, exit strategies and financial projections.",
+            "pt": "Avaliação de empresas, reestruturação financeira, sucessão, preparação para venda, estratégias de saída e projeções financeiras.",
+            "fr": "Évaluation d’entreprises, restructuration financière, succession, préparation à la vente, stratégies de sortie et prévisions financières."
+          }
+        },
+        {
+          "id": "transfer-pricing",
+          "title": {
+            "es": "Precios de transferencia",
+            "en": "Transfer pricing",
+            "pt": "Preços de transferência",
+            "fr": "Prix de transfert"
+          },
+          "body": {
+            "es": "Estudios de precios de transferencia, declaraciones informativas de partes relacionadas, reportes maestro y país por país, y apoyo pericial en controversias.",
+            "en": "Transfer pricing studies, related-party disclosures, master and country-by-country reports, and expert support in disputes.",
+            "pt": "Estudos de preços de transferência, declarações de partes relacionadas, relatórios mestre e país por país e apoio pericial em controvérsias.",
+            "fr": "Études de prix de transfert, déclarations des parties liées, rapports principal et pays par pays, et expertise en cas de litige."
+          }
+        },
+        {
+          "id": "customs",
+          "title": {
+            "es": "Comercio exterior y aduanas",
+            "en": "International trade and customs",
+            "pt": "Comércio exterior e alfândega",
+            "fr": "Commerce international et douanes"
+          },
+          "body": {
+            "es": "Tratados de libre comercio, certificaciones IVA e IEPS, trámites aduaneros, auditorías preventivas y atención de procedimientos y medios de defensa.",
+            "en": "Free trade agreements, VAT and excise certifications, customs procedures, preventive audits and support in administrative proceedings and appeals.",
+            "pt": "Tratados de livre comércio, certificações de IVA e IEPS, trâmites aduaneiros, auditorias preventivas e apoio em procedimentos e recursos.",
+            "fr": "Accords de libre-échange, certifications TVA et IEPS, formalités douanières, audits préventifs et appui lors de procédures et recours."
+          }
+        },
+        {
+          "id": "tax-advisory",
+          "title": {
+            "es": "Consultoría fiscal y planeación estratégica",
+            "en": "Tax advisory and strategic planning",
+            "pt": "Consultoria fiscal e planejamento estratégico",
+            "fr": "Conseil fiscal et planification stratégique"
+          },
+          "body": {
+            "es": "Diagnóstico fiscal, declaraciones, saldos a favor, requerimientos de autoridades y defensa mediante recursos, juicios o amparos.",
+            "en": "Tax health checks, filings, refunds, tax authority requests and defense through administrative appeals or litigation.",
+            "pt": "Diagnóstico fiscal, declarações, saldos a favor, exigências de autoridades e defesa por recursos ou ações judiciais.",
+            "fr": "Diagnostic fiscal, déclarations, remboursements, demandes des autorités et défense par recours ou contentieux."
+          }
+        },
+        {
+          "id": "human-resources",
+          "title": {
+            "es": "Recursos humanos y nómina",
+            "en": "Human resources and payroll",
+            "pt": "Recursos humanos e folha de pagamento",
+            "fr": "Ressources humaines et paie"
+          },
+          "body": {
+            "es": "Nómina, obligaciones IMSS, SAR e INFONAVIT, expedientes laborales, apoyo en NOM-035, capacitación y reclutamiento especializado.",
+            "en": "Payroll, IMSS, SAR and INFONAVIT obligations, employment records, NOM-035 support, training and specialist recruitment.",
+            "pt": "Folha de pagamento, obrigações IMSS, SAR e INFONAVIT, documentos trabalhistas, apoio à NOM-035, treinamento e recrutamento especializado.",
+            "fr": "Paie, obligations IMSS, SAR et INFONAVIT, dossiers du personnel, accompagnement NOM-035, formation et recrutement spécialisé."
+          }
+        }
+      ]
+    },
+    "industries": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "EXPERIENCIA SECTORIAL",
+        "en": "INDUSTRY EXPERIENCE",
+        "pt": "EXPERIÊNCIA SETORIAL",
+        "fr": "EXPÉRIENCE SECTORIELLE"
+      },
+      "title": {
+        "es": "Conocimiento que entiende su negocio.",
+        "en": "Knowledge that understands your business.",
+        "pt": "Conhecimento que entende seu negócio.",
+        "fr": "Une connaissance qui comprend votre activité."
+      },
+      "actionLabel": {
+        "es": "Explorar enfoque",
+        "en": "Explore approach",
+        "pt": "Explorar abordagem",
+        "fr": "Découvrir notre approche"
+      },
+      "items": [
+        {
+          "id": "industry-1",
+          "title": {
+            "es": "Empresas familiares",
+            "en": "Family businesses",
+            "pt": "Empresas familiares",
+            "fr": "Entreprises familiales"
+          },
+          "body": {
+            "es": "Gobierno, control y continuidad para organizaciones que construyen legado.",
+            "en": "Governance, control and continuity for organizations building a legacy.",
+            "pt": "Governança, controle e continuidade para organizações que constroem legado.",
+            "fr": "Gouvernance, contrôle et continuité pour les organisations qui bâtissent un héritage."
+          }
+        },
+        {
+          "id": "industry-2",
+          "title": {
+            "es": "Manufactura y distribución",
+            "en": "Manufacturing and distribution",
+            "pt": "Manufatura e distribuição",
+            "fr": "Industrie et distribution"
+          },
+          "body": {
+            "es": "Procesos, costos y cumplimiento para operaciones que necesitan avanzar con precisión.",
+            "en": "Processes, costs and compliance for operations that need to move forward precisely.",
+            "pt": "Processos, custos e compliance para operações que precisam avançar com precisão.",
+            "fr": "Processus, coûts et conformité pour des opérations qui doivent avancer avec précision."
+          }
+        },
+        {
+          "id": "industry-3",
+          "title": {
+            "es": "Servicios y tecnología",
+            "en": "Services and technology",
+            "pt": "Serviços e tecnologia",
+            "fr": "Services et technologie"
+          },
+          "body": {
+            "es": "Información confiable y estructuras preparadas para nuevos modelos de negocio.",
+            "en": "Reliable information and structures ready for new business models.",
+            "pt": "Informações confiáveis e estruturas preparadas para novos modelos de negócio.",
+            "fr": "Des informations fiables et des structures adaptées aux nouveaux modèles économiques."
+          }
+        },
+        {
+          "id": "industry-4",
+          "title": {
+            "es": "Operaciones regionales",
+            "en": "Regional operations",
+            "pt": "Operações regionais",
+            "fr": "Opérations régionales"
+          },
+          "body": {
+            "es": "Coordinación entre mercados para empresas con presencia o expansión internacional.",
+            "en": "Cross-market coordination for companies with an international presence or expansion plans.",
+            "pt": "Coordenação entre mercados para empresas com presença ou expansão internacional.",
+            "fr": "Coordination entre marchés pour les entreprises présentes ou en expansion à l’international."
+          }
+        }
+      ]
+    },
+    "team": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "NUESTRO EQUIPO",
+        "en": "OUR TEAM",
+        "pt": "NOSSA EQUIPE",
+        "fr": "NOTRE ÉQUIPE"
+      },
+      "title": {
+        "es": "Directorio de socios",
+        "en": "Partners directory",
+        "pt": "Diretório de sócios",
+        "fr": "Annuaire des associés"
+      },
+      "intro": {
+        "es": "Expertos locales al frente de cada relación, respaldados por capacidades coordinadas en la región.",
+        "en": "Local experts lead every relationship, supported by coordinated capabilities across the region.",
+        "pt": "Especialistas locais lideram cada relação, apoiados por capacidades coordenadas na região.",
+        "fr": "Des experts locaux pilotent chaque relation, soutenus par des compétences coordonnées dans toute la région."
+      },
+      "stats": [
+        {
+          "id": "experience",
+          "value": 12,
+          "suffix": "",
+          "label": {
+            "es": "AÑOS DE EXPERIENCIA",
+            "en": "YEARS OF EXPERIENCE",
+            "pt": "ANOS DE EXPERIÊNCIA",
+            "fr": "ANNÉES D’EXPÉRIENCE"
+          }
+        },
+        {
+          "id": "clients",
+          "value": 180,
+          "suffix": "+",
+          "label": {
+            "es": "CLIENTES ACOMPAÑADOS",
+            "en": "CLIENTS SUPPORTED",
+            "pt": "CLIENTES ATENDIDOS",
+            "fr": "CLIENTS ACCOMPAGNÉS"
+          }
+        },
+        {
+          "id": "services",
+          "value": 8,
+          "suffix": "",
+          "label": {
+            "es": "ÁREAS DE SERVICIO",
+            "en": "SERVICE AREAS",
+            "pt": "ÁREAS DE SERVIÇO",
+            "fr": "DOMAINES DE SERVICE"
+          }
+        }
+      ],
+      "people": [
+        {
+          "id": "mariana-ortega",
+          "name": "Mariana Ortega",
+          "role": {
+            "es": "Socia directora",
+            "en": "Managing partner",
+            "pt": "Sócia diretora",
+            "fr": "Associée directrice"
+          },
+          "image": {
+            "src": "/images/mariana.jpg",
+            "alt": {
+              "es": "Mariana Ortega",
+              "en": "Mariana Ortega",
+              "pt": "Mariana Ortega",
+              "fr": "Mariana Ortega"
+            }
+          }
+        },
+        {
+          "id": "ricardo-salinas",
+          "name": "Ricardo Salinas",
+          "role": {
+            "es": "Socio de auditoría",
+            "en": "Audit partner",
+            "pt": "Sócio de auditoria",
+            "fr": "Associé en audit"
+          },
+          "image": {
+            "src": "/images/ricardo.jpg",
+            "alt": {
+              "es": "Ricardo Salinas",
+              "en": "Ricardo Salinas",
+              "pt": "Ricardo Salinas",
+              "fr": "Ricardo Salinas"
+            }
+          }
+        }
+      ]
+    },
+    "contact": {
+      "enabled": true,
+      "labels": {
+        "es": {
+          "label": "CONTACTO",
+          "title": "Contactar oficina local",
+          "intro": "Nuestro equipo en México puede ayudarle con auditoría, peritajes, finanzas, impuestos, comercio exterior y recursos humanos.",
+          "direct": "Contacto directo",
+          "email": "Correo",
+          "phone": "Teléfono",
+          "office": "Oficina",
+          "form": "Cuéntenos cómo podemos ayudarle",
+          "name": "Nombre",
+          "company": "Empresa",
+          "mail": "Correo electrónico",
+          "tel": "Teléfono",
+          "message": "Mensaje",
+          "send": "Preparar correo",
+          "follow": "Síganos"
+        },
+        "en": {
+          "label": "CONTACT",
+          "title": "Contact the local office",
+          "intro": "Our Mexico team can help with audit, expert reports, finance, tax, international trade and human resources.",
+          "direct": "Direct contact",
+          "email": "Email",
+          "phone": "Phone",
+          "office": "Office",
+          "form": "Tell us how we can help",
+          "name": "Name",
+          "company": "Company",
+          "mail": "Email address",
+          "tel": "Phone",
+          "message": "Message",
+          "send": "Prepare email",
+          "follow": "Follow us"
+        },
+        "pt": {
+          "label": "CONTATO",
+          "title": "Contatar o escritório local",
+          "intro": "Nossa equipe no México pode ajudar com auditoria, perícias, finanças, impostos, comércio exterior e recursos humanos.",
+          "direct": "Contato direto",
+          "email": "E-mail",
+          "phone": "Telefone",
+          "office": "Escritório",
+          "form": "Conte-nos como podemos ajudar",
+          "name": "Nome",
+          "company": "Empresa",
+          "mail": "E-mail",
+          "tel": "Telefone",
+          "message": "Mensagem",
+          "send": "Preparar e-mail",
+          "follow": "Siga-nos"
+        },
+        "fr": {
+          "label": "CONTACT",
+          "title": "Contacter le bureau local",
+          "intro": "Notre équipe au Mexique peut vous accompagner en audit, expertise, finance, fiscalité, commerce international et ressources humaines.",
+          "direct": "Contact direct",
+          "email": "E-mail",
+          "phone": "Téléphone",
+          "office": "Bureau",
+          "form": "Dites-nous comment nous pouvons vous aider",
+          "name": "Nom",
+          "company": "Entreprise",
+          "mail": "Adresse e-mail",
+          "tel": "Téléphone",
+          "message": "Message",
+          "send": "Préparer l’e-mail",
+          "follow": "Suivez-nous"
+        }
+      },
+      "email": "contacto.mx@auditaxes.com",
+      "phones": [
+        "+52 55 5554 0921"
+      ],
+      "whatsapp": "525555540921",
+      "address": "Corina 130, Col. Del Carmen Coyoacán, C.P. 04100, Ciudad de México",
+      "mapsQuery": "Corina 130, Col. Del Carmen Coyoacán, C.P. 04100, Ciudad de México",
+      "social": {
+        "facebook": "https://www.facebook.com/people/Auditaxes/61569843038041/",
+        "instagram": "https://www.instagram.com/auditaxes.mx/",
+        "linkedin": "https://www.linkedin.com/company/auditaxes/"
+      }
+    },
+    "footer": {
+      "enabled": true,
+      "contactEmail": "contacto.mx@auditaxes.com",
+      "contactPhone": "+52 55 5554 0921",
+      "links": [
+        {
+          "siteId": "global"
+        },
+        {
+          "siteId": "mexico"
+        },
+        {
+          "siteId": "salvador"
+        }
+      ]
+    }
+  }
+}

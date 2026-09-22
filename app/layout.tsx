@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './globals.css';
+import globalContent from './content/global.json';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -14,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'AUDITAXES — Propuestas de diseño',
-  description: 'Tres propuestas de diseño para AUDITAXES Global, México y El Salvador.',
+  title: globalContent.metadata.title.en,
+  description: globalContent.metadata.description.en,
 };
 
 export default function RootLayout({
@@ -24,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

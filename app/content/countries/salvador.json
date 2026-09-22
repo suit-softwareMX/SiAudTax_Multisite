@@ -1,0 +1,590 @@
+{
+  "schemaVersion": 2,
+  "id": "salvador",
+  "slug": "salvador",
+  "enabled": true,
+  "name": {
+    "es": "El Salvador",
+    "en": "El Salvador",
+    "pt": "El Salvador",
+    "fr": "Salvador"
+  },
+  "metadata": {
+    "title": {
+      "es": "AUDITAXES El Salvador",
+      "en": "AUDITAXES El Salvador",
+      "pt": "AUDITAXES El Salvador",
+      "fr": "AUDITAXES Salvador"
+    },
+    "description": {
+      "es": "Acompañamos a organizaciones que operan en El Salvador con criterio local, coordinación regional y una mirada clara hacia el crecimiento.",
+      "en": "We support organizations operating in El Salvador with local judgment, regional coordination and a clear view toward growth.",
+      "pt": "Apoiamos organizações que operam em El Salvador com critério local, coordenação regional e uma visão clara para o crescimento.",
+      "fr": "Nous accompagnons les organisations présentes au Salvador avec un jugement local, une coordination régionale et une vision claire de la croissance."
+    }
+  },
+  "navigation": [
+    {
+      "id": "firma",
+      "sectionId": "firma",
+      "label": {
+        "es": "La Firma",
+        "en": "The Firm",
+        "pt": "A Firma",
+        "fr": "Le cabinet"
+      }
+    },
+    {
+      "id": "metodo",
+      "sectionId": "metodo",
+      "label": {
+        "es": "Nuestro Método",
+        "en": "Our Method",
+        "pt": "Nosso Método",
+        "fr": "Notre méthode"
+      }
+    },
+    {
+      "id": "capacidades",
+      "sectionId": "capacidades",
+      "label": {
+        "es": "Capacidades",
+        "en": "Capabilities",
+        "pt": "Capacidades",
+        "fr": "Compétences"
+      }
+    },
+    {
+      "id": "experiencia",
+      "sectionId": "experiencia",
+      "label": {
+        "es": "Experiencia",
+        "en": "Experience",
+        "pt": "Experiência",
+        "fr": "Expérience"
+      }
+    },
+    {
+      "id": "equipo",
+      "sectionId": "equipo",
+      "label": {
+        "es": "Nuestro Equipo",
+        "en": "Our Team",
+        "pt": "Nossa Equipe",
+        "fr": "Notre équipe"
+      }
+    },
+    {
+      "id": "contacto",
+      "sectionId": "contacto",
+      "label": {
+        "es": "Contacto",
+        "en": "Contact",
+        "pt": "Contato",
+        "fr": "Contact"
+      }
+    }
+  ],
+  "sections": {
+    "hero": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "Rigor global. Precisión en El Salvador.",
+        "en": "Global rigor. Precision in El Salvador.",
+        "pt": "Rigor global. Precisão em El Salvador.",
+        "fr": "Rigueur mondiale. Précision au Salvador."
+      },
+      "title": {
+        "es": "Una perspectiva regional, arraigada en El Salvador.",
+        "en": "A regional perspective, grounded in El Salvador.",
+        "pt": "Uma perspectiva regional, enraizada em El Salvador.",
+        "fr": "Une perspective régionale, ancrée au Salvador."
+      },
+      "body": {
+        "es": "Acompañamos a organizaciones que operan en El Salvador con criterio local, coordinación regional y una mirada clara hacia el crecimiento.",
+        "en": "We support organizations operating in El Salvador with local judgment, regional coordination and a clear view toward growth.",
+        "pt": "Apoiamos organizações que operam em El Salvador com critério local, coordenação regional e uma visão clara para o crescimento.",
+        "fr": "Nous accompagnons les organisations présentes au Salvador avec un jugement local, une coordination régionale et une vision claire de la croissance."
+      },
+      "image": {
+        "src": "/images/salvador.jpg",
+        "alt": {
+          "es": "El Salvador",
+          "en": "El Salvador",
+          "pt": "El Salvador",
+          "fr": "Salvador"
+        }
+      },
+      "action": {
+        "label": {
+          "es": "Contactar oficina local",
+          "en": "Contact the local office",
+          "pt": "Contatar o escritório local",
+          "fr": "Contacter le bureau local"
+        },
+        "href": "#contacto"
+      }
+    },
+    "firm": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "AUDITAXES EL SALVADOR",
+        "en": "AUDITAXES EL SALVADOR",
+        "pt": "AUDITAXES EL SALVADOR",
+        "fr": "AUDITAXES SALVADOR"
+      },
+      "title": {
+        "es": "La firma en El Salvador",
+        "en": "The firm in El Salvador",
+        "pt": "A firma em El Salvador",
+        "fr": "Le cabinet au Salvador"
+      },
+      "body": {
+        "es": "Nuestra práctica local conecta la realidad del mercado salvadoreño con la experiencia multidisciplinaria de AUDITAXES Global.",
+        "en": "Our local practice connects the reality of El Salvador’s market with the multidisciplinary experience of AUDITAXES Global.",
+        "pt": "Nossa prática local conecta a realidade do mercado salvadorenho com a experiência multidisciplinar da AUDITAXES Global.",
+        "fr": "Notre pratique locale relie la réalité du marché salvadorien à l’expérience multidisciplinaire d’AUDITAXES Global."
+      },
+      "image": {
+        "src": "/images/finance.jpg",
+        "alt": {
+          "es": "La firma en El Salvador",
+          "en": "The firm in El Salvador",
+          "pt": "A firma em El Salvador",
+          "fr": "Le cabinet au Salvador"
+        }
+      }
+    },
+    "method": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "NUESTRO MÉTODO",
+        "en": "OUR METHOD",
+        "pt": "NOSSO MÉTODO",
+        "fr": "NOTRE MÉTHODE"
+      },
+      "title": {
+        "es": "Claridad en cada etapa.",
+        "en": "Clarity at every stage.",
+        "pt": "Clareza em cada etapa.",
+        "fr": "La clarté à chaque étape."
+      },
+      "intro": {
+        "es": "Un proceso común mantiene la conversación enfocada y convierte la complejidad en decisiones concretas.",
+        "en": "A shared process keeps the conversation focused and turns complexity into concrete decisions.",
+        "pt": "Um processo comum mantém a conversa focada e transforma complexidade em decisões concretas.",
+        "fr": "Un processus commun maintient la conversation ciblée et transforme la complexité en décisions concrètes."
+      },
+      "phaseLabel": {
+        "es": "Fase",
+        "en": "Phase",
+        "pt": "Fase",
+        "fr": "Étape"
+      },
+      "steps": [
+        {
+          "id": "step-1",
+          "title": {
+            "es": "Comprender",
+            "en": "Understand",
+            "pt": "Compreender",
+            "fr": "Understand"
+          },
+          "body": {
+            "es": "Escuchamos el contexto, los objetivos y los riesgos particulares de su organización.",
+            "en": "We listen to your organization’s context, objectives and specific risks.",
+            "pt": "Ouvimos o contexto, os objetivos e os riscos específicos da sua organização.",
+            "fr": "Nous écoutons le contexte, les objectifs et les risques propres à votre organisation."
+          }
+        },
+        {
+          "id": "step-2",
+          "title": {
+            "es": "Coordinar",
+            "en": "Coordinate",
+            "pt": "Coordenar",
+            "fr": "Coordinate"
+          },
+          "body": {
+            "es": "Integramos las capacidades técnicas y territoriales adecuadas para cada proyecto.",
+            "en": "We integrate the right technical and territorial capabilities for each project.",
+            "pt": "Integramos as capacidades técnicas e territoriais adequadas para cada projeto.",
+            "fr": "Nous réunissons les compétences techniques et territoriales adaptées à chaque projet."
+          }
+        },
+        {
+          "id": "step-3",
+          "title": {
+            "es": "Resolver",
+            "en": "Resolve",
+            "pt": "Resolver",
+            "fr": "Resolve"
+          },
+          "body": {
+            "es": "Entregamos conclusiones accionables, documentación clara y seguimiento cercano.",
+            "en": "We deliver actionable conclusions, clear documentation and close follow-up.",
+            "pt": "Entregamos conclusões acionáveis, documentação clara e acompanhamento próximo.",
+            "fr": "Nous livrons des conclusions exploitables, une documentation claire et un suivi attentif."
+          }
+        }
+      ]
+    },
+    "practices": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "CAPACIDADES",
+        "en": "CAPABILITIES",
+        "pt": "CAPACIDADES",
+        "fr": "COMPÉTENCES"
+      },
+      "title": {
+        "es": "Prácticas profesionales",
+        "en": "Professional practices",
+        "pt": "Práticas profissionais",
+        "fr": "Expertises professionnelles"
+      },
+      "items": [
+        {
+          "id": "practice-1",
+          "title": {
+            "es": "Auditoría y aseguramiento",
+            "en": "Audit and assurance",
+            "pt": "Auditoria e asseguração",
+            "fr": "Audit et assurance"
+          },
+          "body": {
+            "es": "Revisión independiente de información financiera, controles y obligaciones bajo estándares profesionales.",
+            "en": "Independent review of financial information, controls and obligations under professional standards.",
+            "pt": "Revisão independente de informações financeiras, controles e obrigações sob padrões profissionais.",
+            "fr": "Examen indépendant des informations financières, des contrôles et des obligations selon les normes professionnelles."
+          }
+        },
+        {
+          "id": "practice-2",
+          "title": {
+            "es": "Impuestos y cumplimiento",
+            "en": "Tax and compliance",
+            "pt": "Impostos e conformidade",
+            "fr": "Fiscalité et conformité"
+          },
+          "body": {
+            "es": "Planeación responsable y cumplimiento oportuno para reducir contingencias.",
+            "en": "Responsible planning and timely compliance to reduce contingencies.",
+            "pt": "Planejamento responsável e compliance oportuno para reduzir contingências.",
+            "fr": "Planification responsable et conformité en temps voulu pour réduire les risques."
+          }
+        },
+        {
+          "id": "practice-3",
+          "title": {
+            "es": "Consultoría de negocios",
+            "en": "Business advisory",
+            "pt": "Consultoria de negócios",
+            "fr": "Conseil aux entreprises"
+          },
+          "body": {
+            "es": "Información clara, procesos eficientes y acompañamiento para decisiones estratégicas.",
+            "en": "Clear information, efficient processes and support for strategic decisions.",
+            "pt": "Informações claras, processos eficientes e apoio para decisões estratégicas.",
+            "fr": "Informations claires, processus efficaces et accompagnement des décisions stratégiques."
+          }
+        },
+        {
+          "id": "practice-4",
+          "title": {
+            "es": "Comercio exterior y aduanas",
+            "en": "International trade and customs",
+            "pt": "Comércio exterior e alfândega",
+            "fr": "Commerce international et douanes"
+          },
+          "body": {
+            "es": "Cumplimiento aduanero y soporte para operaciones de comercio internacional.",
+            "en": "Customs compliance and support for international trade operations.",
+            "pt": "Compliance aduaneiro e suporte para operações de comércio internacional.",
+            "fr": "Conformité douanière et soutien aux opérations de commerce international."
+          }
+        }
+      ]
+    },
+    "industries": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "EXPERIENCIA SECTORIAL",
+        "en": "INDUSTRY EXPERIENCE",
+        "pt": "EXPERIÊNCIA SETORIAL",
+        "fr": "EXPÉRIENCE SECTORIELLE"
+      },
+      "title": {
+        "es": "Conocimiento que entiende su negocio.",
+        "en": "Knowledge that understands your business.",
+        "pt": "Conhecimento que entende seu negócio.",
+        "fr": "Une connaissance qui comprend votre activité."
+      },
+      "actionLabel": {
+        "es": "Explorar enfoque",
+        "en": "Explore approach",
+        "pt": "Explorar abordagem",
+        "fr": "Découvrir notre approche"
+      },
+      "items": [
+        {
+          "id": "industry-1",
+          "title": {
+            "es": "Empresas familiares",
+            "en": "Family businesses",
+            "pt": "Empresas familiares",
+            "fr": "Entreprises familiales"
+          },
+          "body": {
+            "es": "Gobierno, control y continuidad para organizaciones que construyen legado.",
+            "en": "Governance, control and continuity for organizations building a legacy.",
+            "pt": "Governança, controle e continuidade para organizações que constroem legado.",
+            "fr": "Gouvernance, contrôle et continuité pour les organisations qui bâtissent un héritage."
+          }
+        },
+        {
+          "id": "industry-2",
+          "title": {
+            "es": "Manufactura y distribución",
+            "en": "Manufacturing and distribution",
+            "pt": "Manufatura e distribuição",
+            "fr": "Industrie et distribution"
+          },
+          "body": {
+            "es": "Procesos, costos y cumplimiento para operaciones que necesitan avanzar con precisión.",
+            "en": "Processes, costs and compliance for operations that need to move forward precisely.",
+            "pt": "Processos, custos e compliance para operações que precisam avançar com precisão.",
+            "fr": "Processus, coûts et conformité pour des opérations qui doivent avancer avec précision."
+          }
+        },
+        {
+          "id": "industry-3",
+          "title": {
+            "es": "Servicios y tecnología",
+            "en": "Services and technology",
+            "pt": "Serviços e tecnologia",
+            "fr": "Services et technologie"
+          },
+          "body": {
+            "es": "Información confiable y estructuras preparadas para nuevos modelos de negocio.",
+            "en": "Reliable information and structures ready for new business models.",
+            "pt": "Informações confiáveis e estruturas preparadas para novos modelos de negócio.",
+            "fr": "Des informations fiables et des structures adaptées aux nouveaux modèles économiques."
+          }
+        },
+        {
+          "id": "industry-4",
+          "title": {
+            "es": "Operaciones regionales",
+            "en": "Regional operations",
+            "pt": "Operações regionais",
+            "fr": "Opérations régionales"
+          },
+          "body": {
+            "es": "Coordinación entre mercados para empresas con presencia o expansión internacional.",
+            "en": "Cross-market coordination for companies with an international presence or expansion plans.",
+            "pt": "Coordenação entre mercados para empresas com presença ou expansão internacional.",
+            "fr": "Coordination entre marchés pour les entreprises présentes ou en expansion à l’international."
+          }
+        }
+      ]
+    },
+    "team": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "NUESTRO EQUIPO",
+        "en": "OUR TEAM",
+        "pt": "NOSSA EQUIPE",
+        "fr": "NOTRE ÉQUIPE"
+      },
+      "title": {
+        "es": "Directorio de socios",
+        "en": "Partners directory",
+        "pt": "Diretório de sócios",
+        "fr": "Annuaire des associés"
+      },
+      "intro": {
+        "es": "Un equipo local que entiende cada desafío y activa la capacidad adecuada de la red.",
+        "en": "A local team that understands each challenge and activates the right network capability.",
+        "pt": "Uma equipe local que entende cada desafio e ativa a capacidade adequada da rede.",
+        "fr": "Une équipe locale qui comprend chaque défi et mobilise les compétences appropriées du réseau."
+      },
+      "stats": [
+        {
+          "id": "experience",
+          "value": 10,
+          "suffix": "",
+          "label": {
+            "es": "AÑOS DE EXPERIENCIA",
+            "en": "YEARS OF EXPERIENCE",
+            "pt": "ANOS DE EXPERIÊNCIA",
+            "fr": "ANNÉES D’EXPÉRIENCE"
+          }
+        },
+        {
+          "id": "clients",
+          "value": 120,
+          "suffix": "+",
+          "label": {
+            "es": "CLIENTES ACOMPAÑADOS",
+            "en": "CLIENTS SUPPORTED",
+            "pt": "CLIENTES ATENDIDOS",
+            "fr": "CLIENTS ACCOMPAGNÉS"
+          }
+        },
+        {
+          "id": "services",
+          "value": 14,
+          "suffix": "",
+          "label": {
+            "es": "SERVICIOS ESPECIALIZADOS",
+            "en": "SPECIALIZED SERVICES",
+            "pt": "SERVIÇOS ESPECIALIZADOS",
+            "fr": "SERVICES SPÉCIALISÉS"
+          }
+        }
+      ],
+      "people": [
+        {
+          "id": "sofia-benitez",
+          "name": "Sofía Benítez",
+          "role": {
+            "es": "Socia directora",
+            "en": "Managing partner",
+            "pt": "Sócia diretora",
+            "fr": "Associée directrice"
+          },
+          "image": {
+            "src": "/images/sofia.jpg",
+            "alt": {
+              "es": "Sofía Benítez",
+              "en": "Sofía Benítez",
+              "pt": "Sofía Benítez",
+              "fr": "Sofía Benítez"
+            }
+          }
+        },
+        {
+          "id": "diego-acosta",
+          "name": "Diego Acosta",
+          "role": {
+            "es": "Socio de impuestos",
+            "en": "Tax partner",
+            "pt": "Sócio de impostos",
+            "fr": "Associé en fiscalité"
+          },
+          "image": {
+            "src": "/images/diego.jpg",
+            "alt": {
+              "es": "Diego Acosta",
+              "en": "Diego Acosta",
+              "pt": "Diego Acosta",
+              "fr": "Diego Acosta"
+            }
+          }
+        }
+      ]
+    },
+    "contact": {
+      "enabled": true,
+      "labels": {
+        "es": {
+          "label": "CONTACTO",
+          "title": "Contactar oficina local",
+          "intro": "Nuestro equipo internacional coordina necesidades de auditoría, impuestos, consultoría y outsourcing para acompañarle en cada etapa de su crecimiento.",
+          "direct": "Contacto directo",
+          "email": "Correo",
+          "phone": "Teléfono",
+          "office": "Oficina",
+          "form": "Cuéntenos cómo podemos ayudarle",
+          "name": "Nombre",
+          "company": "Empresa",
+          "mail": "Correo electrónico",
+          "tel": "Teléfono",
+          "message": "Mensaje",
+          "send": "Preparar correo",
+          "follow": "Síganos"
+        },
+        "en": {
+          "label": "CONTACT",
+          "title": "Contact the local office",
+          "intro": "Our international team coordinates audit, tax, consulting and outsourcing needs to support every stage of your growth.",
+          "direct": "Direct contact",
+          "email": "Email",
+          "phone": "Phone",
+          "office": "Office",
+          "form": "Tell us how we can help",
+          "name": "Name",
+          "company": "Company",
+          "mail": "Email address",
+          "tel": "Phone",
+          "message": "Message",
+          "send": "Prepare email",
+          "follow": "Follow us"
+        },
+        "pt": {
+          "label": "CONTATO",
+          "title": "Contatar o escritório local",
+          "intro": "Nossa equipe internacional coordena necessidades de auditoria, impostos, consultoria e outsourcing para apoiar cada etapa do seu crescimento.",
+          "direct": "Contato direto",
+          "email": "E-mail",
+          "phone": "Telefone",
+          "office": "Escritório",
+          "form": "Conte-nos como podemos ajudar",
+          "name": "Nome",
+          "company": "Empresa",
+          "mail": "E-mail",
+          "tel": "Telefone",
+          "message": "Mensagem",
+          "send": "Preparar e-mail",
+          "follow": "Siga-nos"
+        },
+        "fr": {
+          "label": "CONTACT",
+          "title": "Contacter le bureau local",
+          "intro": "Notre équipe internationale coordonne vos besoins en audit, fiscalité, conseil et externalisation à chaque étape de votre croissance.",
+          "direct": "Contact direct",
+          "email": "E-mail",
+          "phone": "Téléphone",
+          "office": "Bureau",
+          "form": "Dites-nous comment nous pouvons vous aider",
+          "name": "Nom",
+          "company": "Entreprise",
+          "mail": "Adresse e-mail",
+          "tel": "Téléphone",
+          "message": "Message",
+          "send": "Préparer l’e-mail",
+          "follow": "Suivez-nous"
+        }
+      },
+      "email": "contacto.sv@auditaxes.com",
+      "phones": [
+        "+503 0000 0000"
+      ],
+      "whatsapp": "50300000000",
+      "address": "San Salvador, El Salvador · Dirección local por confirmar",
+      "mapsQuery": "San Salvador, El Salvador · Dirección local por confirmar",
+      "social": {
+        "facebook": "https://www.facebook.com/people/Auditaxes/61569843038041/",
+        "instagram": "https://www.instagram.com/auditaxes.mx/",
+        "linkedin": "https://www.linkedin.com/company/auditaxes/"
+      }
+    },
+    "footer": {
+      "enabled": true,
+      "contactEmail": "contacto.sv@auditaxes.com",
+      "contactPhone": "+503 0000 0000",
+      "links": [
+        {
+          "siteId": "global"
+        },
+        {
+          "siteId": "mexico"
+        },
+        {
+          "siteId": "salvador"
+        }
+      ]
+    }
+  }
+}

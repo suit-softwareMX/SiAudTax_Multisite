@@ -1,25 +1,30 @@
 "use client";
 import { startTransition, useEffect, useState } from "react";
-import { GlobalPage, Header, LocalPage, Locale, PageKey } from "./components";
+import { GlobalPage, Header, LocalPage } from "./components";
+import { content, isLocale, isPageKey, type Locale, type PageKey } from "./content";
 
 function initialState(){
   const query=new URLSearchParams(window.location.search);
   const host=location.hostname.toLowerCase();
-  const routedPage:PageKey=host==="mexico-auditaxes.suitmx.com"||location.port==="4322"?"mexico":host==="elsalvador-auditaxes.suitmx.com"||location.port==="4323"?"salvador":"global";
-  const page=(query.get("sitio")??routedPage) as PageKey;
-  const locale=query.get("lang") as Locale;
-  return {page:["global","mexico","salvador"].includes(page)?page:"global" as PageKey,locale:["es","en","pt","fr"].includes(locale)?locale:"es" as Locale};
+  const route=content.site.sites.find(config=>config.domain===host||config.developmentPort===location.port);
+  const routedPage=(route?.id??content.site.defaultSite) as PageKey;
+  const requestedPage=query.get("sitio")??routedPage;
+  const page=isPageKey(requestedPage)?requestedPage:content.site.defaultSite as PageKey;
+  const site=content.site.sites.find(item=>item.id===page)!;
+  const requestedLocale=query.get("lang");
+  return {page,locale:requestedLocale&&isLocale(requestedLocale)&&site.locales.includes(requestedLocale)?requestedLocale as Locale:site.defaultLocale as Locale};
 }
 
 export default function Home(){
- const [state,setState]=useState({page:"global" as PageKey,locale:"es" as Locale}); const {page,locale}=state;
+ const [state,setState]=useState({page:"global" as PageKey,locale:"en" as Locale}); const {page,locale}=state;
  useEffect(()=>{startTransition(()=>setState(initialState()))},[]);
- useEffect(()=>{document.documentElement.lang=locale},[locale]);
+ useEffect(()=>{document.documentElement.lang=locale;const doc=page==="global"?content.global:content.countries[page];document.title=doc.metadata.title[locale];document.querySelector('meta[name="description"]')?.setAttribute("content",doc.metadata.description[locale])},[locale,page]);
  const update=(nextPage=page,nextLocale=locale)=>{
   window.scrollTo({top:0,left:0,behavior:"instant" as ScrollBehavior});
-  const ports:Record<PageKey,string>={global:"4321",mexico:"4322",salvador:"4323"};
-  const domains:Record<PageKey,string>={global:"auditaxes.suitmx.com",mexico:"mexico-auditaxes.suitmx.com",salvador:"elsalvador-auditaxes.suitmx.com"};
-  const multiPort=["4321","4322","4323"].includes(location.port);
+  const pages=content.site.sites;
+  const ports=Object.fromEntries(pages.map(value=>[value.id,value.developmentPort])) as Record<PageKey,string>;
+  const domains=Object.fromEntries(pages.map(value=>[value.id,value.domain])) as Record<PageKey,string>;
+  const multiPort=pages.some(value=>value.developmentPort===location.port);
   const productionDomain=Object.values(domains).includes(location.hostname.toLowerCase());
   const targetOrigin=multiPort?`${location.protocol}//${location.hostname}:${ports[nextPage]}`:productionDomain?`https://${domains[nextPage]}`:location.origin;
   const targetUrl=`${targetOrigin}/?sitio=${nextPage}&lang=${nextLocale}`;
@@ -27,5 +32,6 @@ export default function Home(){
   setState({page:nextPage,locale:nextLocale});
   history.replaceState(null,"",targetUrl);
  };
- return <main className="proposal proposal-2"><Header proposal={2} page={page} locale={locale} onLocale={l=>update(page,l)} onPage={p=>update(p,locale)}/>{page==="global"?<GlobalPage proposal={2} locale={locale} onPage={p=>update(p,locale)}/>:<LocalPage site={page} locale={locale} onPage={p=>update(p,locale)}/>}</main>
+ const changePage=(nextPage:PageKey)=>update(nextPage,content.site.sites.find(item=>item.id===nextPage)!.defaultLocale as Locale);
+ return <main className="proposal proposal-2"><Header proposal={2} page={page} locale={locale} onLocale={l=>update(page,l)} onPage={changePage}/>{page==="global"?<GlobalPage proposal={2} locale={locale} onPage={changePage}/>:<LocalPage site={page} locale={locale} onPage={changePage}/>}</main>
 }

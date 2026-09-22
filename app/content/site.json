@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 2,
+  "defaultSite": "global",
+  "defaultLocale": "en",
+  "sites": [
+    {
+      "id": "global",
+      "name": "AUDITAXES Global",
+      "domain": "auditaxes.suitmx.com",
+      "developmentPort": "4321",
+      "enabled": true,
+      "locales": [
+        "es",
+        "en",
+        "pt",
+        "fr"
+      ],
+      "contentFile": "global.json",
+      "defaultLocale": "en"
+    },
+    {
+      "id": "mexico",
+      "name": "México",
+      "domain": "mexico-auditaxes.suitmx.com",
+      "developmentPort": "4322",
+      "enabled": true,
+      "locales": [
+        "es",
+        "en",
+        "pt",
+        "fr"
+      ],
+      "contentFile": "countries/mexico.json",
+      "defaultLocale": "es"
+    },
+    {
+      "id": "salvador",
+      "name": "El Salvador",
+      "domain": "elsalvador-auditaxes.suitmx.com",
+      "developmentPort": "4323",
+      "enabled": true,
+      "locales": [
+        "es",
+        "en",
+        "pt",
+        "fr"
+      ],
+      "contentFile": "countries/salvador.json",
+      "defaultLocale": "es"
+    }
+  ]
+}
