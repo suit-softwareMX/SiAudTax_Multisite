@@ -1,1 +1,5 @@
 [22/09/2026 15:48:09.27] Iniciando global en 0.0.0.0:4321
+
+  vinext start  (port 4321)
+
+[vinext] Production server running at http://0.0.0.0:4321
