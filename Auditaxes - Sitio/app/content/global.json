@@ -1,0 +1,1302 @@
+{
+  "schemaVersion": 2,
+  "id": "global",
+  "enabled": true,
+  "metadata": {
+    "title": {
+      "es": "AUDITAXES Global | Confianza que trasciende fronteras",
+      "en": "AUDITAXES Global | Confidence beyond borders",
+      "pt": "AUDITAXES Global | Confiança além das fronteiras",
+      "fr": "AUDITAXES Global | La confiance au-delà des frontières"
+    },
+    "description": {
+      "es": "Red internacional de firmas de auditoría, impuestos, consultoría y outsourcing.",
+      "en": "An international network of audit, tax, consulting and outsourcing firms.",
+      "pt": "Uma rede internacional de firmas de auditoria, impostos, consultoria e terceirização.",
+      "fr": "Un réseau international de cabinets d’audit, de fiscalité, de conseil et d’externalisation."
+    }
+  },
+  "navigation": [
+    {
+      "id": "consortium",
+      "sectionId": "consorcio",
+      "label": {
+        "es": "El Consorcio",
+        "en": "The Consortium",
+        "pt": "O Consórcio",
+        "fr": "Le consortium"
+      }
+    },
+    {
+      "id": "services",
+      "sectionId": "servicios",
+      "label": {
+        "es": "Especialidades",
+        "en": "Expertise",
+        "pt": "Especialidades",
+        "fr": "Expertises"
+      }
+    },
+    {
+      "id": "industries",
+      "sectionId": "industrias",
+      "label": {
+        "es": "Industrias",
+        "en": "Industries",
+        "pt": "Setores",
+        "fr": "Secteurs"
+      }
+    },
+    {
+      "id": "network",
+      "sectionId": "red",
+      "label": {
+        "es": "Red Global",
+        "en": "Global Network",
+        "pt": "Rede Global",
+        "fr": "Réseau mondial"
+      }
+    },
+    {
+      "id": "insights",
+      "sectionId": "insights",
+      "label": {
+        "en": "Insights",
+        "es": "Perspectivas",
+        "pt": "Perspectivas",
+        "fr": "Perspectives"
+      }
+    },
+    {
+      "id": "contact",
+      "sectionId": "contacto",
+      "label": {
+        "es": "Contacto",
+        "en": "Contact",
+        "pt": "Contato",
+        "fr": "Contactez-nous"
+      }
+    }
+  ],
+  "sections": {
+    "hero": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "AUDITAXES GLOBAL",
+        "en": "AUDITAXES GLOBAL",
+        "pt": "AUDITAXES GLOBAL",
+        "fr": "AUDITAXES GLOBAL"
+      },
+      "title": {
+        "es": "Confianza que\ntrasciende\nfronteras.",
+        "en": "Confidence beyond\nborders.",
+        "pt": "Confiança que\ntranscende\nfronteiras.",
+        "fr": "La confiance au-delà\ndes frontières."
+      },
+      "body": {
+        "es": "Organización internacional de firmas independientes de auditoría, impuestos y asesoría que combina conocimiento local y capacidades coordinadas para ayudar a las organizaciones a gestionar riesgos y crecer.",
+        "en": "An international organization of independent audit, tax and advisory firms combining local knowledge with coordinated capabilities to help organizations manage risk and grow.",
+        "pt": "Organização internacional de firmas independentes de auditoria, impostos e consultoria que combina conhecimento local e capacidades coordenadas para ajudar organizações a gerir riscos e crescer.",
+        "fr": "Organisation internationale de cabinets indépendants d’audit, de fiscalité et de conseil qui associe connaissance locale et compétences coordonnées pour aider les organisations à gérer les risques et à se développer."
+      },
+      "image": {
+        "src": "/images/office.jpg",
+        "alt": {
+          "es": "Auditaxes office",
+          "en": "Auditaxes office",
+          "pt": "Escritório Auditaxes",
+          "fr": "Bureau Auditaxes"
+        }
+      },
+      "action": {
+        "label": {
+          "es": "Explorar nuestra red",
+          "en": "Explore our network",
+          "pt": "Explorar nossa rede",
+          "fr": "Explorer notre réseau"
+        },
+        "href": "#red"
+      }
+    },
+    "consortium": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "EL CONSORCIO",
+        "en": "THE CONSORTIUM",
+        "pt": "O CONSÓRCIO",
+        "fr": "LE CONSORTIUM"
+      },
+      "title": {
+        "es": "Conocimiento local. Alcance internacional.",
+        "en": "Local knowledge. International reach.",
+        "pt": "Conhecimento local. Alcance internacional.",
+        "fr": "Connaissance locale. Portée internationale."
+      },
+      "body": {
+        "es": "Auditaxes International reúne firmas locales y regionales independientes de contadores públicos, especialistas fiscales y profesionales multidisciplinarios. Sus equipos coordinan servicios de auditoría, impuestos y asesoría en distintos mercados.",
+        "en": "Auditaxes International brings together independent local and regional firms of certified public accountants, tax specialists and multidisciplinary professionals. Their teams coordinate audit, tax and advisory services across markets.",
+        "pt": "A Auditaxes International reúne firmas locais e regionais independentes de contadores, especialistas fiscais e profissionais multidisciplinares. Suas equipes coordenam serviços de auditoria, impostos e consultoria em diferentes mercados.",
+        "fr": "Auditaxes International réunit des cabinets locaux et régionaux indépendants d’experts comptables, de fiscalistes et de professionnels pluridisciplinaires. Leurs équipes coordonnent les services d’audit, de fiscalité et de conseil sur plusieurs marchés."
+      },
+      "items": [
+        {
+          "id": "reason-1",
+          "title": {
+            "es": "Firmas independientes, trabajo coordinado",
+            "en": "Independent firms, coordinated work",
+            "pt": "Firmas independentes, trabalho coordenado",
+            "fr": "Cabinets indépendants, travail coordonné"
+          },
+          "body": {
+            "es": "Cada firma miembro conserva su propiedad, gestión y responsabilidad profesional, con acceso a experiencia compartida para encargos internacionales.",
+            "en": "Each member firm retains its own ownership, management and professional responsibility, with access to shared expertise for international engagements.",
+            "pt": "Cada firma membro mantém sua propriedade, gestão e responsabilidade profissional, com acesso a conhecimento compartilhado para trabalhos internacionais.",
+            "fr": "Chaque cabinet membre conserve sa propriété, sa gestion et sa responsabilité professionnelle, tout en accédant à une expertise partagée pour les missions internationales."
+          }
+        },
+        {
+          "id": "reason-2",
+          "title": {
+            "es": "Calidad y criterio técnico",
+            "en": "Quality and technical judgment",
+            "pt": "Qualidade e rigor técnico",
+            "fr": "Qualité et rigueur technique"
+          },
+          "body": {
+            "es": "La admisión de miembros considera competencia técnica, integridad profesional y solidez organizacional; la colaboración se apoya en estándares y metodologías alineados.",
+            "en": "Member admission considers technical competence, professional integrity and organizational strength; collaboration draws on aligned standards and methodologies.",
+            "pt": "A admissão de membros considera competência técnica, integridade profissional e solidez organizacional; a colaboração se apoia em padrões e metodologias alinhados.",
+            "fr": "L’admission des membres prend en compte la compétence technique, l’intégrité professionnelle et la solidité de l’organisation ; la collaboration s’appuie sur des normes et méthodes harmonisées."
+          }
+        },
+        {
+          "id": "reason-3",
+          "title": {
+            "es": "Soluciones conectadas",
+            "en": "Connected solutions",
+            "pt": "Soluções integradas",
+            "fr": "Solutions coordonnées"
+          },
+          "body": {
+            "es": "Especialistas en auditoría, impuestos, consultoría, finanzas corporativas y outsourcing trabajan juntos para responder a necesidades complejas.",
+            "en": "Specialists in audit, tax, consulting, corporate finance and outsourcing work together to address complex needs.",
+            "pt": "Especialistas em auditoria, impostos, consultoria, finanças corporativas e outsourcing trabalham juntos para responder a necessidades complexas.",
+            "fr": "Des spécialistes de l’audit, de la fiscalité, du conseil, de la finance d’entreprise et de l’externalisation travaillent ensemble pour répondre à des besoins complexes."
+          }
+        }
+      ],
+      "legalNote": {
+        "es": "Auditaxes International es una asociación de firmas separadas, de propiedad y gestión independientes. Cada firma es responsable de sus propios servicios.",
+        "en": "Auditaxes International is an association of separate, independently owned and managed firms. Each firm is responsible for its own services.",
+        "pt": "A Auditaxes International é uma associação de firmas separadas, de propriedade e gestão independentes. Cada firma é responsável por seus próprios serviços.",
+        "fr": "Auditaxes International est une association de cabinets distincts, détenus et gérés indépendamment. Chaque cabinet est responsable de ses propres services."
+      }
+    },
+    "services": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "ESPECIALIDADES",
+        "en": "EXPERTISE",
+        "pt": "ESPECIALIDADES",
+        "fr": "EXPERTISES"
+      },
+      "title": {
+        "en": "Integrated professional services",
+        "es": "Servicios profesionales integrados",
+        "pt": "Serviços profissionais integrados",
+        "fr": "Services professionnels intégrés"
+      },
+      "body": {
+        "en": "Global expertise, local insight and coordinated solutions across seven service lines. Our independent firms support organizations in 27 countries, 30 offices and a network of more than 1,000 professionals.",
+        "es": "Experiencia global, conocimiento local y soluciones coordinadas en siete líneas de servicio. Nuestras firmas independientes apoyan a organizaciones en 27 países, 30 oficinas y una red de más de 1,000 profesionales.",
+        "pt": "Experiência global, conhecimento local e soluções coordenadas em sete linhas de serviço.",
+        "fr": "Expertise internationale, connaissance locale et solutions coordonnées dans sept domaines de services."
+      },
+      "items": [
+        {
+          "id": "audit",
+          "title": {
+            "es": "Auditoría y aseguramiento",
+            "en": "Audit & Assurance",
+            "pt": "Auditoria e asseguração",
+            "fr": "Audit et assurance"
+          },
+          "body": {
+            "en": "Independent financial statement, group, statutory and special purpose audits, plus internal audit, controls, governance, risk and compliance reviews.",
+            "es": "Auditorías independientes de estados financieros, de grupo, legales y de propósito especial; auditoría interna y revisiones de controles, gobierno, riesgos y cumplimiento.",
+            "pt": "Auditorias independentes de demonstrações financeiras, de grupo, legais e especiais; auditoria interna, controles, governança, riscos e conformidade.",
+            "fr": "Audits indépendants des états financiers, de groupe, légaux et spéciaux ; audit interne, contrôle, gouvernance, risques et conformité."
+          },
+          "image": {
+            "src": "/images/architecture.jpg",
+            "alt": {
+              "es": "Auditoría y aseguramiento",
+              "en": "Audit & Assurance",
+              "pt": "Auditoria e asseguração",
+              "fr": "Audit et assurance"
+            }
+          },
+          "action": {
+            "label": {
+              "es": "Conocer más",
+              "en": "Learn more",
+              "pt": "Saiba mais",
+              "fr": "En savoir plus"
+            },
+            "href": "#contacto"
+          }
+        },
+        {
+          "id": "tax",
+          "title": {
+            "es": "Impuestos",
+            "en": "Tax",
+            "pt": "Impostos",
+            "fr": "Fiscalité"
+          },
+          "body": {
+            "es": "Asesoría y cumplimiento fiscal, planificación internacional, impuestos indirectos y apoyo en controversias.",
+            "en": "Tax advisory and compliance, international planning, indirect taxes and dispute support.",
+            "pt": "Consultoria e conformidade fiscal, planejamento internacional, impostos indiretos e apoio em controvérsias.",
+            "fr": "Conseil et conformité fiscale, planification internationale, taxes indirectes et accompagnement des litiges."
+          },
+          "image": {
+            "src": "/images/finance.jpg",
+            "alt": {
+              "es": "Impuestos",
+              "en": "Tax",
+              "pt": "Impostos",
+              "fr": "Fiscalité"
+            }
+          },
+          "action": {
+            "label": {
+              "es": "Conocer más",
+              "en": "Learn more",
+              "pt": "Saiba mais",
+              "fr": "En savoir plus"
+            },
+            "href": "#contacto"
+          }
+        },
+        {
+          "id": "transfer-pricing",
+          "title": {
+            "es": "Precios de transferencia",
+            "en": "Transfer Pricing",
+            "pt": "Preços de transferência",
+            "fr": "Prix de transfert"
+          },
+          "body": {
+            "es": "Documentación local y maestra, estudios comparables, análisis funcional y apoyo en operaciones entre empresas vinculadas.",
+            "en": "Local and master file documentation, benchmarking, functional analysis and support for intercompany transactions.",
+            "pt": "Documentação local e mestre, estudos de comparáveis, análise funcional e apoio a transações entre empresas relacionadas.",
+            "fr": "Documentation locale et principale, études comparatives, analyse fonctionnelle et conseil sur les transactions intragroupe."
+          },
+          "image": {
+            "src": "/images/meeting.jpg",
+            "alt": {
+              "es": "Precios de transferencia",
+              "en": "Transfer Pricing",
+              "pt": "Preços de transferência",
+              "fr": "Prix de transfert"
+            }
+          },
+          "action": {
+            "label": {
+              "es": "Conocer más",
+              "en": "Learn more",
+              "pt": "Saiba mais",
+              "fr": "En savoir plus"
+            },
+            "href": "#contacto"
+          }
+        },
+        {
+          "id": "advisory",
+          "title": {
+            "es": "Consultoría y asesoría",
+            "en": "Advisory & Consulting",
+            "pt": "Consultoria e assessoria",
+            "fr": "Conseil"
+          },
+          "body": {
+            "es": "Estrategia, gobierno corporativo, gestión de riesgos, mejora operativa y transformación digital.",
+            "en": "Strategy, corporate governance, risk management, operational improvement and digital transformation.",
+            "pt": "Estratégia, governança corporativa, gestão de riscos, melhoria operacional e transformação digital.",
+            "fr": "Stratégie, gouvernance, gestion des risques, amélioration opérationnelle et transformation numérique."
+          },
+          "image": {
+            "src": "/images/office.jpg",
+            "alt": {
+              "es": "Consultoría y asesoría",
+              "en": "Advisory & Consulting",
+              "pt": "Consultoria e assessoria",
+              "fr": "Conseil"
+            }
+          },
+          "action": {
+            "label": {
+              "es": "Conocer más",
+              "en": "Learn more",
+              "pt": "Saiba mais",
+              "fr": "En savoir plus"
+            },
+            "href": "#contacto"
+          }
+        },
+        {
+          "id": "corporate-finance",
+          "title": {
+            "es": "Finanzas corporativas",
+            "en": "Corporate Finance",
+            "pt": "Finanças corporativas",
+            "fr": "Finance d’entreprise"
+          },
+          "body": {
+            "es": "Valuaciones, debida diligencia, fusiones y adquisiciones, estructura de capital y reestructuración financiera.",
+            "en": "Valuations, due diligence, mergers and acquisitions, capital structuring and financial restructuring.",
+            "pt": "Avaliações, due diligence, fusões e aquisições, estrutura de capital e reestruturação financeira.",
+            "fr": "Évaluations, diligence raisonnable, fusions et acquisitions, structure du capital et restructuration financière."
+          },
+          "image": {
+            "src": "/images/finance.jpg",
+            "alt": {
+              "es": "Finanzas corporativas",
+              "en": "Corporate Finance",
+              "pt": "Finanças corporativas",
+              "fr": "Finance d’entreprise"
+            }
+          },
+          "action": {
+            "label": {
+              "es": "Conocer más",
+              "en": "Learn more",
+              "pt": "Saiba mais",
+              "fr": "En savoir plus"
+            },
+            "href": "#contacto"
+          }
+        },
+        {
+          "id": "outsourcing",
+          "title": {
+            "es": "Outsourcing",
+            "en": "Outsourcing",
+            "pt": "Terceirização",
+            "fr": "Externalisation"
+          },
+          "body": {
+            "es": "Contabilidad, reportes financieros, nómina, apoyo de dirección financiera y procesos administrativos.",
+            "en": "Accounting, financial reporting, payroll, CFO support and administrative processes.",
+            "pt": "Contabilidade, relatórios financeiros, folha de pagamento, apoio à direção financeira e processos administrativos.",
+            "fr": "Comptabilité, reporting financier, paie, appui à la direction financière et processus administratifs."
+          },
+          "image": {
+            "src": "/images/meeting.jpg",
+            "alt": {
+              "es": "Outsourcing",
+              "en": "Outsourcing",
+              "pt": "Terceirização",
+              "fr": "Externalisation"
+            }
+          },
+          "action": {
+            "label": {
+              "es": "Conocer más",
+              "en": "Learn more",
+              "pt": "Saiba mais",
+              "fr": "En savoir plus"
+            },
+            "href": "#contacto"
+          }
+        },
+        {
+          "id": "forensic",
+          "title": {
+            "es": "Forense y recuperación",
+            "en": "Forensic & Recovery",
+            "pt": "Forense e recuperação",
+            "fr": "Investigation et recouvrement"
+          },
+          "body": {
+            "es": "Investigaciones de fraude, contabilidad forense y apoyo en disputas y recuperación de valor.",
+            "en": "Fraud investigations, forensic accounting and support for disputes and value recovery.",
+            "pt": "Investigações de fraude, contabilidade forense e apoio em disputas e recuperação de valor.",
+            "fr": "Enquêtes sur la fraude, comptabilité judiciaire et appui aux litiges et au recouvrement de valeur."
+          },
+          "image": {
+            "src": "/images/architecture.jpg",
+            "alt": {
+              "es": "Forense y recuperación",
+              "en": "Forensic & Recovery",
+              "pt": "Forense e recuperação",
+              "fr": "Investigation et recouvrement"
+            }
+          },
+          "action": {
+            "label": {
+              "es": "Conocer más",
+              "en": "Learn more",
+              "pt": "Saiba mais",
+              "fr": "En savoir plus"
+            },
+            "href": "#contacto"
+          }
+        }
+      ]
+    },
+    "network": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "RED GLOBAL",
+        "en": "GLOBAL NETWORK",
+        "pt": "REDE GLOBAL",
+        "fr": "RÉSEAU MONDIAL"
+      },
+      "title": {
+        "es": "Red Global",
+        "en": "Global Network",
+        "pt": "Rede Global",
+        "fr": "Réseau mondial"
+      },
+      "body": {
+        "es": "Auditaxes International reúne firmas independientes con presencia en 27 países, 30 oficinas y más de 1,000 profesionales y socios. La organización combina conocimiento local y coordinación internacional para apoyar encargos entre jurisdicciones.",
+        "en": "Auditaxes International brings together independent firms across 27 countries, 30 offices and more than 1,000 professionals and partners. The organization combines local knowledge and international coordination for cross-border engagements.",
+        "pt": "A Auditaxes International reúne firmas independentes presentes em 27 países, 30 escritórios e mais de 1.000 profissionais e sócios. A organização combina conhecimento local e coordenação internacional em trabalhos entre jurisdições.",
+        "fr": "Auditaxes International réunit des cabinets indépendants présents dans 27 pays, 30 bureaux et comptant plus de 1 000 professionnels et associés. L’organisation associe connaissance locale et coordination internationale pour les missions transfrontalières."
+      },
+      "stats": [
+        {
+          "id": "countries",
+          "value": 27,
+          "suffix": "",
+          "label": {
+            "es": "PAÍSES",
+            "en": "COUNTRIES",
+            "pt": "PAÍSES",
+            "fr": "PAYS"
+          }
+        },
+        {
+          "id": "offices",
+          "value": 30,
+          "suffix": "",
+          "label": {
+            "es": "SEDES",
+            "en": "OFFICES",
+            "pt": "ESCRITÓRIOS",
+            "fr": "BUREAUX"
+          }
+        },
+        {
+          "id": "experts",
+          "value": 1000,
+          "suffix": "+",
+          "label": {
+            "es": "PROFESIONALES Y SOCIOS",
+            "en": "PROFESSIONALS & PARTNERS",
+            "pt": "PROFISSIONAIS E SÓCIOS",
+            "fr": "PROFESSIONNELS ET ASSOCIÉS"
+          }
+        }
+      ],
+      "mapHeading": {
+        "es": {
+          "label": "Red Global",
+          "title": "Presencia regional. Una sola visión.",
+          "body": "Explore nuestra red y conozca las firmas que representan a AUDITAXES en cada mercado."
+        },
+        "en": {
+          "label": "Global Network",
+          "title": "Regional presence. One vision.",
+          "body": "Explore our network and discover the firms representing AUDITAXES in each market."
+        },
+        "pt": {
+          "label": "Rede Global",
+          "title": "Presença regional. Uma só visão.",
+          "body": "Explore nossa rede e conheça as firmas que representam a AUDITAXES em cada mercado."
+        },
+        "fr": {
+          "label": "Réseau mondial",
+          "title": "Présence régionale. Une seule vision.",
+          "body": "Découvrez notre réseau et les cabinets qui représentent AUDITAXES sur chaque marché."
+        }
+      }
+    },
+    "leadership": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "LIDERAZGO",
+        "en": "LEADERSHIP",
+        "pt": "LIDERANÇA",
+        "fr": "DIRECTION"
+      },
+      "title": {
+        "es": "QUIÉNES LIDERAN AUDITAXES.",
+        "en": "WHO LEADS AUDITAXES.",
+        "pt": "QUEM LIDERA A AUDITAXES.",
+        "fr": "QUI DIRIGE AUDITAXES."
+      },
+      "body": {
+        "es": "Mariana Ortega y Ricardo Salinas lideran Auditaxes con experiencia en auditoría, cumplimiento e impuestos, conectando equipos especializados para acompañar cada decisión.",
+        "en": "Mariana Ortega and Ricardo Salinas lead Auditaxes with experience in audit, compliance and tax, connecting specialist teams to support every decision.",
+        "pt": "Mariana Ortega e Ricardo Salinas lideram a Auditaxes com experiência em auditoria, conformidade e impostos, conectando equipes especializadas para apoiar cada decisão.",
+        "fr": "Mariana Ortega et Ricardo Salinas dirigent Auditaxes grâce à leur expérience en audit, conformité et fiscalité, en reliant des équipes spécialisées pour accompagner chaque décision."
+      },
+      "stats": [
+        {
+          "id": "experience",
+          "value": 19,
+          "suffix": "",
+          "label": {
+            "es": "AÑOS DE EXPERIENCIA",
+            "en": "YEARS OF EXPERIENCE",
+            "pt": "ANOS DE EXPERIÊNCIA",
+            "fr": "ANNÉES D’EXPÉRIENCE"
+          }
+        },
+        {
+          "id": "clients",
+          "value": 300,
+          "suffix": "+",
+          "label": {
+            "es": "CLIENTES SATISFECHOS",
+            "en": "SATISFIED CLIENTS",
+            "pt": "CLIENTES SATISFEITOS",
+            "fr": "CLIENTS SATISFAITS"
+          }
+        },
+        {
+          "id": "services",
+          "value": 27,
+          "suffix": "",
+          "label": {
+            "es": "SERVICIOS OFRECIDOS",
+            "en": "SERVICES OFFERED",
+            "pt": "SERVIÇOS OFERECIDOS",
+            "fr": "SERVICES PROPOSÉS"
+          }
+        }
+      ],
+      "mission": {
+        "title": {
+          "es": "MISIÓN",
+          "en": "MISSION",
+          "pt": "MISSÃO",
+          "fr": "MISSION"
+        },
+        "body": {
+          "es": "Brindar soluciones de calidad con el apoyo de profesionales comprometidos y altamente calificados.",
+          "en": "To provide quality solutions supported by committed, highly qualified professionals.",
+          "pt": "Oferecer soluções de qualidade apoiadas por profissionais comprometidos e altamente qualificados.",
+          "fr": "Fournir des solutions de qualité grâce à des professionnels engagés et hautement qualifiés."
+        }
+      },
+      "vision": {
+        "title": {
+          "es": "VISIÓN",
+          "en": "VISION",
+          "pt": "VISÃO",
+          "fr": "VISION"
+        },
+        "body": {
+          "es": "Ser la firma de preferencia para nuestros clientes en materia de auditoría, impuestos, cumplimiento y consultoría.",
+          "en": "To be the firm of choice for our clients in audit, tax, compliance and consulting.",
+          "pt": "Ser a firma de preferência dos clientes em auditoria, impostos, conformidade e consultoria.",
+          "fr": "Être le cabinet de référence de nos clients en audit, fiscalité, conformité et conseil."
+        }
+      },
+      "people": [
+        {
+          "id": "mariana-ortega",
+          "name": "Mariana Ortega",
+          "image": {
+            "src": "/images/mariana.jpg",
+            "alt": {
+              "es": "Mariana Ortega",
+              "en": "Mariana Ortega",
+              "pt": "Mariana Ortega",
+              "fr": "Mariana Ortega"
+            }
+          }
+        },
+        {
+          "id": "ricardo-salinas",
+          "name": "Ricardo Salinas",
+          "image": {
+            "src": "/images/ricardo.jpg",
+            "alt": {
+              "es": "Ricardo Salinas",
+              "en": "Ricardo Salinas",
+              "pt": "Ricardo Salinas",
+              "fr": "Ricardo Salinas"
+            }
+          }
+        }
+      ]
+    },
+    "news": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "NOVEDADES",
+        "en": "NEWS",
+        "pt": "NOVIDADES",
+        "fr": "ACTUALITÉS"
+      },
+      "title": {
+        "es": "Últimas publicaciones.",
+        "en": "Latest publications.",
+        "pt": "Últimas publicações.",
+        "fr": "Dernières publications."
+      },
+      "actionLabel": {
+        "es": "Ver todas las publicaciones",
+        "en": "View all publications",
+        "pt": "Ver todas as publicações",
+        "fr": "Voir toutes les publications"
+      },
+      "items": [
+        {
+          "id": "economic-substance-law",
+          "category": {"es":"Noticias","en":"News","pt":"Notícias","fr":"Actualités"},
+          "title": {"es":"Ley de Sustancia Económica","en":"Economic Substance Law","pt":"Lei de Substância Econômica","fr":"Loi sur la substance économique"},
+          "image": {"src":"/images/news/ley-sustancia-economica.webp","alt":{"es":"Ley de Sustancia Económica","en":"Economic Substance Law","pt":"Lei de Substância Econômica","fr":"Loi sur la substance économique"}}
+        },
+        {
+          "id": "pep-controls",
+          "category": {"es":"Noticias","en":"News","pt":"Notícias","fr":"Actualités"},
+          "title": {"es":"Superintendencia fortalece los controles para la identificación y gestión de Personas Expuestas Políticamente","en":"Superintendency strengthens controls for identifying and managing Politically Exposed Persons","pt":"Superintendência reforça controles para identificar e gerir Pessoas Politicamente Expostas","fr":"La Surintendance renforce les contrôles sur les personnes politiquement exposées"},
+          "image": {"src":"/images/news/controles-pep.webp","alt":{"es":"Controles para Personas Expuestas Políticamente","en":"Controls for Politically Exposed Persons","pt":"Controles para Pessoas Politicamente Expostas","fr":"Contrôles relatifs aux personnes politiquement exposées"}}
+        },
+        {
+          "id": "mef-route",
+          "category": {"es":"Noticias","en":"News","pt":"Notícias","fr":"Actualités"},
+          "title": {"es":"La ruta del MEF para reducir el déficit fiscal","en":"The MEF route to reduce the fiscal deficit","pt":"A rota do MEF para reduzir o déficit fiscal","fr":"La stratégie du MEF pour réduire le déficit budgétaire"},
+          "image": {"src":"/images/news/ruta-mef.webp","alt":{"es":"Ciudad de Panamá","en":"Panama City","pt":"Cidade do Panamá","fr":"Ville de Panama"}}
+        },
+        {
+          "id": "ssnf-sanctions-news",
+          "category": {"es":"Noticias","en":"News","pt":"Notícias","fr":"Actualités"},
+          "title": {"es":"La SSNF impone sanciones a los sujetos obligados no financieros","en":"The SSNF imposes sanctions on non-financial regulated entities","pt":"A SSNF impõe sanções a entidades não financeiras obrigadas","fr":"La SSNF sanctionne les entités non financières assujetties"},
+          "image": {"src":"/images/news/sanciones-ssnf-noticia.webp","alt":{"es":"Sanciones impuestas por la SSNF","en":"Sanctions imposed by the SSNF","pt":"Sanções impostas pela SSNF","fr":"Sanctions imposées par la SSNF"}}
+        },
+        {
+          "id": "reduce-fiscal-deficit",
+          "category": {"es":"Artículo","en":"Article","pt":"Artigo","fr":"Article"},
+          "title": {"es":"Reducir el Déficit Fiscal","en":"Reducing the Fiscal Deficit","pt":"Reduzir o Déficit Fiscal","fr":"Réduire le déficit budgétaire"},
+          "image": {"src":"/images/news/reducir-deficit-fiscal.webp","alt":{"es":"Reducir el déficit fiscal en Panamá","en":"Reducing Panama's fiscal deficit","pt":"Reduzir o déficit fiscal do Panamá","fr":"Réduire le déficit budgétaire du Panama"}}
+        },
+        {
+          "id": "ssnf-sanctions-article",
+          "category": {"es":"Artículo","en":"Article","pt":"Artigo","fr":"Article"},
+          "title": {"es":"Sanciones de la SSNF","en":"SSNF Sanctions","pt":"Sanções da SSNF","fr":"Sanctions de la SSNF"},
+          "image": {"src":"/images/news/sanciones-ssnf-articulo.webp","alt":{"es":"Superintendencia de Sujetos no Financieros","en":"Superintendency of Non-Financial Subjects","pt":"Superintendência de Sujeitos Não Financeiros","fr":"Surintendance des entités non financières"}}
+        },
+        {
+          "id": "electronic-invoicing",
+          "category": {"es":"Artículo","en":"Article","pt":"Artigo","fr":"Article"},
+          "title": {"es":"Beneficios de la Facturación Electrónica en los Registros Contables","en":"Benefits of Electronic Invoicing in Accounting Records","pt":"Benefícios da Faturação Eletrônica nos Registros Contábeis","fr":"Avantages de la facturation électronique pour la comptabilité"},
+          "image": {"src":"/images/news/facturacion-electronica.svg","alt":{"es":"Auditaxes Panamá","en":"Auditaxes Panama","pt":"Auditaxes Panamá","fr":"Auditaxes Panama"}}
+        },
+        {
+          "id": "ifrs-18",
+          "category": {"es":"Artículo","en":"Article","pt":"Artigo","fr":"Article"},
+          "title": {"es":"La nueva norma de contabilidad NIIF ayudará a analizar el rendimiento financiero de las empresas","en":"The new IFRS accounting standard will help analyze companies' financial performance","pt":"A nova norma contábil IFRS ajudará a analisar o desempenho financeiro das empresas","fr":"La nouvelle norme IFRS facilitera l’analyse de la performance financière des entreprises"},
+          "image": {"src":"/images/news/norma-niif.webp","alt":{"es":"NIIF 18, nueva norma internacional de contabilidad","en":"IFRS 18, new international accounting standard","pt":"IFRS 18, nova norma internacional de contabilidade","fr":"IFRS 18, nouvelle norme comptable internationale"}}
+        },
+        {
+          "id": "fatf-fifth-round",
+          "category": {"es":"Artículo","en":"Article","pt":"Artigo","fr":"Article"},
+          "title": {"es":"Quinta Ronda del GAFI y preparación nacional: un nuevo estándar de efectividad en cumplimiento","en":"FATF Fifth Round and national preparation: a new standard for compliance effectiveness","pt":"Quinta Rodada do GAFI e preparação nacional: um novo padrão de efetividade em conformidade","fr":"Cinquième cycle du GAFI et préparation nationale : une nouvelle norme d’efficacité de la conformité"},
+          "image": {"src":"/images/news/quinta-ronda-gafi.webp","alt":{"es":"Quinta Ronda del GAFI en Ciudad de Panamá","en":"FATF Fifth Round in Panama City","pt":"Quinta Rodada do GAFI na Cidade do Panamá","fr":"Cinquième cycle du GAFI à Panama"}}
+        }
+      ]
+    },
+    "contact": {
+      "enabled": true,
+      "labels": {
+        "es": {
+          "label": "CONTACTO",
+          "title": "Hablemos de su próximo desafío.",
+          "intro": "Nuestro equipo internacional coordina necesidades de auditoría, impuestos, consultoría y outsourcing para acompañarle en cada etapa de su crecimiento.",
+          "direct": "Contacto directo",
+          "email": "Correo",
+          "phone": "Teléfono",
+          "office": "Oficina",
+          "form": "Cuéntenos cómo podemos ayudarle",
+          "name": "Nombre",
+          "company": "Empresa",
+          "mail": "Correo electrónico",
+          "tel": "Teléfono",
+          "message": "Mensaje",
+          "send": "Preparar correo",
+          "follow": "Síganos"
+        },
+        "en": {
+          "label": "CONTACT",
+          "title": "Let’s discuss your next challenge.",
+          "intro": "Our international team coordinates audit, tax, consulting and outsourcing needs to support every stage of your growth.",
+          "direct": "Direct contact",
+          "email": "Email",
+          "phone": "Phone",
+          "office": "Office",
+          "form": "Tell us how we can help",
+          "name": "Name",
+          "company": "Company",
+          "mail": "Email address",
+          "tel": "Phone",
+          "message": "Message",
+          "send": "Prepare email",
+          "follow": "Follow us"
+        },
+        "pt": {
+          "label": "CONTATO",
+          "title": "Vamos conversar sobre seu próximo desafio.",
+          "intro": "Nossa equipe internacional coordena necessidades de auditoria, impostos, consultoria e outsourcing para apoiar cada etapa do seu crescimento.",
+          "direct": "Contato direto",
+          "email": "E-mail",
+          "phone": "Telefone",
+          "office": "Escritório",
+          "form": "Conte-nos como podemos ajudar",
+          "name": "Nome",
+          "company": "Empresa",
+          "mail": "E-mail",
+          "tel": "Telefone",
+          "message": "Mensagem",
+          "send": "Preparar e-mail",
+          "follow": "Siga-nos"
+        },
+        "fr": {
+          "label": "CONTACT",
+          "title": "Parlons de votre prochain défi.",
+          "intro": "Notre équipe internationale coordonne vos besoins en audit, fiscalité, conseil et externalisation à chaque étape de votre croissance.",
+          "direct": "Contact direct",
+          "email": "E-mail",
+          "phone": "Téléphone",
+          "office": "Bureau",
+          "form": "Dites-nous comment nous pouvons vous aider",
+          "name": "Nom",
+          "company": "Entreprise",
+          "mail": "Adresse e-mail",
+          "tel": "Téléphone",
+          "message": "Message",
+          "send": "Préparer l’e-mail",
+          "follow": "Suivez-nous"
+        }
+      },
+      "email": "info@audit-taxes.com.mx",
+      "phones": [
+        "+52 55 5554 0921",
+        "+52 55 1451 1169"
+      ],
+      "whatsapp": "+525514511169",
+      "address": "",
+      "mapsQuery": "",
+      "social": {
+        "facebook": "https://www.facebook.com/people/Auditaxes/61569843038041/",
+        "instagram": "https://www.instagram.com/auditaxes.mx/",
+        "linkedin": "https://www.linkedin.com/company/auditaxes/"
+      }
+    },
+    "footer": {
+      "enabled": true,
+      "contactEmail": "info@audit-taxes.com.mx",
+      "contactPhone": "+52 55 5554 0921",
+      "links": [
+        {
+          "siteId": "global"
+        },
+        {
+          "siteId": "mexico"
+        },
+        {
+          "siteId": "salvador"
+        }
+      ]
+    },
+    "industries": {
+      "enabled": true,
+      "eyebrow": {
+        "es": "INDUSTRIAS",
+        "en": "INDUSTRIES",
+        "pt": "SETORES",
+        "fr": "SECTEURS"
+      },
+      "title": {
+        "es": "Experiencia para cada sector.",
+        "en": "Experience for every industry.",
+        "pt": "Experiência para cada setor.",
+        "fr": "Une expertise pour chaque secteur."
+      },
+      "body": {
+        "es": "Combinamos conocimiento sectorial y capacidades profesionales para responder a los retos de cada mercado.",
+        "en": "We combine industry knowledge and professional capabilities to address the challenges of each market.",
+        "pt": "Combinamos conhecimento setorial e capacidades profissionais para responder aos desafios de cada mercado.",
+        "fr": "Nous associons connaissance sectorielle et compétences professionnelles pour répondre aux défis de chaque marché."
+      },
+      "items": [
+        {
+          "id": "financial",
+          "title": {
+            "es": "Servicios financieros",
+            "en": "Financial Services",
+            "pt": "Serviços financeiros",
+            "fr": "Services financiers"
+          },
+          "body": {
+            "es": "Gobierno, riesgo, cumplimiento, ciberseguridad y transformación de bancos, aseguradoras, fintech y gestores de inversión.",
+            "en": "Governance, risk, compliance, cybersecurity and transformation for banks, insurers, fintechs and investment managers.",
+            "pt": "Governança, riscos, conformidade, cibersegurança e transformação para bancos, seguradoras, fintechs e gestores de investimentos.",
+            "fr": "Gouvernance, risques, conformité, cybersécurité et transformation pour les banques, assureurs, fintechs et gestionnaires d’investissement."
+          }
+        },
+        {
+          "id": "manufacturing",
+          "title": {
+            "es": "Consumo y manufactura",
+            "en": "Consumer Products & Manufacturing",
+            "pt": "Consumo e manufatura",
+            "fr": "Biens de consommation et industrie"
+          },
+          "body": {
+            "es": "Cadena de suministro, eficiencia operativa, regulación y sostenibilidad para fabricantes, distribuidores y comercios.",
+            "en": "Supply chains, operational efficiency, regulation and sustainability for manufacturers, distributors and retailers.",
+            "pt": "Cadeia de suprimentos, eficiência operacional, regulação e sustentabilidade para fabricantes, distribuidores e varejistas.",
+            "fr": "Chaînes d’approvisionnement, efficacité opérationnelle, réglementation et durabilité pour fabricants, distributeurs et détaillants."
+          }
+        },
+        {
+          "id": "tmt",
+          "title": {
+            "es": "Tecnología, medios y telecomunicaciones",
+            "en": "Technology, Media & Telecommunications",
+            "pt": "Tecnologia, mídia e telecomunicações",
+            "fr": "Technologies, médias et télécommunications"
+          },
+          "body": {
+            "es": "Innovación, privacidad de datos, ciberseguridad, regulación y crecimiento de negocios digitales.",
+            "en": "Innovation, data privacy, cybersecurity, regulation and growth for digital businesses.",
+            "pt": "Inovação, privacidade de dados, cibersegurança, regulação e crescimento de negócios digitais.",
+            "fr": "Innovation, protection des données, cybersécurité, réglementation et croissance des entreprises numériques."
+          }
+        },
+        {
+          "id": "real-estate",
+          "title": {
+            "es": "Inmobiliario y construcción",
+            "en": "Real Estate & Construction",
+            "pt": "Imobiliário e construção",
+            "fr": "Immobilier et construction"
+          },
+          "body": {
+            "es": "Financiamiento, riesgos de proyectos, cumplimiento y sostenibilidad a lo largo del ciclo inmobiliario.",
+            "en": "Financing, project risk, compliance and sustainability across the real estate lifecycle.",
+            "pt": "Financiamento, riscos de projetos, conformidade e sustentabilidade ao longo do ciclo imobiliário.",
+            "fr": "Financement, risques des projets, conformité et durabilité tout au long du cycle immobilier."
+          }
+        },
+        {
+          "id": "energy",
+          "title": {
+            "es": "Energía, petróleo y gas",
+            "en": "Energy, Oil & Gas",
+            "pt": "Energia, petróleo e gás",
+            "fr": "Énergie, pétrole et gaz"
+          },
+          "body": {
+            "es": "Apoyo ante transición energética, regulación y complejidad operativa.",
+            "en": "Support for energy transition, regulation and operational complexity.",
+            "pt": "Apoio diante da transição energética, regulação e complexidade operacional.",
+            "fr": "Accompagnement face à la transition énergétique, à la réglementation et à la complexité opérationnelle."
+          },
+          "challenges": {
+            "en": "Commodity price volatility; environmental compliance; energy transition; operational efficiency; capital-intensive projects.",
+            "es": "Volatilidad de precios; cumplimiento ambiental; transición energética; eficiencia operativa; proyectos intensivos en capital.",
+            "pt": "Volatilidade dos preços das commodities; conformidade ambiental; transição energética; eficiência operacional; projetos intensivos em capital.",
+            "fr": "Volatilité des prix des matières premières ; conformité environnementale ; transition énergétique ; efficacité opérationnelle ; projets à forte intensité de capital."
+          },
+          "organizations": {
+            "en": "Exploration and production; refining; power generation; renewables; trading; gas; infrastructure; utilities.",
+            "es": "Exploración y producción; refinación; generación eléctrica; renovables; comercialización; gas; infraestructura; servicios públicos.",
+            "pt": "Exploração e produção; refino; geração de energia; energias renováveis; comercialização; gás; infraestrutura; serviços públicos.",
+            "fr": "Exploration et production ; raffinage ; production d’électricité ; énergies renouvelables ; négoce ; gaz ; infrastructures ; services publics."
+          },
+          "solutions": {
+            "en": "Integrated audit, tax, advisory, corporate finance, outsourcing and forensic services tailored to sector requirements.",
+            "es": "Servicios integrados de auditoría, impuestos, consultoría, finanzas corporativas, outsourcing y forense adaptados al sector.",
+            "pt": "Serviços integrados de auditoria, tributação, consultoria, finanças corporativas, terceirização e investigação forense adaptados às necessidades do setor.",
+            "fr": "Services intégrés d’audit, de fiscalité, de conseil, de finance d’entreprise, d’externalisation et d’investigation adaptés aux besoins du secteur."
+          }
+        },
+        {
+          "id": "public",
+          "title": {
+            "es": "Gobierno y sector público",
+            "en": "Government & Public Sector",
+            "pt": "Governo e setor público",
+            "fr": "Administrations et secteur public"
+          },
+          "body": {
+            "es": "Servicios orientados a la rendición de cuentas, la transparencia y el valor público.",
+            "en": "Services focused on accountability, transparency and public value.",
+            "pt": "Serviços voltados à prestação de contas, transparência e valor público.",
+            "fr": "Services axés sur la responsabilité, la transparence et la valeur publique."
+          },
+          "challenges": {
+            "en": "Budget constraints; regulatory compliance; transparency; operational efficiency; cybersecurity and data protection.",
+            "es": "Presupuestos limitados; cumplimiento normativo; transparencia; eficiencia operativa; ciberseguridad y protección de datos.",
+            "pt": "Restrições orçamentárias; conformidade regulatória; transparência; eficiência operacional; cibersegurança e proteção de dados.",
+            "fr": "Contraintes budgétaires ; conformité réglementaire ; transparence ; efficacité opérationnelle ; cybersécurité et protection des données."
+          },
+          "organizations": {
+            "en": "National, state and local government; public agencies; regulators; universities; healthcare; infrastructure; development organizations.",
+            "es": "Gobierno nacional, estatal y local; organismos públicos; reguladores; universidades; salud; infraestructura; organizaciones de desarrollo.",
+            "pt": "Governos nacional, estaduais e locais; órgãos públicos; reguladores; universidades; saúde; infraestrutura; organizações de desenvolvimento.",
+            "fr": "Administrations nationales, régionales et locales ; organismes publics ; autorités de régulation ; universités ; santé ; infrastructures ; organismes de développement."
+          },
+          "solutions": {
+            "en": "Integrated audit, tax, advisory, corporate finance, outsourcing and forensic services tailored to sector requirements.",
+            "es": "Servicios integrados de auditoría, impuestos, consultoría, finanzas corporativas, outsourcing y forense adaptados al sector.",
+            "pt": "Serviços integrados de auditoria, tributação, consultoria, finanças corporativas, terceirização e investigação forense adaptados às necessidades do setor.",
+            "fr": "Services intégrés d’audit, de fiscalité, de conseil, de finance d’entreprise, d’externalisation et d’investigation adaptés aux besoins du secteur."
+          }
+        },
+        {
+          "id": "hospitality",
+          "title": {
+            "es": "Turismo, hotelería y entretenimiento",
+            "en": "Tourism, Hospitality & Entertainment",
+            "pt": "Turismo, hotelaria e entretenimento",
+            "fr": "Tourisme, hôtellerie et divertissement"
+          },
+          "body": {
+            "es": "Perspectivas para fortalecer experiencias, crecimiento y resiliencia en mercados internacionales.",
+            "en": "Insight to strengthen experiences, growth and resilience in international markets.",
+            "pt": "Perspectivas para fortalecer experiências, crescimento e resiliência em mercados internacionais.",
+            "fr": "Des perspectives pour renforcer les expériences, la croissance et la résilience sur les marchés internationaux."
+          },
+          "challenges": {
+            "en": "Seasonality and market volatility; operating costs; regulation; digital transformation; sustainability; talent.",
+            "es": "Estacionalidad y volatilidad; costos operativos; regulación; transformación digital; sostenibilidad; talento.",
+            "pt": "Sazonalidade e volatilidade do mercado; custos operacionais; regulamentação; transformação digital; sustentabilidade; talentos.",
+            "fr": "Saisonnalité et volatilité des marchés ; coûts d’exploitation ; réglementation ; transformation numérique ; durabilité ; talents."
+          },
+          "organizations": {
+            "en": "Hotels; restaurants; travel operators; airlines; cruises; attractions; events; entertainment and media.",
+            "es": "Hoteles; restaurantes; operadores turísticos; aerolíneas; cruceros; atracciones; eventos; entretenimiento y medios.",
+            "pt": "Hotéis; restaurantes; operadoras de turismo; companhias aéreas; cruzeiros; atrações; eventos; entretenimento e mídia.",
+            "fr": "Hôtels ; restaurants ; voyagistes ; compagnies aériennes ; croisières ; attractions ; événements ; divertissement et médias."
+          },
+          "solutions": {
+            "en": "Integrated audit, tax, advisory, corporate finance, outsourcing and forensic services tailored to sector requirements.",
+            "es": "Servicios integrados de auditoría, impuestos, consultoría, finanzas corporativas, outsourcing y forense adaptados al sector.",
+            "pt": "Serviços integrados de auditoria, tributação, consultoria, finanças corporativas, terceirização e investigação forense adaptados às necessidades do setor.",
+            "fr": "Services intégrés d’audit, de fiscalité, de conseil, de finance d’entreprise, d’externalisation et d’investigation adaptés aux besoins du secteur."
+          }
+        }
+      ]
+    },
+    "auditDetail": {
+      "enabled": true,
+      "eyebrow": {
+        "en": "AUDIT & ASSURANCE",
+        "es": "AUDITORÍA Y ASEGURAMIENTO",
+        "pt": "AUDITORIA E ASSEGURAÇÃO",
+        "fr": "AUDIT ET ASSURANCE"
+      },
+      "title": {
+        "en": "Building confidence through independent assurance.",
+        "es": "Confianza mediante aseguramiento independiente.",
+        "pt": "Confiança por meio de asseguração independente.",
+        "fr": "Renforcer la confiance par une assurance indépendante."
+      },
+      "body": {
+        "en": "Reliable financial information supports regulatory compliance, stronger governance and informed decisions. Our independent member firms combine technical expertise and industry knowledge across jurisdictions.",
+        "es": "La información financiera confiable favorece el cumplimiento normativo, un gobierno más sólido y mejores decisiones. Nuestras firmas independientes combinan experiencia técnica y sectorial en distintas jurisdicciones.",
+        "pt": "Informações financeiras confiáveis apoiam a conformidade regulatória, uma governança mais sólida e decisões embasadas. Nossas firmas-membro independentes combinam conhecimento técnico e setorial em diferentes jurisdições.",
+        "fr": "Des informations financières fiables favorisent la conformité réglementaire, une gouvernance plus solide et des décisions éclairées. Nos cabinets membres indépendants conjuguent expertise technique et connaissance sectorielle dans différentes juridictions."
+      },
+      "groups": [
+        {
+          "id": "assurance",
+          "title": {
+            "en": "Assurance services",
+            "es": "Servicios de aseguramiento",
+            "pt": "Serviços de asseguração",
+            "fr": "Services d’assurance"
+          },
+          "items": [
+            {
+              "en": "Financial statement audits",
+              "es": "Auditorías de estados financieros",
+              "pt": "Auditorias de demonstrações financeiras",
+              "fr": "Audits des états financiers"
+            },
+            {
+              "en": "Group audits",
+              "es": "Auditorías de grupo",
+              "pt": "Auditorias de grupos",
+              "fr": "Audits de groupe"
+            },
+            {
+              "en": "Statutory audits",
+              "es": "Auditorías legales",
+              "pt": "Auditorias legais",
+              "fr": "Audits légaux"
+            },
+            {
+              "en": "Special purpose audits",
+              "es": "Auditorías de propósito especial",
+              "pt": "Auditorias para fins especiais",
+              "fr": "Audits à des fins particulières"
+            }
+          ]
+        },
+        {
+          "id": "controls",
+          "title": {
+            "en": "Internal audit & controls",
+            "es": "Auditoría interna y controles",
+            "pt": "Auditoria interna e controles",
+            "fr": "Audit interne et contrôles"
+          },
+          "items": [
+            {
+              "en": "Internal audit",
+              "es": "Auditoría interna",
+              "pt": "Auditoria interna",
+              "fr": "Audit interne"
+            },
+            {
+              "en": "Internal control reviews",
+              "es": "Revisiones de control interno",
+              "pt": "Revisões de controles internos",
+              "fr": "Revues du contrôle interne"
+            },
+            {
+              "en": "SOX & compliance reviews",
+              "es": "Revisiones SOX y de cumplimiento",
+              "pt": "Revisões SOX e de conformidade",
+              "fr": "Revues SOX et de conformité"
+            },
+            {
+              "en": "Governance reviews",
+              "es": "Revisiones de gobierno",
+              "pt": "Revisões de governança",
+              "fr": "Revues de gouvernance"
+            }
+          ]
+        },
+        {
+          "id": "risk",
+          "title": {
+            "en": "Risk & compliance",
+            "es": "Riesgo y cumplimiento",
+            "pt": "Riscos e conformidade",
+            "fr": "Risques et conformité"
+          },
+          "items": [
+            {
+              "en": "Risk assessments",
+              "es": "Evaluaciones de riesgos",
+              "pt": "Avaliações de riscos",
+              "fr": "Évaluations des risques"
+            },
+            {
+              "en": "Regulatory compliance reviews",
+              "es": "Revisiones de cumplimiento regulatorio",
+              "pt": "Revisões de conformidade regulatória",
+              "fr": "Revues de conformité réglementaire"
+            },
+            {
+              "en": "Agreed-upon procedures",
+              "es": "Procedimientos convenidos",
+              "pt": "Procédures acordadas",
+              "fr": "Procédures convenues"
+            },
+            {
+              "en": "Independent assurance services",
+              "es": "Servicios independientes de aseguramiento",
+              "pt": "Serviços independentes de asseguração",
+              "fr": "Services d’assurance indépendants"
+            }
+          ]
+        }
+      ]
+    },
+    "offices": {
+      "enabled": true,
+      "eyebrow": {
+        "en": "GLOBAL OFFICES",
+        "es": "OFICINAS GLOBALES",
+        "pt": "ESCRITÓRIOS GLOBAIS",
+        "fr": "BUREAUX MONDIAUX"
+      },
+      "title": {
+        "en": "Local firms. Global connections.",
+        "es": "Firmas locales. Conexiones globales.",
+        "pt": "Firmas locais. Conexões globais.",
+        "fr": "Cabinets locaux. Connexions mondiales."
+      },
+      "body": {
+        "en": "Independent member firms combine knowledge of their markets with international collaboration. Each firm is responsible for its own professional services and client relationships.",
+        "es": "Las firmas miembro independientes combinan conocimiento de sus mercados con colaboración internacional. Cada firma es responsable de sus servicios profesionales y relaciones con clientes.",
+        "pt": "As firmas-membro independentes combinam conhecimento de seus mercados com colaboração internacional. Cada firma é responsável por seus próprios serviços profissionais e relacionamentos com clientes.",
+        "fr": "Les cabinets membres indépendants associent leur connaissance des marchés locaux à une collaboration internationale. Chaque cabinet est responsable de ses propres services professionnels et relations avec ses clients."
+      },
+      "regions": [
+        {
+          "id": "americas",
+          "title": {
+            "en": "Americas & Caribbean · 21 markets",
+            "es": "Américas y Caribe · 21 mercados",
+            "pt": "Américas e Caribe · 21 mercados",
+            "fr": "Amériques et Caraïbes · 21 marchés"
+          },
+          "countries": {
+            "en": "Mexico · Belize · Guatemala · El Salvador · Honduras · Nicaragua · Costa Rica · Panama · Dominican Republic · Jamaica · Venezuela · Saint Kitts · Dominica · Grenada · Saint Vincent · Colombia · Ecuador · Peru · Paraguay · Argentina · Uruguay",
+            "es": "México · Belize · Guatemala · El Salvador · Honduras · Nicaragua · Costa Rica · Panamá · República Dominicana · Jamaica · Venezuela · San Cristóbal · Dominica · Grenada · San Vicente · Colombia · Ecuador · Perú · Paraguay · Argentina · Uruguay",
+            "pt": "México · Belize · Guatemala · El Salvador · Honduras · Nicarágua · Costa Rica · Panamá · República Dominicana · Jamaica · Venezuela · São Cristóvão · Dominica · Granada · São Vicente · Colômbia · Equador · Peru · Paraguai · Argentina · Uruguai",
+            "fr": "Mexique · Belize · Guatemala · Salvador · Honduras · Nicaragua · Costa Rica · Panama · République dominicaine · Jamaïque · Venezuela · Saint-Christophe · Dominique · Grenade · Saint-Vincent · Colombie · Équateur · Pérou · Paraguay · Argentine · Uruguay"
+          }
+        },
+        {
+          "id": "europe",
+          "title": {
+            "en": "Europe · 5 countries",
+            "es": "Europa · 5 países",
+            "pt": "Europa · 5 países",
+            "fr": "Europe · 5 pays"
+          },
+          "countries": {
+            "en": "United Kingdom · Spain · France · Albania · Cyprus",
+            "es": "Reino Unido · España · Francia · Albania · Chipre",
+            "pt": "Reino Unido · Espanha · França · Albânia · Chipre",
+            "fr": "Royaume-Uni · Espagne · France · Albanie · Chypre"
+          }
+        },
+        {
+          "id": "africa",
+          "title": {
+            "en": "Africa · 1 country",
+            "es": "África · 1 país",
+            "pt": "África · 1 país",
+            "fr": "Afrique · 1 pays"
+          },
+          "countries": {
+            "en": "Egypt",
+            "es": "Egipto",
+            "pt": "Egito",
+            "fr": "Égypte"
+          }
+        }
+      ]
+    },
+    "insights": {
+      "enabled": true,
+      "eyebrow": {
+        "en": "INSIGHTS",
+        "es": "PERSPECTIVAS",
+        "pt": "PERSPECTIVAS",
+        "fr": "PERSPECTIVES"
+      },
+      "title": {
+        "en": "Knowledge that helps you move forward.",
+        "es": "Conocimiento para avanzar.",
+        "pt": "Conhecimento para seguir em frente.",
+        "fr": "Des connaissances pour avancer."
+      },
+      "body": {
+        "en": "Explore the topics our professionals follow across markets. Articles, technical updates, reports, guides and news can be organized here as they become available.",
+        "es": "Explore los temas que siguen nuestros profesionales en distintos mercados. Aquí podrán organizarse artículos, actualizaciones técnicas, informes, guías y noticias conforme estén disponibles.",
+        "pt": "Explore os temas acompanhados por nossos profissionais em diferentes mercados. Artigos, atualizações técnicas, relatórios, guias e notícias poderão ser organizados aqui à medida que estiverem disponíveis.",
+        "fr": "Découvrez les sujets suivis par nos professionnels sur différents marchés. Articles, mises à jour techniques, rapports, guides et actualités pourront y être regroupés à mesure de leur publication."
+      },
+      "topics": [
+        {
+          "en": "Audit & Assurance",
+          "es": "Auditoría y aseguramiento",
+          "pt": "Auditoria e asseguração",
+          "fr": "Audit et assurance"
+        },
+        {
+          "en": "Tax",
+          "es": "Impuestos",
+          "pt": "Tributação",
+          "fr": "Fiscalité"
+        },
+        {
+          "en": "Transfer Pricing",
+          "es": "Precios de transferencia",
+          "pt": "Preços de transferência",
+          "fr": "Prix de transfert"
+        },
+        {
+          "en": "Advisory & Consulting",
+          "es": "Consultoría y asesoría",
+          "pt": "Consultoria e assessoria",
+          "fr": "Conseil et accompagnement"
+        },
+        {
+          "en": "Corporate Finance",
+          "es": "Finanzas corporativas",
+          "pt": "Finanças corporativas",
+          "fr": "Finance d’entreprise"
+        },
+        {
+          "en": "Outsourcing",
+          "es": "Outsourcing",
+          "pt": "Terceirização",
+          "fr": "Externalisation"
+        },
+        {
+          "en": "Forensic & Recovery",
+          "es": "Forense y recuperación",
+          "pt": "Investigação forense e recuperação",
+          "fr": "Investigation et recouvrement"
+        }
+      ],
+      "updates": [
+        {
+          "en": "Tax alerts",
+          "es": "Alertas fiscales",
+          "pt": "Alertas tributários",
+          "fr": "Alertes fiscales"
+        },
+        {
+          "en": "Audit & accounting updates",
+          "es": "Actualizaciones de auditoría y contabilidad",
+          "pt": "Atualizações de auditoria e contabilidade",
+          "fr": "Actualités de l’audit et de la comptabilité"
+        },
+        {
+          "en": "Transfer pricing updates",
+          "es": "Actualizaciones de precios de transferencia",
+          "pt": "Atualizações sobre preços de transferência",
+          "fr": "Actualités des prix de transfert"
+        },
+        {
+          "en": "Regulatory alerts",
+          "es": "Alertas regulatorias",
+          "pt": "Alertas regulatórios",
+          "fr": "Alertes réglementaires"
+        }
+      ]
+    }
+  },
+  "sectionOrder": [
+    "hero",
+    "consortium",
+    "services",
+    "industries",
+    "auditDetail",
+    "insights",
+    "offices",
+    "network",
+    "leadership",
+    "news",
+    "contact",
+    "footer"
+  ]
+}
