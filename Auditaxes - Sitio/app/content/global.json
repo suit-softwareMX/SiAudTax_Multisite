@@ -659,57 +659,219 @@
       "items": [
         {
           "id": "economic-substance-law",
-          "category": {"es":"Noticias","en":"News","pt":"Notícias","fr":"Actualités"},
-          "title": {"es":"Ley de Sustancia Económica","en":"Economic Substance Law","pt":"Lei de Substância Econômica","fr":"Loi sur la substance économique"},
-          "image": {"src":"/images/news/ley-sustancia-economica.webp","alt":{"es":"Ley de Sustancia Económica","en":"Economic Substance Law","pt":"Lei de Substância Econômica","fr":"Loi sur la substance économique"}}
+          "category": {
+            "es": "Noticias",
+            "en": "News",
+            "pt": "Notícias",
+            "fr": "Actualités"
+          },
+          "title": {
+            "es": "Ley de Sustancia Económica",
+            "en": "Economic Substance Law",
+            "pt": "Lei de Substância Econômica",
+            "fr": "Loi sur la substance économique"
+          },
+          "image": {
+            "src": "/images/news/ley-sustancia-economica.webp",
+            "alt": {
+              "es": "Ley de Sustancia Económica",
+              "en": "Economic Substance Law",
+              "pt": "Lei de Substância Econômica",
+              "fr": "Loi sur la substance économique"
+            }
+          }
         },
         {
           "id": "pep-controls",
-          "category": {"es":"Noticias","en":"News","pt":"Notícias","fr":"Actualités"},
-          "title": {"es":"Superintendencia fortalece los controles para la identificación y gestión de Personas Expuestas Políticamente","en":"Superintendency strengthens controls for identifying and managing Politically Exposed Persons","pt":"Superintendência reforça controles para identificar e gerir Pessoas Politicamente Expostas","fr":"La Surintendance renforce les contrôles sur les personnes politiquement exposées"},
-          "image": {"src":"/images/news/controles-pep.webp","alt":{"es":"Controles para Personas Expuestas Políticamente","en":"Controls for Politically Exposed Persons","pt":"Controles para Pessoas Politicamente Expostas","fr":"Contrôles relatifs aux personnes politiquement exposées"}}
+          "category": {
+            "es": "Noticias",
+            "en": "News",
+            "pt": "Notícias",
+            "fr": "Actualités"
+          },
+          "title": {
+            "es": "Superintendencia fortalece los controles para la identificación y gestión de Personas Expuestas Políticamente",
+            "en": "Superintendency strengthens controls for identifying and managing Politically Exposed Persons",
+            "pt": "Superintendência reforça controles para identificar e gerir Pessoas Politicamente Expostas",
+            "fr": "La Surintendance renforce les contrôles sur les personnes politiquement exposées"
+          },
+          "image": {
+            "src": "/images/news/controles-pep.webp",
+            "alt": {
+              "es": "Controles para Personas Expuestas Políticamente",
+              "en": "Controls for Politically Exposed Persons",
+              "pt": "Controles para Pessoas Politicamente Expostas",
+              "fr": "Contrôles relatifs aux personnes politiquement exposées"
+            }
+          }
         },
         {
           "id": "mef-route",
-          "category": {"es":"Noticias","en":"News","pt":"Notícias","fr":"Actualités"},
-          "title": {"es":"La ruta del MEF para reducir el déficit fiscal","en":"The MEF route to reduce the fiscal deficit","pt":"A rota do MEF para reduzir o déficit fiscal","fr":"La stratégie du MEF pour réduire le déficit budgétaire"},
-          "image": {"src":"/images/news/ruta-mef.webp","alt":{"es":"Ciudad de Panamá","en":"Panama City","pt":"Cidade do Panamá","fr":"Ville de Panama"}}
+          "category": {
+            "es": "Noticias",
+            "en": "News",
+            "pt": "Notícias",
+            "fr": "Actualités"
+          },
+          "title": {
+            "es": "La ruta del MEF para reducir el déficit fiscal",
+            "en": "The MEF route to reduce the fiscal deficit",
+            "pt": "A rota do MEF para reduzir o déficit fiscal",
+            "fr": "La stratégie du MEF pour réduire le déficit budgétaire"
+          },
+          "image": {
+            "src": "/images/news/ruta-mef.webp",
+            "alt": {
+              "es": "Ciudad de Panamá",
+              "en": "Panama City",
+              "pt": "Cidade do Panamá",
+              "fr": "Ville de Panama"
+            }
+          }
         },
         {
           "id": "ssnf-sanctions-news",
-          "category": {"es":"Noticias","en":"News","pt":"Notícias","fr":"Actualités"},
-          "title": {"es":"La SSNF impone sanciones a los sujetos obligados no financieros","en":"The SSNF imposes sanctions on non-financial regulated entities","pt":"A SSNF impõe sanções a entidades não financeiras obrigadas","fr":"La SSNF sanctionne les entités non financières assujetties"},
-          "image": {"src":"/images/news/sanciones-ssnf-noticia.webp","alt":{"es":"Sanciones impuestas por la SSNF","en":"Sanctions imposed by the SSNF","pt":"Sanções impostas pela SSNF","fr":"Sanctions imposées par la SSNF"}}
+          "category": {
+            "es": "Noticias",
+            "en": "News",
+            "pt": "Notícias",
+            "fr": "Actualités"
+          },
+          "title": {
+            "es": "La SSNF impone sanciones a los sujetos obligados no financieros",
+            "en": "The SSNF imposes sanctions on non-financial regulated entities",
+            "pt": "A SSNF impõe sanções a entidades não financeiras obrigadas",
+            "fr": "La SSNF sanctionne les entités non financières assujetties"
+          },
+          "image": {
+            "src": "/images/news/sanciones-ssnf-noticia.webp",
+            "alt": {
+              "es": "Sanciones impuestas por la SSNF",
+              "en": "Sanctions imposed by the SSNF",
+              "pt": "Sanções impostas pela SSNF",
+              "fr": "Sanctions imposées par la SSNF"
+            }
+          }
         },
         {
           "id": "reduce-fiscal-deficit",
-          "category": {"es":"Artículo","en":"Article","pt":"Artigo","fr":"Article"},
-          "title": {"es":"Reducir el Déficit Fiscal","en":"Reducing the Fiscal Deficit","pt":"Reduzir o Déficit Fiscal","fr":"Réduire le déficit budgétaire"},
-          "image": {"src":"/images/news/reducir-deficit-fiscal.webp","alt":{"es":"Reducir el déficit fiscal en Panamá","en":"Reducing Panama's fiscal deficit","pt":"Reduzir o déficit fiscal do Panamá","fr":"Réduire le déficit budgétaire du Panama"}}
+          "category": {
+            "es": "Artículo",
+            "en": "Article",
+            "pt": "Artigo",
+            "fr": "Article"
+          },
+          "title": {
+            "es": "Reducir el Déficit Fiscal",
+            "en": "Reducing the Fiscal Deficit",
+            "pt": "Reduzir o Déficit Fiscal",
+            "fr": "Réduire le déficit budgétaire"
+          },
+          "image": {
+            "src": "/images/news/reducir-deficit-fiscal.webp",
+            "alt": {
+              "es": "Reducir el déficit fiscal en Panamá",
+              "en": "Reducing Panama's fiscal deficit",
+              "pt": "Reduzir o déficit fiscal do Panamá",
+              "fr": "Réduire le déficit budgétaire du Panama"
+            }
+          }
         },
         {
           "id": "ssnf-sanctions-article",
-          "category": {"es":"Artículo","en":"Article","pt":"Artigo","fr":"Article"},
-          "title": {"es":"Sanciones de la SSNF","en":"SSNF Sanctions","pt":"Sanções da SSNF","fr":"Sanctions de la SSNF"},
-          "image": {"src":"/images/news/sanciones-ssnf-articulo.webp","alt":{"es":"Superintendencia de Sujetos no Financieros","en":"Superintendency of Non-Financial Subjects","pt":"Superintendência de Sujeitos Não Financeiros","fr":"Surintendance des entités non financières"}}
+          "category": {
+            "es": "Artículo",
+            "en": "Article",
+            "pt": "Artigo",
+            "fr": "Article"
+          },
+          "title": {
+            "es": "Sanciones de la SSNF",
+            "en": "SSNF Sanctions",
+            "pt": "Sanções da SSNF",
+            "fr": "Sanctions de la SSNF"
+          },
+          "image": {
+            "src": "/images/news/sanciones-ssnf-articulo.webp",
+            "alt": {
+              "es": "Superintendencia de Sujetos no Financieros",
+              "en": "Superintendency of Non-Financial Subjects",
+              "pt": "Superintendência de Sujeitos Não Financeiros",
+              "fr": "Surintendance des entités non financières"
+            }
+          }
         },
         {
           "id": "electronic-invoicing",
-          "category": {"es":"Artículo","en":"Article","pt":"Artigo","fr":"Article"},
-          "title": {"es":"Beneficios de la Facturación Electrónica en los Registros Contables","en":"Benefits of Electronic Invoicing in Accounting Records","pt":"Benefícios da Faturação Eletrônica nos Registros Contábeis","fr":"Avantages de la facturation électronique pour la comptabilité"},
-          "image": {"src":"/images/news/facturacion-electronica.svg","alt":{"es":"Auditaxes Panamá","en":"Auditaxes Panama","pt":"Auditaxes Panamá","fr":"Auditaxes Panama"}}
+          "category": {
+            "es": "Artículo",
+            "en": "Article",
+            "pt": "Artigo",
+            "fr": "Article"
+          },
+          "title": {
+            "es": "Beneficios de la Facturación Electrónica en los Registros Contables",
+            "en": "Benefits of Electronic Invoicing in Accounting Records",
+            "pt": "Benefícios da Faturação Eletrônica nos Registros Contábeis",
+            "fr": "Avantages de la facturation électronique pour la comptabilité"
+          },
+          "image": {
+            "src": "/images/news/facturacion-electronica.svg",
+            "alt": {
+              "es": "Auditaxes Panamá",
+              "en": "Auditaxes Panama",
+              "pt": "Auditaxes Panamá",
+              "fr": "Auditaxes Panama"
+            }
+          }
         },
         {
           "id": "ifrs-18",
-          "category": {"es":"Artículo","en":"Article","pt":"Artigo","fr":"Article"},
-          "title": {"es":"La nueva norma de contabilidad NIIF ayudará a analizar el rendimiento financiero de las empresas","en":"The new IFRS accounting standard will help analyze companies' financial performance","pt":"A nova norma contábil IFRS ajudará a analisar o desempenho financeiro das empresas","fr":"La nouvelle norme IFRS facilitera l’analyse de la performance financière des entreprises"},
-          "image": {"src":"/images/news/norma-niif.webp","alt":{"es":"NIIF 18, nueva norma internacional de contabilidad","en":"IFRS 18, new international accounting standard","pt":"IFRS 18, nova norma internacional de contabilidade","fr":"IFRS 18, nouvelle norme comptable internationale"}}
+          "category": {
+            "es": "Artículo",
+            "en": "Article",
+            "pt": "Artigo",
+            "fr": "Article"
+          },
+          "title": {
+            "es": "La nueva norma de contabilidad NIIF ayudará a analizar el rendimiento financiero de las empresas",
+            "en": "The new IFRS accounting standard will help analyze companies' financial performance",
+            "pt": "A nova norma contábil IFRS ajudará a analisar o desempenho financeiro das empresas",
+            "fr": "La nouvelle norme IFRS facilitera l’analyse de la performance financière des entreprises"
+          },
+          "image": {
+            "src": "/images/news/norma-niif.webp",
+            "alt": {
+              "es": "NIIF 18, nueva norma internacional de contabilidad",
+              "en": "IFRS 18, new international accounting standard",
+              "pt": "IFRS 18, nova norma internacional de contabilidade",
+              "fr": "IFRS 18, nouvelle norme comptable internationale"
+            }
+          }
         },
         {
           "id": "fatf-fifth-round",
-          "category": {"es":"Artículo","en":"Article","pt":"Artigo","fr":"Article"},
-          "title": {"es":"Quinta Ronda del GAFI y preparación nacional: un nuevo estándar de efectividad en cumplimiento","en":"FATF Fifth Round and national preparation: a new standard for compliance effectiveness","pt":"Quinta Rodada do GAFI e preparação nacional: um novo padrão de efetividade em conformidade","fr":"Cinquième cycle du GAFI et préparation nationale : une nouvelle norme d’efficacité de la conformité"},
-          "image": {"src":"/images/news/quinta-ronda-gafi.webp","alt":{"es":"Quinta Ronda del GAFI en Ciudad de Panamá","en":"FATF Fifth Round in Panama City","pt":"Quinta Rodada do GAFI na Cidade do Panamá","fr":"Cinquième cycle du GAFI à Panama"}}
+          "category": {
+            "es": "Artículo",
+            "en": "Article",
+            "pt": "Artigo",
+            "fr": "Article"
+          },
+          "title": {
+            "es": "Quinta Ronda del GAFI y preparación nacional: un nuevo estándar de efectividad en cumplimiento",
+            "en": "FATF Fifth Round and national preparation: a new standard for compliance effectiveness",
+            "pt": "Quinta Rodada do GAFI e preparação nacional: um novo padrão de efetividade em conformidade",
+            "fr": "Cinquième cycle du GAFI et préparation nationale : une nouvelle norme d’efficacité de la conformité"
+          },
+          "image": {
+            "src": "/images/news/quinta-ronda-gafi.webp",
+            "alt": {
+              "es": "Quinta Ronda del GAFI en Ciudad de Panamá",
+              "en": "FATF Fifth Round in Panama City",
+              "pt": "Quinta Rodada do GAFI na Cidade do Panamá",
+              "fr": "Cinquième cycle du GAFI à Panama"
+            }
+          }
         }
       ]
     },

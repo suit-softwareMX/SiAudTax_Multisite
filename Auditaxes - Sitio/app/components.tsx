@@ -2,6 +2,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { content, getCountryContent, type CountryKey, type Locale, type PageKey } from "./content";
+import { newsDetails, type NewsKind } from "./content/news-details";
+import { newsTranslations } from "./content/news-translations";
 const catalogs = content.shared.catalogs;
 const ui = content.shared.ui;
 const countries = content.network.countries;
@@ -22,14 +24,16 @@ function CountUp({value,suffix=""}:{value:number,suffix?:string}){
   return <span ref={ref}>{count.toLocaleString("es-MX")}{suffix}</span>
 }
 
-export function Header({proposal,page,locale,onLocale,onPage}:{proposal:number,page:PageKey,locale:Locale,onLocale:(l:Locale)=>void,onPage:(p:PageKey)=>void}){
+export function Header({proposal,page,locale,onLocale,onPage,onHome}:{proposal:number,page:PageKey,locale:Locale,onLocale:(l:Locale)=>void,onPage:(p:PageKey)=>void,onHome?:()=>void}){
   const doc=siteDoc(page);
-  const sectionKeys:Record<string,string>={insights:"insights",auditoria:"auditDetail",sectores:"industries",oficinas:"offices",consorcio:"consortium",servicios:"services",industrias:"industries",red:"network",perspectivas:"leadership",contacto:"contact",firma:"firm",metodo:"method",capacidades:"practices",experiencia:"industries",equipo:"team"};
-  const sections=doc.navigation.filter(item=>doc.sections[sectionKeys[item.sectionId]]?.enabled!==false);
+  const sectionKeys:Record<string,string>={insights:"insights",auditoria:"auditDetail",sectores:"industries",oficinas:"offices",consorcio:"consortium",servicios:"services",industrias:"industries",red:"network",perspectivas:"leadership",contacto:"contact",firma:"firm",metodo:"method",capacidades:"practices",experiencia:"industries",equipo:"team",novedades:"news"};
+  const newsNav={id:"nav-news",sectionId:"novedades",label:{es:"Novedades",en:"News",pt:"Novidades",fr:"Actualités"}};
+  const navigation=doc.navigation.some((item:any)=>item.sectionId==="novedades")?doc.navigation:[...doc.navigation,newsNav];
+  const sections=navigation.filter((item:any)=>doc.sections[sectionKeys[item.sectionId]]?.enabled!==false);
   const go=(id:string)=>{const localTargets:Record<string,string>={firma:".local-firm",metodo:".local-method",capacidades:".practice-area",experiencia:".local-industries",equipo:".partners"};const target=document.getElementById(id)??document.querySelector(localTargets[id]??"");target?.scrollIntoView({behavior:"smooth"})};
-  useEffect(()=>{if(page==="global")return;const button=document.querySelector(".site-header.is-local .brand-button");const returnToLocalStart=(event:MouseEvent)=>{event.preventDefault();event.stopPropagation();window.scrollTo({top:0,behavior:"smooth"})};button?.addEventListener("click",returnToLocalStart,true);return()=>button?.removeEventListener("click",returnToLocalStart,true)},[page]);
+  useEffect(()=>{if(page==="global"||onHome)return;const button=document.querySelector(".site-header.is-local .brand-button");const returnToLocalStart=(event:MouseEvent)=>{event.preventDefault();event.stopPropagation();window.scrollTo({top:0,behavior:"smooth"})};button?.addEventListener("click",returnToLocalStart,true);return()=>button?.removeEventListener("click",returnToLocalStart,true)},[page,onHome]);
   const localName=page==="global"?null:tr(doc.name,locale);
-  return <header className={`site-header original-banner ${localName?"is-local":""}`}><div className="header-brand"><button className="brand-button" onClick={()=>onPage("global")}><Brand/></button>{localName&&<><span className="country-divider"/><b className="country-name">{localName}</b><button className="global-return" onClick={()=>onPage("global")}>← {tr(content.shared.globalReturn,locale)}</button></>}</div><nav className="section-navigation" aria-label={({es:"Secciones de AUDITAXES",en:"AUDITAXES sections",pt:"Seções da AUDITAXES",fr:"Sections AUDITAXES"}[locale])}>{sections.map(item=><button key={item.id} onClick={()=>go(item.sectionId)}>{tr(item.label,locale)}</button>)}</nav><details className="language-menu"><summary className="language-pill"><FlagIcon locale={locale}/><b>{ui[locale].language}</b><span>⌄</span></summary><div>{content.site.sites.find(item=>item.id===page)?.locales.map(l=><button key={l} className={locale===l?"active":""} onClick={e=>{onLocale(l as Locale);(e.currentTarget.closest("details") as HTMLDetailsElement)?.removeAttribute("open")}}><FlagIcon locale={l as Locale}/><span>{content.shared.languageNames[l]}</span></button>)}</div></details></header>
+  return <header className={`site-header original-banner ${localName?"is-local":""}`}><div className="header-brand"><button className="brand-button" onClick={()=>onHome?onHome():onPage("global")}><Brand/></button>{localName&&<><span className="country-divider"/><b className="country-name">{localName}</b><button className="global-return" onClick={()=>onPage("global")}>← {tr(content.shared.globalReturn,locale)}</button></>}</div><nav className="section-navigation" aria-label={({es:"Secciones de AUDITAXES",en:"AUDITAXES sections",pt:"Seções da AUDITAXES",fr:"Sections AUDITAXES"}[locale])}>{sections.map((item:any)=><button key={item.id} onClick={()=>go(item.sectionId)}>{tr(item.label,locale)}</button>)}</nav><details className="language-menu"><summary className="language-pill"><FlagIcon locale={locale}/><b>{ui[locale].language}</b><span>⌄</span></summary><div>{content.site.sites.find(item=>item.id===page)?.locales.map(l=><button key={l} className={locale===l?"active":""} onClick={e=>{onLocale(l as Locale);(e.currentTarget.closest("details") as HTMLDetailsElement)?.removeAttribute("open")}}><FlagIcon locale={l as Locale}/><span>{content.shared.languageNames[l]}</span></button>)}</div></details></header>
 }
 
 export function WorldMap({locale,onPage}:{locale:Locale,onPage:(p:PageKey)=>void}){
@@ -93,8 +97,12 @@ function PurposeSection({locale}:{locale:Locale}){
 
 function publicationsPath(page:PageKey){return `/${page==="salvador"?"el-salvador":page}/publicaciones`}
 
-function NewsSection({locale,section,site="global",limit=3,showAction=true}:{locale:Locale,section:any,site?:PageKey,limit?:number,showAction?:boolean}){
-  const items=(section.items??(content.global.sections as any).news.items).slice(0,limit);
+function formatNewsDate(date:string,locale:Locale){return new Intl.DateTimeFormat({es:"es-MX",en:"en-US",pt:"pt-BR",fr:"fr-FR"}[locale],{day:"numeric",month:"long",year:"numeric",timeZone:"UTC"}).format(new Date(`${date}T12:00:00Z`))}
+function newsKindLabel(kind:NewsKind,locale:Locale){return ({news:{es:"Noticia",en:"News",pt:"Notícia",fr:"Actualité"},article:{es:"Artículo",en:"Article",pt:"Artigo",fr:"Article"}}[kind][locale])}
+
+function NewsSection({locale,section,site="global",limit=3,showAction=true,itemsOverride,onSelect}:{locale:Locale,section:any,site?:PageKey,limit?:number,showAction?:boolean,itemsOverride?:any[],onSelect?:(id:string)=>void}){
+  const items=(itemsOverride??section.items??(content.global.sections as any).news.items).slice(0,limit);
+  const select=(id:string)=>{if(onSelect)onSelect(id);else location.assign(`${publicationsPath(site)}?lang=${locale}&publicacion=${id}`)};
   return <section data-enabled={section.enabled} className="global-news" id="novedades" style={{order:site==="global"?undefined:6}}>
     <header className="global-news-heading">
       <div><p className="section-label">{tr(section.eyebrow,locale)}</p><h2>{tr(section.title,locale)}</h2></div>
@@ -102,8 +110,10 @@ function NewsSection({locale,section,site="global",limit=3,showAction=true}:{loc
     </header>
     <div className="global-news-grid">
       {items.map((item:any)=><article key={item.id}>
+        <button type="button" className="news-card-button" onClick={()=>select(item.id)} aria-label={tr(item.title,locale)}>
         <div className="global-news-image"><img src={item.image.src} alt={tr(item.image.alt,locale)}/></div>
-        <div className="global-news-copy"><p>{tr(item.category,locale)}</p><h3>{tr(item.title,locale)}</h3></div>
+        <div className="global-news-copy"><div className="news-card-meta"><span className={`publication-tag ${newsDetails[item.id]?.kind??"news"}`}>{newsKindLabel(newsDetails[item.id]?.kind??"news",locale)}</span>{newsDetails[item.id]&&<time dateTime={newsDetails[item.id].date}>{formatNewsDate(newsDetails[item.id].date,locale)}</time>}</div><h3>{tr(item.title,locale)}</h3></div>
+        </button>
       </article>)}
     </div>
   </section>;
@@ -112,14 +122,37 @@ function NewsSection({locale,section,site="global",limit=3,showAction=true}:{loc
 export function PublicationsPage({page,locale,onHome,onPage,onLocale}:{page:PageKey,locale:Locale,onHome:()=>void,onPage:(page:PageKey)=>void,onLocale:(locale:Locale)=>void}){
   const doc=siteDoc(page) as any;
   const section=doc.sections.news??(content.global.sections as any).news;
+  const [kind,setKind]=useState<"all"|NewsKind>("all");
+  const [order,setOrder]=useState<"newest"|"oldest">("newest");
+  const [selected,setSelected]=useState<string|null>(null);
+  useEffect(()=>{setSelected(new URLSearchParams(location.search).get("publicacion"))},[]);
+  const allItems=(section.items??(content.global.sections as any).news.items) as any[];
+  const filtered=allItems.filter(item=>kind==="all"||newsDetails[item.id]?.kind===kind).sort((a,b)=>{
+    const first=new Date(newsDetails[a.id]?.date??0).getTime(),second=new Date(newsDetails[b.id]?.date??0).getTime();
+    return order==="newest"?second-first:first-second;
+  });
+  const selectedItem=selected?allItems.find(item=>item.id===selected):undefined;
+  const selectedDetail=selected?newsDetails[selected]:undefined;
+  const localizedDetail=selectedDetail?(locale==="es"?selectedDetail:newsTranslations[selected!]?.[locale]??selectedDetail):undefined;
   const labels={
     back:{es:"Volver al inicio",en:"Back to home",pt:"Voltar ao início",fr:"Retour à l’accueil"},
-    intro:{es:"Noticias, análisis y actualizaciones de nuestra red.",en:"News, analysis and updates from our network.",pt:"Notícias, análises e atualizações da nossa rede.",fr:"Actualités, analyses et mises à jour de notre réseau."}
+    intro:{es:"Noticias, análisis y actualizaciones de nuestra red.",en:"News, analysis and updates from our network.",pt:"Notícias, análises e atualizações da nossa rede.",fr:"Actualités, analyses et mises à jour de notre réseau."},
+    all:{es:"Todo",en:"All",pt:"Tudo",fr:"Tout"}, article:{es:"Artículo",en:"Article",pt:"Artigo",fr:"Article"}, news:{es:"Noticia",en:"News",pt:"Notícia",fr:"Actualité"},
+    newest:{es:"Más reciente primero",en:"Newest first",pt:"Mais recentes primeiro",fr:"Plus récentes d’abord"},oldest:{es:"Más antiguo primero",en:"Oldest first",pt:"Mais antigas primeiro",fr:"Plus anciennes d’abord"},
+    source:{es:"Ver publicación original",en:"View original publication",pt:"Ver publicação original",fr:"Voir la publication originale"},backToNews:{es:"Volver a novedades",en:"Back to news",pt:"Voltar às novidades",fr:"Retour aux actualités"}
   };
+  const choose=(id:string|null)=>{setSelected(id);const query=new URLSearchParams(location.search);if(id)query.set("publicacion",id);else query.delete("publicacion");history.pushState({},"",`${location.pathname}?${query}`);window.scrollTo({top:0,behavior:"smooth"})};
   return <>
-    <header className="publications-site-header"><button className="brand-button" onClick={onHome}><Brand/></button><div className="publications-site-name">{page==="global"?"Global":tr(doc.name,locale)}</div><nav>{content.site.sites.map(site=><button key={site.id} className={site.id===page?"active":""} onClick={()=>onPage(site.id as PageKey)}>{site.id==="global"?"Global":tr((siteDoc(site.id as PageKey) as any).name,locale)}</button>)}</nav><div className="publications-languages">{content.site.sites.find(site=>site.id===page)?.locales.map(language=><button key={language} className={language===locale?"active":""} onClick={()=>onLocale(language as Locale)}>{language.toUpperCase()}</button>)}</div></header>
-    <section className="publications-hero"><button onClick={onHome}>← {tr(labels.back,locale)}</button><p>{tr(section.eyebrow,locale)}</p><h1>{tr(section.title,locale)}</h1><span>{tr(labels.intro,locale)}</span></section>
-    <NewsSection locale={locale} section={section} site={page} limit={section.items?.length??(content.global.sections as any).news.items.length} showAction={false}/>
+    <Header proposal={2} page={page} locale={locale} onLocale={onLocale} onPage={onPage} onHome={onHome}/>
+    {selectedItem&&selectedDetail?<article className="publication-detail">
+      <header><button onClick={()=>choose(null)}>← {tr(labels.backToNews,locale)}</button><div className="publication-detail-meta"><span className={`publication-tag ${selectedDetail.kind}`}>{newsKindLabel(selectedDetail.kind,locale)}</span><time dateTime={selectedDetail.date}>{formatNewsDate(selectedDetail.date,locale)}</time></div><h1>{tr(selectedItem.title,locale)}</h1><p>{localizedDetail.summary}</p></header>
+      <img className="publication-detail-image" src={selectedItem.image.src} alt={tr(selectedItem.image.alt,locale)}/>
+      <div className="publication-detail-body">{localizedDetail.sections.map((block,index)=><section key={index}>{block.heading&&<h2>{block.heading}</h2>}{block.paragraphs?.map((paragraph,i)=><p key={i}>{paragraph}</p>)}{block.bullets&&<ul>{block.bullets.map((bullet,i)=><li key={i}>{bullet}</li>)}</ul>}</section>)}<a href={selectedDetail.sourceUrl} target="_blank" rel="noreferrer">{tr(labels.source,locale)} ↗</a></div>
+    </article>:<>
+      <section className="publications-hero"><button onClick={onHome}>← {tr(labels.back,locale)}</button><p>{tr(section.eyebrow,locale)}</p><h1>{tr(section.title,locale)}</h1><span>{tr(labels.intro,locale)}</span></section>
+      <section className="publication-controls" aria-label={tr(section.eyebrow,locale)}><div className="publication-filters">{(["all","article","news"] as const).map(value=><button key={value} className={kind===value?"active":""} aria-pressed={kind===value} onClick={()=>setKind(value)}><span className="filter-dot"/>{tr(labels[value],locale)}</button>)}</div><div className="publication-order" role="group" aria-label="Orden">{(["newest","oldest"] as const).map(value=><button key={value} className={order===value?"active":""} aria-pressed={order===value} onClick={()=>setOrder(value)}><span aria-hidden="true">{value==="newest"?"↓":"↑"}</span>{tr(labels[value],locale)}</button>)}</div></section>
+      <NewsSection locale={locale} section={section} site={page} limit={filtered.length} showAction={false} itemsOverride={filtered} onSelect={id=>choose(id)}/>
+    </>}
     <Footer locale={locale} page={page} onPage={onPage}/>
   </>;
 }
