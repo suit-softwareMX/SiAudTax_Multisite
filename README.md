@@ -46,7 +46,7 @@ La forma recomendada es ejecutar desde esta carpeta:
 pnpm dev
 ```
 
-En esta computadora, usa `iniciar-todo.cmd` para tomar el Node 24 incluido en Codex; el `node` global es 21 y no compila Vite. Sin `INFERENCE_URL`, el lanzador compila el sitio, inicia seis procesos locales y genera una clave temporal para la cola:
+En esta computadora, usa `iniciar-todo.cmd` para tomar el Node 24 incluido en Codex; el `node` global es 21 y no compila Vite. El lanzador compila el sitio e inicia cinco procesos locales. La inferencia vive exclusivamente en la workstation `192.168.0.103`:
 
 | Proceso | Dirección |
 | --- | --- |
@@ -55,17 +55,15 @@ En esta computadora, usa `iniciar-todo.cmd` para tomar el Node 24 incluido en Co
 | Sitio El Salvador | `http://localhost:4323` |
 | API | `http://localhost:4100` |
 | Editor | `http://localhost:5173` |
-| Inferencia | `http://localhost:4110/healthz` |
 
-Para usar la workstation `192.168.0.103`, configura en la misma sesión de PowerShell que ejecutará el lanzador:
+Para activar la IA de la workstation, configura en la misma sesión de PowerShell que ejecutará el lanzador:
 
 ```powershell
-$env:INFERENCE_URL = 'http://192.168.0.103:4110'
 $env:INFERENCE_API_KEY = 'LA_MISMA_CLAVE_DE_AUDITAXES_EN_LA_WORKSTATION'
 .\iniciar-todo.cmd
 ```
 
-En ese modo se inician cinco procesos locales; **no** se levanta la inferencia de esta PC ni se reemplaza la clave persistente. Sin clave, el arranque se detiene para evitar solicitudes anónimas. La URL y la clave solo se configuran en el backend, nunca en Vite ni en el navegador. Ollama de la workstation permanece en localhost y su API 11434 no se expone. No cierres la ventana del lanzador mientras uses el proyecto.
+La API usa `http://192.168.0.103:4110` por defecto; puedes cambiarlo con `INFERENCE_URL`. No se inicia inferencia en este servidor. Sin clave, los cinco servicios arrancan igualmente, pero las funciones de IA quedan deshabilitadas hasta configurar la workstation. La URL y la clave solo se configuran en el backend, nunca en Vite ni en el navegador. Ollama de la workstation permanece en localhost y su API 11434 no se expone. No cierres la ventana del lanzador mientras uses el proyecto.
 
 Para detener todos los servicios, presiona `Ctrl+C` en la terminal del lanzador. Si lo abriste con doble clic, confirma la interrupción cuando Windows lo solicite.
 

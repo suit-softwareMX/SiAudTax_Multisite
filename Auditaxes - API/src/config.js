@@ -11,7 +11,7 @@ export const config = {
   backupRoot: path.resolve(apiRoot, "backups"),
   editorialStatePath: path.resolve(apiRoot, "editorial-state.json"),
   publishedContentPath: path.resolve(apiRoot, "published-content.json"),
-  inferenceUrl: process.env.INFERENCE_URL || "http://127.0.0.1:4110",
+  inferenceUrl: process.env.INFERENCE_URL || "http://192.168.0.103:4110",
   inferenceKey: process.env.INFERENCE_API_KEY || "",
 };
 

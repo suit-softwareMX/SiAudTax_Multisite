@@ -1,20 +1,10 @@
 import { spawn, spawnSync } from "node:child_process";
 import process from "node:process";
 import path from "node:path";
-import { randomBytes } from "node:crypto";
-
-const remoteInference = Boolean(process.env.INFERENCE_URL);
-if (remoteInference && !process.env.INFERENCE_API_KEY) {
-  console.error("Configura INFERENCE_API_KEY para conectar la workstation de inferencia.");
-  process.exit(1);
-}
-const inferenceKey = remoteInference ? process.env.INFERENCE_API_KEY : randomBytes(32).toString("hex");
 const pathKey = process.platform === "win32" ? "Path" : "PATH";
-const localEnv = { ...process.env, [pathKey]: `${path.dirname(process.execPath)}${path.delimiter}${process.env[pathKey] || ""}`, INFERENCE_API_KEY: inferenceKey, ...(!remoteInference ? { INFERENCE_API_KEYS: JSON.stringify({ auditaxes: inferenceKey }) } : {}) };
-const python = process.platform === "win32" ? ".venv\\Scripts\\python.exe" : ".venv/bin/python";
+const localEnv = { ...process.env, [pathKey]: `${path.dirname(process.execPath)}${path.delimiter}${process.env[pathKey] || ""}` };
 
 const services = [
-  ...(!remoteInference ? [{ name: "IA", color: "\x1b[36m", directory: "../AuditaxesInferenceServer", command: `${python} -m uvicorn server:app --host 127.0.0.1 --port 4110 --workers 1`, url: "http://localhost:4110/healthz" }] : []),
   { name: "GLOBAL", color: "\x1b[36m", directory: "Auditaxes - Sitio", command: "pnpm exec vinext start --hostname 127.0.0.1 --port 4321", url: "http://localhost:4321" },
   { name: "MEXICO", color: "\x1b[34m", directory: "Auditaxes - Sitio", command: "pnpm exec vinext start --hostname 127.0.0.1 --port 4322", url: "http://localhost:4322" },
   { name: "SALVADOR", color: "\x1b[35m", directory: "Auditaxes - Sitio", command: "pnpm exec vinext start --hostname 127.0.0.1 --port 4323", url: "http://localhost:4323" },
@@ -90,7 +80,7 @@ for (const service of services) {
   console.log(`${service.color}${service.name.padEnd(8)}${reset} ${service.url}`);
   launch(service);
 }
-console.log(`\n${services.length} servicios locales iniciando${remoteInference ? `; IA remota: ${process.env.INFERENCE_URL}` : ""}. Presiona Ctrl+C para apagarlos.\n`);
+console.log(`\n${services.length} servicios locales iniciando. IA remota: ${process.env.INFERENCE_API_KEY ? process.env.INFERENCE_URL || "http://192.168.0.103:4110" : "sin clave; funciones de IA deshabilitadas"}. Presiona Ctrl+C para apagarlos.\n`);
 
 process.on("SIGINT", () => stop(0));
 process.on("SIGTERM", () => stop(0));
