@@ -46,7 +46,7 @@ La forma recomendada es ejecutar desde esta carpeta:
 pnpm dev
 ```
 
-En esta computadora, usa `iniciar-todo.cmd` para tomar el Node 24 incluido en Codex; el `node` global es 21 y no compila Vite. El lanzador compila el sitio e inicia cinco procesos locales. La inferencia vive exclusivamente en la workstation `192.168.0.103`:
+En esta computadora, usa `iniciar-todo.cmd` para tomar el Node 24 incluido en Codex; el `node` global es 21 y no compila Vite. El lanzador compila el sitio e inicia cinco procesos locales. La inferencia vive exclusivamente en la workstation `192.168.0.107`:
 
 | Proceso | Dirección |
 | --- | --- |
@@ -63,7 +63,7 @@ $env:INFERENCE_API_KEY = 'LA_MISMA_CLAVE_DE_AUDITAXES_EN_LA_WORKSTATION'
 .\iniciar-todo.cmd
 ```
 
-La API usa `http://192.168.0.103:4110` por defecto; puedes cambiarlo con `INFERENCE_URL`. No se inicia inferencia en este servidor. Sin clave, los cinco servicios arrancan igualmente, pero las funciones de IA quedan deshabilitadas hasta configurar la workstation. La URL y la clave solo se configuran en el backend, nunca en Vite ni en el navegador. Ollama de la workstation permanece en localhost y su API 11434 no se expone. No cierres la ventana del lanzador mientras uses el proyecto.
+La API usa `http://192.168.0.107:4110` por defecto; puedes cambiarlo con `INFERENCE_URL`. No se inicia inferencia en este servidor. Sin clave, los cinco servicios arrancan igualmente, pero las funciones de IA quedan deshabilitadas hasta configurar la workstation. La URL y la clave solo se configuran en el backend, nunca en Vite ni en el navegador. Ollama de la workstation permanece en localhost y su API 11434 no se expone. No cierres la ventana del lanzador mientras uses el proyecto.
 
 Para detener todos los servicios, presiona `Ctrl+C` en la terminal del lanzador. Si lo abriste con doble clic, confirma la interrupción cuando Windows lo solicite.
 

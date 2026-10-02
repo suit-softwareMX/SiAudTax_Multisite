@@ -80,7 +80,7 @@ for (const service of services) {
   console.log(`${service.color}${service.name.padEnd(8)}${reset} ${service.url}`);
   launch(service);
 }
-console.log(`\n${services.length} servicios locales iniciando. IA remota: ${process.env.INFERENCE_API_KEY ? process.env.INFERENCE_URL || "http://192.168.0.103:4110" : "sin clave; funciones de IA deshabilitadas"}. Presiona Ctrl+C para apagarlos.\n`);
+console.log(`\n${services.length} servicios locales iniciando. IA remota: ${process.env.INFERENCE_API_KEY ? process.env.INFERENCE_URL || "http://192.168.0.107:4110" : "sin clave; funciones de IA deshabilitadas"}. Presiona Ctrl+C para apagarlos.\n`);
 
 process.on("SIGINT", () => stop(0));
 process.on("SIGTERM", () => stop(0));
