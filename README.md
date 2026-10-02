@@ -46,7 +46,7 @@ La forma recomendada es ejecutar desde esta carpeta:
 pnpm dev
 ```
 
-En esta computadora, usa `iniciar-todo.cmd` para tomar el Node 24 incluido en Codex; el `node` global es 21 y no compila Vite. El lanzador compila el sitio e inicia seis procesos; genera una clave temporal para que solo la API local acceda a la cola:
+En esta computadora, usa `iniciar-todo.cmd` para tomar el Node 24 incluido en Codex; el `node` global es 21 y no compila Vite. Sin `INFERENCE_URL`, el lanzador compila el sitio, inicia seis procesos locales y genera una clave temporal para la cola:
 
 | Proceso | Dirección |
 | --- | --- |
@@ -57,7 +57,15 @@ En esta computadora, usa `iniciar-todo.cmd` para tomar el Node 24 incluido en Co
 | Editor | `http://localhost:5173` |
 | Inferencia | `http://localhost:4110/healthz` |
 
-La terminal muestra cada mensaje con el prefijo `GLOBAL`, `MEXICO`, `SALVADOR`, `API`, `EDITOR` o `IA`. Ollama se inicia por separado; la cola conserva los trabajos mientras el modelo no esté disponible. Los seis servicios solo escuchan en `127.0.0.1`. No cierres esa ventana mientras uses el proyecto.
+Para usar la workstation `192.168.0.103`, configura en la misma sesión de PowerShell que ejecutará el lanzador:
+
+```powershell
+$env:INFERENCE_URL = 'http://192.168.0.103:4110'
+$env:INFERENCE_API_KEY = 'LA_MISMA_CLAVE_DE_AUDITAXES_EN_LA_WORKSTATION'
+.\iniciar-todo.cmd
+```
+
+En ese modo se inician cinco procesos locales; **no** se levanta la inferencia de esta PC ni se reemplaza la clave persistente. Sin clave, el arranque se detiene para evitar solicitudes anónimas. La URL y la clave solo se configuran en el backend, nunca en Vite ni en el navegador. Ollama de la workstation permanece en localhost y su API 11434 no se expone. No cierres la ventana del lanzador mientras uses el proyecto.
 
 Para detener todos los servicios, presiona `Ctrl+C` en la terminal del lanzador. Si lo abriste con doble clic, confirma la interrupción cuando Windows lo solicite.
 
