@@ -1,7 +1,7 @@
 import { createApp } from "./app.js";
 import { config } from "./config.js";
 
-const server = createApp().listen(config.port, () => {
+const server = createApp().listen(config.port, "127.0.0.1", () => {
   console.log(`AUDITAXES API disponible en http://localhost:${config.port}`);
   console.log(`Contenido: ${config.contentRoot}`);
 });

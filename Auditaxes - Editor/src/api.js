@@ -37,15 +37,59 @@ export function getCurrentContent() {
   return request("/content/current");
 }
 
-export function saveSection(sectionId, section) {
+export function saveSection(sectionId, section, sourceLocale) {
   return request(`/content/current/sections/${encodeURIComponent(sectionId)}`, {
     method: "PUT",
-    body: JSON.stringify({ section }),
+    body: JSON.stringify({ section, sourceLocale }),
   });
 }
 
-export function createSection(sectionId, section) {
-  return request("/content/current/sections", { method: "POST", body: JSON.stringify({ sectionId, section }) });
+export function updateSectionStatus(sectionId, status) {
+  return request(`/content/current/sections/${encodeURIComponent(sectionId)}/status`, { method: "PUT", body: JSON.stringify({ status }) });
+}
+
+export function getTranslationSection(sectionId) {
+  return request(`/content/current/sections/${encodeURIComponent(sectionId)}/translations`);
+}
+
+export function saveTranslation(sectionId, fields, sourceHash, status, proofreadJobId, decisions, sourceLocale, targetLocale) {
+  return request(`/content/current/sections/${encodeURIComponent(sectionId)}/translations`, {
+    method: "PUT", body: JSON.stringify({ fields, sourceHash, status, proofreadJobId, decisions, sourceLocale, targetLocale }),
+  });
+}
+
+export function startTranslationJob(sectionId, task = "translate", fields, sourceHash, sourceLocale, targetLocale) {
+  return request(`/content/current/sections/${encodeURIComponent(sectionId)}/translation-jobs`, {
+    method: "POST", body: JSON.stringify({ task, fields, sourceHash, sourceLocale, targetLocale }),
+  });
+}
+
+export function getTranslationJob(sectionId, jobId) {
+  return request(`/content/current/sections/${encodeURIComponent(sectionId)}/translation-jobs/${encodeURIComponent(jobId)}`);
+}
+
+export function getInferenceHealth() { return request("/inference/health"); }
+
+export function startAiJob(sectionId, task) {
+  return request(`/content/current/sections/${encodeURIComponent(sectionId)}/ai-jobs/${task}`, { method: "POST" });
+}
+
+export function getAiJob(sectionId, task) {
+  return request(`/content/current/sections/${encodeURIComponent(sectionId)}/ai-jobs/${task}`);
+}
+
+export function startFieldAiJob(sectionId, path, text, task, sourceLocale) {
+  return request(`/content/current/sections/${encodeURIComponent(sectionId)}/field-ai-jobs`, {
+    method: "POST", body: JSON.stringify({ path, text, task, sourceLocale }),
+  });
+}
+
+export function getFieldAiJob(sectionId, jobId) {
+  return request(`/content/current/sections/${encodeURIComponent(sectionId)}/field-ai-jobs/${encodeURIComponent(jobId)}`);
+}
+
+export function createSection(sectionId, section, sourceLocale) {
+  return request("/content/current/sections", { method: "POST", body: JSON.stringify({ sectionId, section, sourceLocale }) });
 }
 
 export function saveSectionOrder(sectionOrder) {

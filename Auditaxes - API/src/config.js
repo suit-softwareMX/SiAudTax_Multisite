@@ -9,6 +9,10 @@ export const config = {
   editorOrigin: process.env.EDITOR_ORIGIN || "http://localhost:5173",
   contentRoot: path.resolve(apiRoot, process.env.CONTENT_ROOT || "../Auditaxes - Sitio/app/content"),
   backupRoot: path.resolve(apiRoot, "backups"),
+  editorialStatePath: path.resolve(apiRoot, "editorial-state.json"),
+  publishedContentPath: path.resolve(apiRoot, "published-content.json"),
+  inferenceUrl: process.env.INFERENCE_URL || "http://127.0.0.1:4110",
+  inferenceKey: process.env.INFERENCE_API_KEY || "",
 };
 
 export const users = [

@@ -2,6 +2,8 @@
 
 La API conecta el editor con los archivos JSON del sitio. Autentica al administrador, limita cada cuenta a su sitio asignado y crea un respaldo antes de cada escritura.
 
+El lanzador de la raíz configura una clave temporal y conecta esta API con `../AuditaxesInferenceServer`. En ejecución independiente, configura `INFERENCE_URL` e `INFERENCE_API_KEY` con una clave definida también en `INFERENCE_API_KEYS` del servidor de inferencia. La clave nunca debe ir en el frontend.
+
 ## Ejecutar la API
 
 Desde esta carpeta:
@@ -64,6 +66,11 @@ Las sesiones se almacenan en memoria y se pierden al reiniciar la API.
 | `GET` | `/api/content/current/sections` | Privado | Resumen de secciones. |
 | `GET` | `/api/content/current/sections/:id` | Privado | Recupera una sección. |
 | `PUT` | `/api/content/current/sections/:id` | Privado | Guarda una sección. |
+| `GET` | `/api/content/current/sections/:id/translations` | Privado | Fuente y destino bilingües, campos faltantes y hash de origen. |
+| `POST` | `/api/content/current/sections/:id/translation-jobs` | Privado | Encola `translate`, `proofread` o `review`; la traducción abarca solo campos faltantes o desactualizados. |
+| `GET` | `/api/content/current/sections/:id/translation-jobs/:jobId` | Privado | Consulta estado, modelo y resultado de un trabajo propio. |
+| `PUT` | `/api/content/current/sections/:id/translations` | Privado | Guarda una propuesta revisada o aprueba una propuesta idéntica. Los campos modificados requieren trabajo `proofread` y decisiones humanas. |
+| `GET` | `/api/inference/health` | Privado | Modelo activo por tarea y disponibilidad de fallback. |
 | `POST` | `/api/content/current/sections` | Privado | Crea una sección personalizada. |
 | `DELETE` | `/api/content/current/sections/:id` | Privado | Elimina una sección personalizada. |
 | `PUT` | `/api/content/current/sections-order` | Privado | Guarda el orden completo. |
@@ -71,6 +78,7 @@ Las sesiones se almacenan en memoria y se pierden al reiniciar la API.
 | `GET` | `/api/public/content/:siteId` | Público | Contenido actualizado para el sitio. |
 
 Los `siteId` válidos son `global`, `mexico` y `salvador`.
+Global traduce inglés→español; México y El Salvador español→inglés. La ruta antigua `PUT .../translations/en` responde `410` para impedir que se eluda la revisión ortográfica. Guardar una traducción no publica: la sección debe pasar por revisión y aprobación editorial.
 
 ## Archivos y respaldos
 

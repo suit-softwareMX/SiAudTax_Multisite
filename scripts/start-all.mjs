@@ -1,11 +1,18 @@
 import { spawn, spawnSync } from "node:child_process";
 import process from "node:process";
 import path from "node:path";
+import { randomBytes } from "node:crypto";
+
+const inferenceKey = randomBytes(32).toString("hex");
+const pathKey = process.platform === "win32" ? "Path" : "PATH";
+const localEnv = { ...process.env, [pathKey]: `${path.dirname(process.execPath)}${path.delimiter}${process.env[pathKey] || ""}`, INFERENCE_API_KEY: inferenceKey, INFERENCE_API_KEYS: JSON.stringify({ auditaxes: inferenceKey }) };
+const python = process.platform === "win32" ? ".venv\\Scripts\\python.exe" : ".venv/bin/python";
 
 const services = [
-  { name: "GLOBAL", color: "\x1b[36m", directory: "Auditaxes - Sitio", command: "pnpm exec vinext start --hostname 0.0.0.0 --port 4321", url: "http://localhost:4321" },
-  { name: "MEXICO", color: "\x1b[34m", directory: "Auditaxes - Sitio", command: "pnpm exec vinext start --hostname 0.0.0.0 --port 4322", url: "http://localhost:4322" },
-  { name: "SALVADOR", color: "\x1b[35m", directory: "Auditaxes - Sitio", command: "pnpm exec vinext start --hostname 0.0.0.0 --port 4323", url: "http://localhost:4323" },
+  { name: "IA", color: "\x1b[36m", directory: "../AuditaxesInferenceServer", command: `${python} -m uvicorn server:app --host 127.0.0.1 --port 4110 --workers 1`, url: "http://localhost:4110/healthz" },
+  { name: "GLOBAL", color: "\x1b[36m", directory: "Auditaxes - Sitio", command: "pnpm exec vinext start --hostname 127.0.0.1 --port 4321", url: "http://localhost:4321" },
+  { name: "MEXICO", color: "\x1b[34m", directory: "Auditaxes - Sitio", command: "pnpm exec vinext start --hostname 127.0.0.1 --port 4322", url: "http://localhost:4322" },
+  { name: "SALVADOR", color: "\x1b[35m", directory: "Auditaxes - Sitio", command: "pnpm exec vinext start --hostname 127.0.0.1 --port 4323", url: "http://localhost:4323" },
   { name: "API", color: "\x1b[33m", directory: "Auditaxes - API", command: "pnpm dev", url: "http://localhost:4100/api/health" },
   { name: "EDITOR", color: "\x1b[32m", directory: "Auditaxes - Editor", command: "pnpm dev", url: "http://localhost:5173" },
 ];
@@ -35,7 +42,7 @@ function launch(service) {
   const args = process.platform === "win32"
     ? ["/d", "/s", "/c", service.command]
     : service.command.replace(/^pnpm\s+/, "").split(" ");
-  const child = spawn(command, args, { cwd: path.resolve(process.cwd(), service.directory), env: process.env, stdio: ["ignore", "pipe", "pipe"] });
+  const child = spawn(command, args, { cwd: path.resolve(process.cwd(), service.directory), env: localEnv, stdio: ["ignore", "pipe", "pipe"] });
   children.add(child);
   const prefix = `${service.color}[${service.name.padEnd(6)}]${reset}`;
   writeLines(child.stdout, prefix, process.stdout);
@@ -67,8 +74,8 @@ console.log("\nAUDITAXES — entorno local\n");
 console.log("Preparando la compilación compartida del sitio…\n");
 const siteDirectory = path.resolve(process.cwd(), "Auditaxes - Sitio");
 const build = process.platform === "win32"
-  ? spawnSync("cmd.exe", ["/d", "/s", "/c", "pnpm build"], { cwd: siteDirectory, env: process.env, stdio: "inherit" })
-  : spawnSync("pnpm", ["build"], { cwd: siteDirectory, env: process.env, stdio: "inherit" });
+  ? spawnSync("cmd.exe", ["/d", "/s", "/c", "pnpm build"], { cwd: siteDirectory, env: localEnv, stdio: "inherit" })
+  : spawnSync("pnpm", ["build"], { cwd: siteDirectory, env: localEnv, stdio: "inherit" });
 if (build.status !== 0) {
   console.error("\nNo fue posible compilar Auditaxes - Sitio.");
   process.exit(build.status || 1);
@@ -78,7 +85,7 @@ for (const service of services) {
   console.log(`${service.color}${service.name.padEnd(8)}${reset} ${service.url}`);
   launch(service);
 }
-console.log("\nLos cinco servicios se están iniciando. Presiona Ctrl+C para apagarlos.\n");
+console.log("\nLos seis servicios se están iniciando. Presiona Ctrl+C para apagarlos.\n");
 
 process.on("SIGINT", () => stop(0));
 process.on("SIGTERM", () => stop(0));

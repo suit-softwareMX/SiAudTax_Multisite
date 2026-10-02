@@ -1,3 +1,6 @@
 node_modules/
 .env
 *.log
+Auditaxes - API/editorial-state.json
+Auditaxes - API/published-content.json
+Auditaxes - API/backups/

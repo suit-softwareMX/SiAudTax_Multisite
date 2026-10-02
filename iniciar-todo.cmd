@@ -1,6 +1,10 @@
 @echo off
 title AUDITAXES - Entorno local
 cd /d "%~dp0"
+set "AUDITAXES_NODE=%USERPROFILE%\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin"
+if exist "%AUDITAXES_NODE%\node.exe" set "PATH=%AUDITAXES_NODE%;%PATH%"
+set "AUDITAXES_PNPM=%USERPROFILE%\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\fallback"
+if exist "%AUDITAXES_PNPM%\pnpm.cmd" set "PATH=%AUDITAXES_PNPM%;%PATH%"
 where pnpm >nul 2>nul
 if errorlevel 1 (
   echo No se encontro pnpm. Instala Node.js y ejecuta: npm install -g pnpm
