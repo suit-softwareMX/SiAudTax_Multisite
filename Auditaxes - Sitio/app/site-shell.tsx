@@ -7,7 +7,8 @@ type View = "home" | "publications";
 const routeSlug:Record<PageKey,string>={global:"global",mexico:"mexico",salvador:"el-salvador"};
 
 function pageFromPath():PageKey|undefined{
-  const segment=location.pathname.split("/").filter(Boolean)[0];
+  const parts=location.pathname.split("/").filter(Boolean);
+  const segment=parts[0]==="site-preview"?parts[1]:parts[0];
   return segment==="el-salvador"?"salvador":isPageKey(segment)?segment:undefined;
 }
 
@@ -29,7 +30,7 @@ export default function SiteShell({forcedPage,view="home"}:{forcedPage?:PageKey,
  useEffect(()=>{startTransition(()=>setState(initialState(forcedPage)))},[forcedPage]);
  useEffect(()=>{
   let active=true;
-  const refresh=async()=>{try{const response=await fetch(`http://localhost:4100/api/public/content/${page}`,{cache:"no-store"});if(!response.ok)return;const payload=await response.json();if(!active)return;const target=page==="global"?content.global:content.countries[page];Object.assign(target,payload.content);setContentRevision(value=>value+1)}catch{ /* El JSON compilado permanece como respaldo si la API local no está activa. */ }};
+  const refresh=async()=>{try{const apiOrigin=location.pathname.startsWith("/site-preview")?"":"http://localhost:4100";const response=await fetch(`${apiOrigin}/api/public/content/${page}`,{cache:"no-store"});if(!response.ok)return;const payload=await response.json();if(!active)return;const target=page==="global"?content.global:content.countries[page];Object.assign(target,payload.content);setContentRevision(value=>value+1)}catch{ /* El JSON compilado permanece como respaldo si la API local no está activa. */ }};
   refresh(); window.addEventListener("focus",refresh); return()=>{active=false;window.removeEventListener("focus",refresh)};
  },[page]);
  useEffect(()=>{document.documentElement.lang=locale;const doc=page==="global"?content.global:content.countries[page];document.title=view==="publications"?`${({es:"Publicaciones",en:"Publications",pt:"Publicações",fr:"Publications"}[locale])} | AUDITAXES`:doc.metadata.title[locale];document.querySelector('meta[name="description"]')?.setAttribute("content",doc.metadata.description[locale])},[locale,page,view,contentRevision]);
@@ -41,7 +42,7 @@ export default function SiteShell({forcedPage,view="home"}:{forcedPage?:PageKey,
   const multiPort=pages.some(value=>value.developmentPort===location.port);
   const productionDomain=Object.values(domains).includes(location.hostname.toLowerCase());
   const targetOrigin=multiPort?`${location.protocol}//${location.hostname}:${ports[nextPage]}`:productionDomain?`https://${domains[nextPage]}`:location.origin;
-  const path=`/${routeSlug[nextPage]}${nextView==="publications"?"/publicaciones":""}`;
+  const path=`${location.pathname.startsWith("/site-preview")?"/site-preview":""}/${routeSlug[nextPage]}${nextView==="publications"?"/publicaciones":""}`;
   location.assign(`${targetOrigin}${path}?lang=${nextLocale}`);
  };
  const changePage=(nextPage:PageKey)=>navigate(nextPage,content.site.sites.find(item=>item.id===nextPage)!.defaultLocale as Locale,view);

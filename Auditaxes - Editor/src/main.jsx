@@ -88,7 +88,7 @@ function Sidebar({ active, setActive, open, setOpen, user, site }) {
 }
 
 function Topbar({ title, openMenu, logout }) {
-  return <header className="topbar"><button className="menu-button" onClick={openMenu}><Menu/></button><div><span>ADMINISTRACIÓN</span><b>{title}</b></div><div className="top-actions"><label><Search/><input placeholder="Buscar contenido…"/><kbd>⌘ K</kbd></label><button className="icon-button"><Bell/><i/></button><button className="logout" onClick={logout} title="Cerrar sesión"><LogOut/></button></div></header>;
+  return <header className="topbar"><button className="menu-button" aria-label="Abrir menú" onClick={openMenu}><Menu/></button><div><span>ADMINISTRACIÓN</span><b>{title}</b></div><div className="top-actions"><label><Search/><input placeholder="Buscar contenido…"/><kbd>⌘ K</kbd></label><button className="icon-button"><Bell/><i/></button><button className="logout" onClick={logout} title="Cerrar sesión"><LogOut/></button></div></header>;
 }
 
 function Stat({ label, value, detail, icon: Icon, tone }) {
@@ -173,14 +173,16 @@ function FieldAi({ sectionId, path, text, value, onChange, sourceLocale }) {
   }, [job?.status, job?.task, job?.result?.locale, pendingAction, stale]);
   const proposal = job?.result?.fields?.field;
   const status = job?.status === "queued" ? "En cola" : job?.status === "running" ? "Analizando" : job?.status === "failed" ? "No se pudo analizar" : job?.status === "succeeded" ? "Propuesta lista" : "";
+  const actionName = job?.task === "translate" ? "Traduciendo" : job?.task === "proofread" ? "Puliendo el texto" : "Leyendo el idioma";
   return <div className="field-ai">
     <button type="button" className="field-ai-trigger" aria-expanded={open} onClick={() => setOpen(!open)}><Sparkles/> Ayuda con IA</button>
-    {open && <div className="field-ai-panel">
+    {open && <div className={`field-ai-panel${running ? " is-running" : ""}${job?.status === "succeeded" ? " is-ready" : ""}`}>
       <div className="field-ai-menu"><button type="button" disabled={running || !text.trim()} onClick={() => choose("proofread")}>Revisar ortografía</button><button type="button" disabled={running || !text.trim()} onClick={() => choose("detect_language")}>Detectar idioma</button><button type="button" disabled={running || !text.trim()} onClick={() => choose("translate")}>Traducir</button></div>
+      {running && <div className="field-ai-scene" aria-hidden="true"><div className="field-ai-orbit"><Sparkles/></div><div className="field-ai-scene-copy"><b>{actionName}</b><span>{job.status === "queued" ? "Esperando turno en la cola" : "Preparando una propuesta para que tú decidas"}</span></div><div className="field-ai-progress"><i/></div></div>}
       {status && <p className="field-ai-status" role="status">{status}{running ? "…" : ""}{job?.status === "failed" ? job.error === "model_unavailable" ? " · Ollama no responde. Revisa el servicio e intenta de nuevo." : " · Intenta de nuevo" : ""}</p>}
       {error && <p className="field-ai-error" role="alert">{error}</p>}
       {stale && <p className="field-ai-error" role="status">El texto cambió. Vuelve a ejecutar la acción para usar una propuesta actual.</p>}
-      {job?.status === "succeeded" && job.task === "detect_language" && !stale && (job.result.locale === "unknown" ? <div className="field-ai-choose"><p>No estoy seguro del idioma. Elige el idioma del texto:</p><button type="button" onClick={() => pendingAction ? (setPendingAction(null), launch(pendingAction, "es", origin)) : setChosenLocale("es")}>Español</button><button type="button" onClick={() => pendingAction ? (setPendingAction(null), launch(pendingAction, "en", origin)) : setChosenLocale("en")}>Inglés</button></div> : <p>Idioma detectado: <b>{job.result.locale === "es" ? "Español" : "Inglés"}</b></p>)}
+      {job?.status === "succeeded" && job.task === "detect_language" && !stale && (job.result.locale === "unknown" ? <div className="field-ai-choose"><p>No estoy seguro del idioma. Elige el idioma del texto:</p><button type="button" onClick={() => pendingAction ? (setPendingAction(null), launch(pendingAction, "es", origin)) : setChosenLocale("es")}>Español</button><button type="button" onClick={() => pendingAction ? (setPendingAction(null), launch(pendingAction, "en", origin)) : setChosenLocale("en")}>Inglés</button></div> : <p className="field-ai-language">Idioma detectado: <b>{job.result.locale === "es" ? "Español" : "Inglés"}</b></p>)}
       {proposal && !stale && <div className="field-ai-compare"><div><small>ORIGINAL · {chosenLocale?.toUpperCase()}</small><p>{origin}</p></div><div><small>{job.task === "translate" ? `TRADUCCIÓN · ${targetLocale?.toUpperCase()}` : "CORRECCIÓN PROPUESTA"}</small><p className="field-ai-typing" key={job.id}>{proposal}</p>{job.task === "translate" && value[targetLocale] && <small>Reemplazará el borrador actual en {targetLocale?.toUpperCase()}: {value[targetLocale]}</small>}</div><div className="field-ai-decisions"><button type="button" className="secondary" onClick={() => setJob(null)}>Descartar</button><button type="button" className="primary" onClick={() => { if (job.task === "translate") { onChange([...path.slice(0,-1), chosenLocale], origin); onChange([...path.slice(0,-1), targetLocale], proposal); } else onChange(path, proposal); setJob(null); setOpen(false); }}>Aplicar al borrador</button></div></div>}
     </div>}
   </div>;
@@ -190,7 +192,7 @@ function ValueEditor({ value, label, path, locale, onChange, onRemove, sectionId
   if (isLocalized(value)) {
     const text = value[locale] || "";
     const id = `field-${sectionId}-${path.join("-")}`;
-    const aiEligible = !/^(href|src|url|email|phone|id)$/.test(String(label).toLowerCase());
+    const aiEligible = sectionId === "hero" && ["eyebrow", "title", "body", "action.label"].includes(path.join("."));
     return <div className="field dynamic-field"><label htmlFor={id}>{humanize(label)} <small>{locale === "es" ? "Español" : "Inglés"} · original</small></label><textarea id={id} lang={locale} rows={text.length > 140 ? 5 : 3} value={text} onChange={event => onChange([...path, locale], event.target.value)}/>{aiEligible && <FieldAi sectionId={sectionId} path={[...path, locale]} text={text} value={value} onChange={onChange} sourceLocale={locale}/>}</div>;
   }
   if (Array.isArray(value)) {
@@ -306,8 +308,7 @@ function ContentPage({ site, onDirtyChange, goTranslations }) {
   }
   const statusLabels = { draft: "Borrador", review: "En revisión", approved: "Aprobado" };
   const selectedEditorial = editorial[selected] || { status: "approved" };
-  const previewPorts={global:4321,mexico:4322,salvador:4323};
-  const previewUrl=`http://localhost:${previewPorts[site.id]}/?sitio=${site.id}&lang=${locale}`;
+  const previewUrl=`/site-preview/${site.id === "salvador" ? "el-salvador" : site.id}?sitio=${site.id}&lang=${locale}`;
   async function moveSelected(offset) { const index=sectionIds.indexOf(selected); const target=sectionIds[index+offset]; if (target) await dropSection(target, selected); }
   return <div className="page content-page">
     {localePrompt && <div className="ai-modal-backdrop"><div className="ai-modal" role="dialog" aria-modal="true" aria-labelledby="locale-prompt-title" onKeyDown={event => { if(event.key === "Escape") setLocalePrompt(null); }}><h2 id="locale-prompt-title">Cambiar idioma original</h2><p>Conservaremos los textos en español e inglés. La traducción al {localePrompt === "es" ? "inglés" : "español"} deberá revisarse antes de publicar nuevos cambios.</p>{dirty && <p>Los cambios sin guardar seguirán en este borrador; guárdalos antes de salir.</p>}<div><button type="button" className="secondary" autoFocus onClick={()=>setLocalePrompt(null)}>Cancelar</button><button type="button" className="primary" onClick={()=>{setWritingLocale(localePrompt);setLocalePrompt(null);}}>Cambiar a {localePrompt === "es" ? "español" : "inglés"}</button></div></div></div>}

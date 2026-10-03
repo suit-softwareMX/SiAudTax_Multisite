@@ -58,11 +58,11 @@ Arrastra una sección y suéltala en la posición deseada. El orden se guarda in
 
 ### Vista previa
 
-- Global: `http://localhost:4321`
-- México: `http://localhost:4322`
-- El Salvador: `http://localhost:4323`
+- Global: `/site-preview/global`
+- México: `/site-preview/mexico`
+- El Salvador: `/site-preview/el-salvador`
 
-El sitio consulta de nuevo la API al cargar y al recuperar el foco. Después de guardar, vuelve a la pestaña de vista previa o recárgala.
+El enlace abre la vista previa en el mismo origen que el editor, también por el túnel de pruebas. Necesita el sitio Global activo en el puerto 4321 y la API en el 4100. El sitio consulta de nuevo la API al cargar y al recuperar el foco. Después de guardar, vuelve a la pestaña de vista previa o recárgala.
 
 ## Estado de los módulos
 
