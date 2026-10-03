@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4100/api";
+const API_URL = import.meta.env.VITE_API_URL || "/api";
 const TOKEN_KEY = "auditaxes-editor-token";
 
 async function request(path, options = {}) {

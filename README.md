@@ -60,6 +60,8 @@ Abre `iniciar-todo.cmd` desde la carpeta del sitio: el lanzador pide la clave de
 
 La API usa `http://192.168.0.107:4110` por defecto; puedes cambiarlo con `INFERENCE_URL` si ejecutas la API por separado. No se inicia inferencia en este servidor. La URL y la clave solo se configuran en el backend, nunca en Vite ni en el navegador. Ollama de la workstation permanece en localhost y su API 11434 no se expone. No cierres la ventana del lanzador mientras uses el proyecto.
 
+Para pruebas por el túnel `adminauditaxes.suitmx.com`, mantén Cloudflare Access obligatorio para usuarios autorizados. El túnel debe apuntar solo al editor `127.0.0.1:5173`; Vite acepta únicamente ese nombre y reenvía `/api` a la API local `127.0.0.1:4100`. Reinicia el editor después de actualizar la configuración y no definas `VITE_API_URL` con `localhost` para visitantes remotos. Las cuentas y contraseñas de demostración siguen visibles en el editor: este túnel no debe tratarse como despliegue público definitivo.
+
 Para detener todos los servicios, presiona `Ctrl+C` en la terminal del lanzador. Si lo abriste con doble clic, confirma la interrupción cuando Windows lo solicite.
 
 ## Flujo de trabajo
