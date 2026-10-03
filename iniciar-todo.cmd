@@ -11,7 +11,7 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
-call pnpm dev
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\start-with-inference.ps1"
 set "AUDITAXES_EXIT=%errorlevel%"
 echo.
 if not "%AUDITAXES_EXIT%"=="0" (

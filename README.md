@@ -56,14 +56,9 @@ En esta computadora, usa `iniciar-todo.cmd` para tomar el Node 24 incluido en Co
 | API | `http://localhost:4100` |
 | Editor | `http://localhost:5173` |
 
-Para activar la IA de la workstation, configura en la misma sesión de PowerShell que ejecutará el lanzador:
+Para activar la IA, abre `iniciar-todo.cmd` desde la carpeta del sitio: el lanzador pide la clave de la workstation sin mostrarla, configura la URL `http://192.168.0.107:4110` en esa sesión e inicia los cinco servicios. No hace falta pegar comandos de PowerShell ni guardar la clave en un archivo. Si el proceso ya recibió `INFERENCE_API_KEY` de un gestor de secretos, no vuelve a pedirla.
 
-```powershell
-$env:INFERENCE_API_KEY = 'LA_MISMA_CLAVE_DE_AUDITAXES_EN_LA_WORKSTATION'
-.\iniciar-todo.cmd
-```
-
-La API usa `http://192.168.0.107:4110` por defecto; puedes cambiarlo con `INFERENCE_URL`. No se inicia inferencia en este servidor. Sin clave, los cinco servicios arrancan igualmente, pero las funciones de IA quedan deshabilitadas hasta configurar la workstation. La URL y la clave solo se configuran en el backend, nunca en Vite ni en el navegador. Ollama de la workstation permanece en localhost y su API 11434 no se expone. No cierres la ventana del lanzador mientras uses el proyecto.
+La API usa `http://192.168.0.107:4110` por defecto; puedes cambiarlo con `INFERENCE_URL` si ejecutas la API por separado. No se inicia inferencia en este servidor. La URL y la clave solo se configuran en el backend, nunca en Vite ni en el navegador. Ollama de la workstation permanece en localhost y su API 11434 no se expone. No cierres la ventana del lanzador mientras uses el proyecto.
 
 Para detener todos los servicios, presiona `Ctrl+C` en la terminal del lanzador. Si lo abriste con doble clic, confirma la interrupción cuando Windows lo solicite.
 
