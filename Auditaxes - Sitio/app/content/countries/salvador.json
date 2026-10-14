@@ -17,10 +17,10 @@
       "fr": "AUDITAXES Salvador"
     },
     "description": {
-      "es": "Acompañamos a organizaciones que operan en El Salvador con criterio local, coordinación regional y una mirada clara hacia el crecimiento.",
-      "en": "We support organizations operating in El Salvador with local judgment, regional coordination and a clear view toward growth.",
-      "pt": "Apoiamos organizações que operam em El Salvador com critério local, coordenação regional e uma visão clara para o crescimento.",
-      "fr": "Nous accompagnons les organisations présentes au Salvador avec un jugement local, une coordination régionale et une vision claire de la croissance."
+      "es": "Auditoría, impuestos, precios de transferencia, consultoría y outsourcing con conocimiento local y alcance internacional.",
+      "en": "Audit, tax, transfer pricing, consulting and outsourcing with local knowledge and international reach.",
+      "pt": "Auditoria, impostos, preços de transferência, consultoria e outsourcing com conhecimento local e alcance internacional.",
+      "fr": "Audit, fiscalité, prix de transfert, conseil et externalisation avec une expertise locale et une portée internationale."
     }
   },
   "navigation": [
@@ -35,23 +35,23 @@
       }
     },
     {
-      "id": "metodo",
-      "sectionId": "metodo",
+      "id": "red",
+      "sectionId": "red",
       "label": {
-        "es": "Nuestro Método",
-        "en": "Our Method",
-        "pt": "Nosso Método",
-        "fr": "Notre méthode"
+        "es": "Red internacional",
+        "en": "International network",
+        "pt": "Rede internacional",
+        "fr": "Réseau international"
       }
     },
     {
       "id": "capacidades",
       "sectionId": "capacidades",
       "label": {
-        "es": "Capacidades",
-        "en": "Capabilities",
-        "pt": "Capacidades",
-        "fr": "Compétences"
+        "es": "Pilares",
+        "en": "Pillars",
+        "pt": "Pilares",
+        "fr": "Piliers"
       }
     },
     {
@@ -89,22 +89,22 @@
     "hero": {
       "enabled": true,
       "eyebrow": {
-        "es": "Rigor global. Precisión en El Salvador.",
-        "en": "Global rigor. Precision in El Salvador.",
-        "pt": "Rigor global. Precisão em El Salvador.",
-        "fr": "Rigueur mondiale. Précision au Salvador."
+        "es": "Desde 2010 en El Salvador",
+        "en": "In El Salvador since 2010",
+        "pt": "Em El Salvador desde 2010",
+        "fr": "Au Salvador depuis 2010"
       },
       "title": {
-        "es": "Una perspectiva regional, arraigada en El Salvador.",
-        "en": "A regional perspective, grounded in El Salvador.",
-        "pt": "Uma perspectiva regional, enraizada em El Salvador.",
-        "fr": "Une perspective régionale, ancrée au Salvador."
+        "es": "Conocimiento local. Capacidad internacional.",
+        "en": "Local knowledge. International capabilities.",
+        "pt": "Conhecimento local. Capacidade internacional.",
+        "fr": "Expertise locale. Capacités internationales."
       },
       "body": {
-        "es": "Acompañamos a organizaciones que operan en El Salvador con criterio local, coordinación regional y una mirada clara hacia el crecimiento.",
-        "en": "We support organizations operating in El Salvador with local judgment, regional coordination and a clear view toward growth.",
-        "pt": "Apoiamos organizações que operam em El Salvador com critério local, coordenação regional e uma visão clara para o crescimento.",
-        "fr": "Nous accompagnons les organisations présentes au Salvador avec un jugement local, une coordination régionale et une vision claire de la croissance."
+        "es": "Acompañamos a empresas nacionales e internacionales con servicios de auditoría, impuestos, precios de transferencia, consultoría y outsourcing.",
+        "en": "We support local and international companies with audit, tax, transfer pricing, consulting and outsourcing services.",
+        "pt": "Apoiamos empresas nacionais e internacionais com serviços de auditoria, impostos, preços de transferência, consultoria e outsourcing.",
+        "fr": "Nous accompagnons les entreprises nationales et internationales en audit, fiscalité, prix de transfert, conseil et externalisation."
       },
       "image": {
         "src": "/images/salvador.jpg",
@@ -563,13 +563,13 @@
           "follow": "Suivez-nous"
         }
       },
-      "email": "contacto.sv@auditaxes.com",
+  "email": "jeamaya@sv.auditaxes.com",
       "phones": [
-        "+503 0000 0000"
+    "+503 2527-3900"
       ],
-      "whatsapp": "50300000000",
-      "address": "San Salvador, El Salvador · Dirección local por confirmar",
-      "mapsQuery": "San Salvador, El Salvador · Dirección local por confirmar",
+  "whatsapp": "50325273900",
+  "address": "Edificio Auditaxes, calle El Mirador, entre 89 y 91 avenida Norte, número 4620, colonia Escalón, San Salvador, El Salvador.",
+  "mapsQuery": "Edificio Auditaxes 4620 Calle El Mirador Colonia Escalón San Salvador El Salvador",
       "social": {
         "facebook": "https://www.facebook.com/people/Auditaxes/61569843038041/",
         "instagram": "https://www.instagram.com/auditaxes.mx/",
@@ -578,8 +578,8 @@
     },
     "footer": {
       "enabled": true,
-      "contactEmail": "contacto.sv@auditaxes.com",
-      "contactPhone": "+503 0000 0000",
+      "contactEmail": "jeamaya@sv.auditaxes.com",
+      "contactPhone": "+503 2527-3900",
       "links": [
         {
           "siteId": "global"

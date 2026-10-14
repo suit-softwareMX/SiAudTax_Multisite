@@ -4,9 +4,11 @@ import shared from "./shared.json";
 import site from "./site.json";
 import mexico from "./countries/mexico.json";
 import salvador from "./countries/salvador.json";
+import salvadorProfile from "./countries/salvador-profile.json";
+import legalDisclaimer from "./legal-disclaimer.json";
 
 export const countryContent = { mexico, salvador } as const;
-export const content = { global, network, shared, site, countries: countryContent } as const;
+export const content = { global, network, shared, site, countries: countryContent, salvadorProfile, legalDisclaimer } as const;
 
 export type CountryKey = keyof typeof countryContent;
 export type PageKey = "global" | CountryKey;
