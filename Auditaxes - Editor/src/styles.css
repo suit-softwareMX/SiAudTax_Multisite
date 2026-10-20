@@ -43,3 +43,10 @@
 @keyframes ai-scan{from{transform:translateX(-110%)}to{transform:translateX(300%)}}
 @keyframes ai-arrive{from{opacity:0;transform:translateY(10px);filter:blur(4px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
 @media(prefers-reduced-motion:reduce){.field-ai-trigger::after,.field-ai-panel,.field-ai-scene::before,.field-ai-orbit,.field-ai-progress i,.field-ai-compare,.field-ai-language,.field-ai-choose,.field-ai-typing{animation:none!important;transition:none!important}}
+
+/* Imagotipos oficiales compartidos con los sitios públicos. */
+.logo-image{display:block;width:13rem;aspect-ratio:4/1;overflow:hidden;line-height:0;letter-spacing:0}
+.logo-image img{display:block;width:100%;height:100%;object-fit:cover}
+.sidebar-head .logo-image{width:12.5rem}
+.story-top .logo-image{width:clamp(13rem,20vw,18rem)}
+.mobile-logo .logo-image{width:min(18rem,78vw)}

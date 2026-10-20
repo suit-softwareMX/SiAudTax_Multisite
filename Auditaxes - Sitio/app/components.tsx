@@ -10,7 +10,16 @@ const countries = content.network.countries;
 const tr = (value: Record<string,string>, locale: Locale) => value[locale] ?? value.en;
 const siteDoc = (page: PageKey) => page === "global" ? content.global : getCountryContent(page);
 
-export function Brand({inverse=false}:{inverse?:boolean}){return <span className={`brand ${inverse?"inverse":""}`}><b>{content.shared.brand.first}</b><i>{content.shared.brand.second}</i><span className="globe">◎</span></span>}
+export function Brand({inverse=false,site="global"}:{inverse?:boolean,site?:PageKey}){
+  const [activeSite,setActiveSite]=useState<PageKey>(site);
+  useEffect(()=>{if(location.pathname.startsWith("/el-salvador"))setActiveSite("salvador")},[]);
+  const salvador=activeSite==="salvador";
+  const file=salvador
+    ? (inverse?"auditaxes-el-salvador-blanco.png":"auditaxes-el-salvador-gris.png")
+    : (inverse?"auditaxes-international-blanco.png":"auditaxes-international-gris.png");
+  const label=salvador?"Auditaxes El Salvador":"Auditaxes International";
+  return <span className={`brand brand-image ${inverse?"inverse":""}`}><img src={`/images/brand/${file}`} alt={label}/></span>
+}
 
 function FlagIcon({locale}:{locale:Locale}){return <svg className="flag-icon" viewBox="0 0 28 20" aria-hidden="true">{locale==="es"&&<><rect width="28" height="20" rx="2" fill="#AA151B"/><rect y="5" width="28" height="10" fill="#F1BF00"/></>}{locale==="pt"&&<><rect width="28" height="20" rx="2" fill="#046A38"/><rect x="11" width="17" height="20" rx="2" fill="#DA291C"/></>}{locale==="en"&&<><rect width="28" height="20" rx="2" fill="#012169"/><path d="M14 0v20M0 10h28" stroke="#fff" strokeWidth="6"/><path d="M14 0v20M0 10h28" stroke="#C8102E" strokeWidth="3"/></>}{locale==="fr"&&<><rect width="9.34" height="20" rx="2" fill="#0055A4"/><rect x="9.33" width="9.34" height="20" fill="#fff"/><rect x="18.66" width="9.34" height="20" rx="2" fill="#EF4135"/></>}</svg>}
 

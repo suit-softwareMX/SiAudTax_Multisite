@@ -22,12 +22,15 @@ const sites = [
   { id: "salvador", short: "SV", name: "AUDITAXES El Salvador", locale: "Español", domain: "elsalvador-auditaxes.suitmx.com", accent: "cyan" },
 ];
 
-function Logo({ light = false }) {
-  return <div className={`logo ${light ? "light" : ""}`} aria-label="AUDITAXES"><strong>AUDI</strong><span>TAXES</span><i>◎</i></div>;
+function Logo({ light = false, siteId = "global" }) {
+  const scope = siteId === "salvador" ? "el-salvador" : "international";
+  const tone = light ? "blanco" : "gris";
+  const label = siteId === "salvador" ? "Auditaxes El Salvador" : "Auditaxes International";
+  return <div className={`logo logo-image ${light ? "light" : ""}`}><img src={`/brand/auditaxes-${scope}-${tone}.png`} alt={label}/></div>;
 }
 
-function LoginLogo() {
-  return <img className="login-brand-logo" src="/images/auditaxes-panama-logo-transparent.png" alt="Auditaxes Panamá — Audit, Tax, Consulting, Outsourcing" />;
+function LoginLogo({ light = false }) {
+  return <Logo light={light}/>;
 }
 
 function Login({ onLogin }) {
@@ -44,7 +47,7 @@ function Login({ onLogin }) {
 
   return <main className="login-shell">
     <section className="login-story">
-      <div className="story-top"><LoginLogo /><span>PORTAL EDITORIAL</span></div>
+      <div className="story-top"><LoginLogo light/><span>PORTAL EDITORIAL</span></div>
       <div className="story-copy">
         <span className="eyebrow">CONTENIDO · TRADUCCIÓN · PUBLICACIÓN</span>
         <h1>Una sola voz.<br/><em>En todos los mercados.</em></h1>
@@ -79,7 +82,7 @@ const nav = [
 
 function Sidebar({ active, setActive, open, setOpen, user, site }) {
   return <aside className={`sidebar ${open ? "open" : ""}`}>
-    <div className="sidebar-head"><Logo light/><button onClick={() => setOpen(false)}><PanelLeftClose/></button></div>
+    <div className="sidebar-head"><Logo light siteId={site.id}/><button onClick={() => setOpen(false)}><PanelLeftClose/></button></div>
     <div className="workspace"><span>ESPACIO DE TRABAJO</span><button><i>{site.short}</i><span><b>{site.name}</b><small>{site.locale} · Sitio asignado</small></span><ShieldCheck/></button></div>
     <nav>{nav.map(([label, Icon]) => <button key={label} className={active === label ? "active" : ""} onClick={() => {setActive(label); setOpen(false)}}><Icon/><span>{label}</span></button>)}</nav>
     <div className="sidebar-help"><CircleHelp/><div><b>Centro de ayuda</b><span>Guías y soporte</span></div><ArrowRight/></div>

@@ -377,6 +377,11 @@ footer nav strong{font-size:.75rem}footer nav a,footer nav button,footer nav spa
 .publications-site-header{min-height:5.5rem;display:flex;align-items:center;gap:1.5rem;padding:0 max(1.5rem,calc((100vw - 1320px)/2));background:#0b1f2c;color:#fff;border-bottom:1px solid #ffffff1c}
 .publications-site-header .brand-button{border:0;background:transparent;padding:0}
 .publications-site-header .brand b,.publications-site-header .brand i{color:#fff}
+.brand-image{display:block;width:clamp(10.5rem,14vw,14rem);aspect-ratio:4/1;overflow:hidden;line-height:0}
+.brand-image img{display:block;width:100%;height:100%;object-fit:cover}
+footer .brand-image{width:min(18rem,100%)}
+footer>div>.brand-image+p{display:none}
+@media(max-width:700px){.brand-image{width:9rem}.proposal .original-banner{padding-left:1rem!important}.proposal .original-banner .header-brand{min-width:0}}
 .publications-site-name{padding-left:1.5rem;border-left:1px solid #ffffff35;font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
 .publications-site-header nav{display:flex;gap:.25rem;margin-left:auto}
 .publications-site-header nav button,.publications-languages button{border:0;background:transparent;color:#9fb5bf;padding:.55rem .7rem;font-size:.7rem;font-weight:700}

@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 2,
+  "ui": {
+    "es": {
+      "language": "Español"
+    },
+    "en": {
+      "language": "English"
+    },
+    "pt": {
+      "language": "Português"
+    },
+    "fr": {
+      "language": "Français"
+    }
+  },
+  "catalogs": {
+    "es": {
+      "common": {
+        "allLocations": "Todas las sedes",
+        "active": "Sitio local",
+        "soon": "Sitio pendiente"
+      },
+      "nav": {
+        "consortium": "El Consorcio",
+        "specialties": "Especialidades",
+        "perspectives": "Liderazgo",
+        "contact": "Contacto"
+      },
+      "network": {
+        "selectedLabel": "Sede seleccionada"
+      },
+      "footer": {
+        "tagline": "Audit · Tax · Consulting · Outsourcing",
+        "legal": "Legal",
+        "network": "Red",
+        "services": "Servicios",
+        "copyright": "© 2026 AUDITAXES Global. Todos los derechos reservados."
+      }
+    },
+    "en": {
+      "common": {
+        "allLocations": "All locations",
+        "active": "Local site",
+        "soon": "Site pending"
+      },
+      "nav": {
+        "consortium": "The Consortium",
+        "specialties": "Expertise",
+        "perspectives": "Leadership",
+        "contact": "Contact"
+      },
+      "network": {
+        "selectedLabel": "Selected location"
+      },
+      "footer": {
+        "tagline": "Audit · Tax · Consulting · Outsourcing",
+        "legal": "Legal",
+        "network": "Network",
+        "services": "Services",
+        "copyright": "© 2026 AUDITAXES Global. All rights reserved."
+      }
+    },
+    "pt": {
+      "common": {
+        "allLocations": "Todos os escritórios",
+        "active": "Site local",
+        "soon": "Site pendente"
+      },
+      "nav": {
+        "consortium": "O Consórcio",
+        "specialties": "Especialidades",
+        "perspectives": "Liderança",
+        "contact": "Contato"
+      },
+      "network": {
+        "selectedLabel": "Escritório selecionado"
+      },
+      "footer": {
+        "tagline": "Audit · Tax · Consulting · Outsourcing",
+        "legal": "Legal",
+        "network": "Rede",
+        "services": "Serviços",
+        "copyright": "© 2026 AUDITAXES Global. Todos os direitos reservados."
+      }
+    },
+    "fr": {
+      "common": {
+        "allLocations": "Tous les bureaux",
+        "active": "Site local",
+        "soon": "Site en attente"
+      },
+      "nav": {
+        "consortium": "Le consortium",
+        "specialties": "Expertises",
+        "perspectives": "Direction",
+        "contact": "Contact"
+      },
+      "network": {
+        "selectedLabel": "Bureau sélectionné"
+      },
+      "footer": {
+        "tagline": "Audit · Fiscalité · Conseil · Externalisation",
+        "legal": "Mentions légales",
+        "network": "Réseau",
+        "services": "Services",
+        "copyright": "© 2026 AUDITAXES Global. Tous droits réservés."
+      }
+    }
+  },
+  "languageNames": {
+    "es": "Español",
+    "en": "English",
+    "pt": "Português",
+    "fr": "Français"
+  },
+  "globalReturn": {
+    "es": "Volver a Global",
+    "en": "Back to Global",
+    "pt": "Voltar para Global",
+    "fr": "Retour au site Global"
+  },
+  "mapActions": {
+    "es": {
+      "global": "Ver mapa global",
+      "back": "Volver a",
+      "visit": "Visitar sitio",
+      "status": "Ver estado",
+      "active": "Sitio local disponible",
+      "planned": "Sitio local pendiente",
+      "building": "Sitio en construcción",
+      "buildingBody": "El sitio web local de este mercado está en preparación."
+    },
+    "en": {
+      "global": "View global map",
+      "back": "Back to",
+      "visit": "Visit site",
+      "status": "View status",
+      "active": "Local site available",
+      "planned": "Local site pending",
+      "building": "Site under construction",
+      "buildingBody": "The local website for this market is being prepared."
+    },
+    "pt": {
+      "global": "Ver mapa global",
+      "back": "Voltar para",
+      "visit": "Visitar site",
+      "status": "Ver status",
+      "active": "Site local disponível",
+      "planned": "Site local pendente",
+      "building": "Site em construção",
+      "buildingBody": "O site local deste mercado está em preparação."
+    },
+    "fr": {
+      "global": "Voir la carte mondiale",
+      "back": "Retour à",
+      "visit": "Visiter le site",
+      "status": "Voir le statut",
+      "active": "Site local disponible",
+      "planned": "Site local en attente",
+      "building": "Site en construction",
+      "buildingBody": "Le site local de ce marché est en préparation."
+    }
+  },
+  "brand": {
+    "first": "Audit",
+    "second": "axes"
+  }
+}

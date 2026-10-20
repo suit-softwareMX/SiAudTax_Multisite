@@ -1,0 +1,411 @@
+{
+  "schemaVersion": 2,
+  "mapImage": "/world-map.svg",
+  "countries": [
+    {
+      "id": "mexico",
+      "siteId": "mexico",
+      "name": {
+        "es": "México",
+        "en": "Mexico",
+        "pt": "México",
+        "fr": "Mexique"
+      },
+      "coordinates": {
+        "latitude": 23.6345,
+        "longitude": -102.5528
+      },
+      "status": "active"
+    },
+    {
+      "id": "guatemala",
+      "siteId": null,
+      "name": {
+        "es": "Guatemala",
+        "en": "Guatemala",
+        "pt": "Guatemala",
+        "fr": "Guatemala"
+      },
+      "coordinates": {
+        "latitude": 15.7835,
+        "longitude": -90.2308
+      },
+      "status": "planned"
+    },
+    {
+      "id": "el-salvador",
+      "siteId": "salvador",
+      "name": {
+        "es": "El Salvador",
+        "en": "El Salvador",
+        "pt": "El Salvador",
+        "fr": "Salvador"
+      },
+      "coordinates": {
+        "latitude": 13.7942,
+        "longitude": -88.8965
+      },
+      "status": "active"
+    },
+    {
+      "id": "costa-rica",
+      "siteId": null,
+      "name": {
+        "es": "Costa Rica",
+        "en": "Costa Rica",
+        "pt": "Costa Rica",
+        "fr": "Costa Rica"
+      },
+      "coordinates": {
+        "latitude": 9.7489,
+        "longitude": -83.7534
+      },
+      "status": "planned"
+    },
+    {
+      "id": "panama",
+      "siteId": null,
+      "name": {
+        "es": "Panamá",
+        "en": "Panama",
+        "pt": "Panamá",
+        "fr": "Panama"
+      },
+      "coordinates": {
+        "latitude": 8.538,
+        "longitude": -80.7821
+      },
+      "status": "planned"
+    },
+    {
+      "id": "belize",
+      "siteId": null,
+      "name": {
+        "es": "Belice",
+        "en": "Belize",
+        "pt": "Belize",
+        "fr": "Belize"
+      },
+      "coordinates": {
+        "latitude": 17.1899,
+        "longitude": -88.4976
+      },
+      "status": "planned"
+    },
+    {
+      "id": "colombia",
+      "siteId": null,
+      "name": {
+        "es": "Colombia",
+        "en": "Colombia",
+        "pt": "Colômbia",
+        "fr": "Colombie"
+      },
+      "coordinates": {
+        "latitude": 4.5709,
+        "longitude": -74.2973
+      },
+      "status": "planned"
+    },
+    {
+      "id": "peru",
+      "siteId": null,
+      "name": {
+        "es": "Perú",
+        "en": "Peru",
+        "pt": "Peru",
+        "fr": "Pérou"
+      },
+      "coordinates": {
+        "latitude": -9.19,
+        "longitude": -75.0152
+      },
+      "status": "planned"
+    },
+    {
+      "id": "argentina",
+      "siteId": null,
+      "name": {
+        "es": "Argentina",
+        "en": "Argentina",
+        "pt": "Argentina",
+        "fr": "Argentine"
+      },
+      "coordinates": {
+        "latitude": -38.4161,
+        "longitude": -63.6167
+      },
+      "status": "planned"
+    },
+    {
+      "id": "dominican-republic",
+      "siteId": null,
+      "name": {
+        "es": "República Dominicana",
+        "en": "Dominican Republic",
+        "pt": "República Dominicana",
+        "fr": "République dominicaine"
+      },
+      "coordinates": {
+        "latitude": 18.7357,
+        "longitude": -70.1627
+      },
+      "status": "planned"
+    },
+    {
+      "id": "venezuela",
+      "siteId": null,
+      "name": {
+        "es": "Venezuela",
+        "en": "Venezuela",
+        "pt": "Venezuela",
+        "fr": "Venezuela"
+      },
+      "coordinates": {
+        "latitude": 6.4238,
+        "longitude": -66.5897
+      },
+      "status": "planned"
+    },
+    {
+      "id": "united-kingdom",
+      "siteId": null,
+      "name": {
+        "es": "Reino Unido",
+        "en": "United Kingdom",
+        "pt": "Reino Unido",
+        "fr": "Royaume-Uni"
+      },
+      "coordinates": {
+        "latitude": 55.3781,
+        "longitude": -3.436
+      },
+      "status": "planned"
+    },
+    {
+      "id": "paraguay",
+      "siteId": null,
+      "name": {
+        "es": "Paraguay",
+        "en": "Paraguay",
+        "pt": "Paraguai",
+        "fr": "Paraguay"
+      },
+      "coordinates": {
+        "latitude": -23.4425,
+        "longitude": -58.4438
+      },
+      "status": "planned"
+    },
+    {
+      "id": "ecuador",
+      "siteId": null,
+      "name": {
+        "es": "Ecuador",
+        "en": "Ecuador",
+        "pt": "Equador",
+        "fr": "Équateur"
+      },
+      "coordinates": {
+        "latitude": -1.8312,
+        "longitude": -78.1834
+      },
+      "status": "planned"
+    },
+    {
+      "id": "uruguay",
+      "siteId": null,
+      "name": {
+        "es": "Uruguay",
+        "en": "Uruguay",
+        "pt": "Uruguai",
+        "fr": "Uruguay"
+      },
+      "coordinates": {
+        "latitude": -32.5228,
+        "longitude": -55.7658
+      },
+      "status": "planned"
+    },
+    {
+      "id": "spain",
+      "siteId": null,
+      "name": {
+        "es": "España",
+        "en": "Spain",
+        "pt": "Espanha",
+        "fr": "Espagne"
+      },
+      "coordinates": {
+        "latitude": 40.4637,
+        "longitude": -3.7492
+      },
+      "status": "planned"
+    },
+    {
+      "id": "albania",
+      "siteId": null,
+      "name": {
+        "es": "Albania",
+        "en": "Albania",
+        "pt": "Albânia",
+        "fr": "Albanie"
+      },
+      "coordinates": {
+        "latitude": 41.1533,
+        "longitude": 20.1683
+      },
+      "status": "planned"
+    },
+    {
+      "id": "cyprus",
+      "siteId": null,
+      "name": {
+        "es": "Chipre",
+        "en": "Cyprus",
+        "pt": "Chipre",
+        "fr": "Chypre"
+      },
+      "coordinates": {
+        "latitude": 35.1264,
+        "longitude": 33.4299
+      },
+      "status": "planned"
+    },
+    {
+      "id": "egypt",
+      "siteId": null,
+      "name": {
+        "es": "Egipto",
+        "en": "Egypt",
+        "pt": "Egito",
+        "fr": "Égypte"
+      },
+      "coordinates": {
+        "latitude": 26.8206,
+        "longitude": 30.8025
+      },
+      "status": "planned"
+    },
+    {
+      "id": "france",
+      "siteId": null,
+      "name": {
+        "es": "Francia",
+        "en": "France",
+        "pt": "França",
+        "fr": "France"
+      },
+      "coordinates": {
+        "latitude": 46.2276,
+        "longitude": 2.2137
+      },
+      "status": "planned"
+    },
+    {
+      "id": "nicaragua",
+      "siteId": null,
+      "name": {
+        "es": "Nicaragua",
+        "en": "Nicaragua",
+        "pt": "Nicarágua",
+        "fr": "Nicaragua"
+      },
+      "coordinates": {
+        "latitude": 12.8654,
+        "longitude": -85.2072
+      },
+      "status": "planned"
+    },
+    {
+      "id": "jamaica",
+      "siteId": null,
+      "name": {
+        "es": "Jamaica",
+        "en": "Jamaica",
+        "pt": "Jamaica",
+        "fr": "Jamaïque"
+      },
+      "coordinates": {
+        "latitude": 18.1096,
+        "longitude": -77.2975
+      },
+      "status": "planned"
+    },
+    {
+      "id": "saint-kitts",
+      "siteId": null,
+      "name": {
+        "es": "San Cristóbal y Nieves",
+        "en": "Saint Kitts and Nevis",
+        "pt": "São Cristóvão e Nevis",
+        "fr": "Saint-Christophe-et-Niévès"
+      },
+      "coordinates": {
+        "latitude": 17.3578,
+        "longitude": -62.783
+      },
+      "status": "planned"
+    },
+    {
+      "id": "dominica",
+      "siteId": null,
+      "name": {
+        "es": "Dominica",
+        "en": "Dominica",
+        "pt": "Dominica",
+        "fr": "Dominique"
+      },
+      "coordinates": {
+        "latitude": 15.415,
+        "longitude": -61.371
+      },
+      "status": "planned"
+    },
+    {
+      "id": "grenada",
+      "siteId": null,
+      "name": {
+        "es": "Granada",
+        "en": "Grenada",
+        "pt": "Granada",
+        "fr": "Grenade"
+      },
+      "coordinates": {
+        "latitude": 12.1165,
+        "longitude": -61.679
+      },
+      "status": "planned"
+    },
+    {
+      "id": "saint-vincent",
+      "siteId": null,
+      "name": {
+        "es": "San Vicente y las Granadinas",
+        "en": "Saint Vincent and the Grenadines",
+        "pt": "São Vicente e Granadinas",
+        "fr": "Saint-Vincent-et-les-Grenadines"
+      },
+      "coordinates": {
+        "latitude": 12.9843,
+        "longitude": -61.2872
+      },
+      "status": "planned"
+    },
+    {
+      "id": "honduras",
+      "name": {
+        "en": "Honduras",
+        "es": "Honduras",
+        "pt": "Honduras",
+        "fr": "Honduras"
+      },
+      "coordinates": {
+        "latitude": 14.0723,
+        "longitude": -87.1921
+      },
+      "status": "planned",
+      "siteId": null
+    }
+  ]
+}
