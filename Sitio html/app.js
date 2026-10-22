@@ -95,6 +95,17 @@
 
   const localize = value => value?.[locale] || value?.en || "";
   const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
+  if (!isPublications) {
+    const pageContent = siteRoute === "global" ? globalContent : siteRoute === "mexico" ? mexicoContent : null;
+    const hero = document.querySelector(siteRoute === "global" ? ".global-hero" : ".local-hero");
+    const heroContent = pageContent?.sections?.hero;
+    if (hero && heroContent) {
+      hero.querySelector(".section-label").textContent = localize(heroContent.eyebrow);
+      hero.querySelector("h1").textContent = localize(heroContent.title);
+      hero.querySelector("div > p:not(.section-label)").textContent = localize(heroContent.body);
+      hero.querySelector("a").firstChild.textContent = `${localize(heroContent.action.label)} `;
+    }
+  }
   const publicationItems = globalContent?.sections?.news?.items || [];
   const publicationId = params.get("publicacion");
   if (isPublications && publicationId) {
