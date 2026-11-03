@@ -343,6 +343,66 @@ export async function getSharedContent() {
   return { shared, network };
 }
 
+const publicationDetailsFile = "news-details.json";
+function sanitizePublicationHtml(html) {
+  return String(html).replace(/<(script|iframe|object|embed|form|input|button)[^>]*>[\s\S]*?<\/\1>/gi, "").replace(/<(script|iframe|object|embed|form|input|button)[^>]*\/?\s*>/gi, "").replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "").replace(/(href|src)\s*=\s*(["'])\s*javascript:[\s\S]*?\2/gi, '$1="#"');
+}
+
+export async function getPublications(siteId) {
+  const content = await getPageContent(siteId);
+  const details = await readJson(publicationDetailsFile);
+  return (content.sections.news?.items || []).map(item => ({ ...item, detail: details[item.id] || null }));
+}
+
+export async function savePublication(siteId, publication, actor = null) {
+  if (!publication || typeof publication !== "object" || Array.isArray(publication)) throw Object.assign(new Error("Publicación inválida"), { status: 400 });
+  const id = String(publication.id || "");
+  const detail = publication.detail || {};
+  if (!/^[a-z][a-z0-9-]{2,80}$/.test(id) || !["news", "article"].includes(detail.kind) || !/^\d{4}-\d{2}-\d{2}$/.test(detail.date || "") ||
+      typeof publication.title?.es !== "string" || !publication.title.es.trim() || typeof detail.summary !== "string" || !detail.summary.trim() ||
+      typeof detail.contentHtml !== "string" || !detail.contentHtml.trim() || typeof publication.image?.src !== "string" || !publication.image.src.trim()) {
+    throw Object.assign(new Error("Completa título, fecha, tipo, resumen, imagen y contenido"), { status: 400 });
+  }
+  const content = await getPageContent(siteId);
+  content.sections.news ||= { enabled: true, eyebrow: { es: "NOVEDADES", en: "NEWS", pt: "NOVIDADES", fr: "ACTUALITÉS" }, title: { es: "Últimas publicaciones.", en: "Latest publications.", pt: "Últimas publicações.", fr: "Dernières publications." }, actionLabel: { es: "Ver todas las publicaciones", en: "View all publications", pt: "Ver todas as publicações", fr: "Voir toutes les publications" }, items: [] };
+  content.sections.news.items ||= [];
+  const item = { id, category: publication.category, title: publication.title, image: publication.image };
+  const index = content.sections.news.items.findIndex(current => current.id === id);
+  if (index >= 0) content.sections.news.items[index] = item; else content.sections.news.items.unshift(item);
+  await saveDocument(siteId, content);
+  const details = await readJson(publicationDetailsFile);
+  details[id] = { date: detail.date, kind: detail.kind, sourceUrl: detail.sourceUrl || "", summary: detail.summary, contentHtml: sanitizePublicationHtml(detail.contentHtml) };
+  await writeFile(path.resolve(config.contentRoot, publicationDetailsFile), `${JSON.stringify(details, null, 2)}\n`, "utf8");
+  return { ...item, detail: details[id], updatedBy: actor, savedAt: new Date().toISOString() };
+}
+
+export async function deletePublication(siteId, publicationId) {
+  const content = await getPageContent(siteId);
+  const items = content.sections.news?.items || [];
+  const index = items.findIndex(item => item.id === publicationId);
+  if (index < 0) throw Object.assign(new Error("Publicación no encontrada"), { status: 404 });
+  items.splice(index, 1);
+  await saveDocument(siteId, content);
+  const details = await readJson(publicationDetailsFile);
+  delete details[publicationId];
+  await writeFile(path.resolve(config.contentRoot, publicationDetailsFile), `${JSON.stringify(details, null, 2)}\n`, "utf8");
+  return { deleted: true, publicationId };
+}
+
+export async function savePublicationImage(siteId, name, mimeType, base64) {
+  const extensions = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif" };
+  const extension = extensions[mimeType];
+  if (!extension || typeof base64 !== "string") throw Object.assign(new Error("Usa una imagen JPG, PNG, WEBP o GIF"), { status: 400 });
+  const buffer = Buffer.from(base64, "base64");
+  if (!buffer.length || buffer.length > 5 * 1024 * 1024) throw Object.assign(new Error("La imagen debe pesar menos de 5 MB"), { status: 413 });
+  const stem = String(name || "publicacion").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 45) || "publicacion";
+  const filename = `${siteId}-${Date.now()}-${stem}.${extension}`;
+  const directory = path.resolve(config.contentRoot, "../../public/images/news");
+  await mkdir(directory, { recursive: true });
+  await writeFile(path.join(directory, filename), buffer);
+  return { src: `/images/news/${filename}` };
+}
+
 export function describeSections(content) {
   return Object.entries(content.sections).map(([id, section], position) => ({
     id,

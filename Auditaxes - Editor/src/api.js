@@ -88,6 +88,12 @@ export function getFieldAiJob(sectionId, jobId) {
   return request(`/content/current/sections/${encodeURIComponent(sectionId)}/field-ai-jobs/${encodeURIComponent(jobId)}`);
 }
 
+export function startDraftAiJob(sectionId, fields, sourceLocale) {
+  return request(`/content/current/sections/${encodeURIComponent(sectionId)}/draft-ai-jobs`, {
+    method: "POST", body: JSON.stringify({ task: "proofread", fields, sourceLocale }),
+  });
+}
+
 export function createSection(sectionId, section, sourceLocale) {
   return request("/content/current/sections", { method: "POST", body: JSON.stringify({ sectionId, section, sourceLocale }) });
 }
@@ -98,4 +104,28 @@ export function saveSectionOrder(sectionOrder) {
 
 export function deleteSection(sectionId) {
   return request(`/content/current/sections/${encodeURIComponent(sectionId)}`, { method: "DELETE" });
+}
+
+export function getPublications() { return request("/content/current/publications"); }
+
+export function savePublication(publication) {
+  return request(`/content/current/publications/${encodeURIComponent(publication.id)}`, { method: "PUT", body: JSON.stringify(publication) });
+}
+
+export function deletePublication(publicationId) {
+  return request(`/content/current/publications/${encodeURIComponent(publicationId)}`, { method: "DELETE" });
+}
+
+export function uploadPublicationImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("No se pudo leer la imagen"));
+    reader.onload = async () => {
+      try {
+        const data = String(reader.result).split(",")[1];
+        resolve(await request("/content/current/publication-images", { method: "POST", body: JSON.stringify({ name: file.name, type: file.type, data }) }));
+      } catch (error) { reject(error); }
+    };
+    reader.readAsDataURL(file);
+  });
 }

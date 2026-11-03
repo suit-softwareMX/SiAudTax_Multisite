@@ -2,11 +2,13 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { content, getCountryContent, type CountryKey, type Locale, type PageKey } from "./content";
-import { newsDetails, type NewsKind } from "./content/news-details";
+import newsDetailsData from "./content/news-details.json";
 import { newsTranslations } from "./content/news-translations";
 const catalogs = content.shared.catalogs;
 const ui = content.shared.ui;
 const countries = content.network.countries;
+type NewsKind = "news" | "article";
+const newsDetails = newsDetailsData as Record<string,any>;
 const tr = (value: Record<string,string>, locale: Locale) => value[locale] ?? value.en;
 const siteDoc = (page: PageKey) => page === "global" ? content.global : getCountryContent(page);
 
@@ -160,7 +162,7 @@ export function PublicationsPage({page,locale,onHome,onPage,onLocale}:{page:Page
     {selectedItem&&selectedDetail?<article className="publication-detail">
       <header><button onClick={()=>choose(null)}>← {tr(labels.backToNews,locale)}</button><div className="publication-detail-meta"><span className={`publication-tag ${selectedDetail.kind}`}>{newsKindLabel(selectedDetail.kind,locale)}</span><time dateTime={selectedDetail.date}>{formatNewsDate(selectedDetail.date,locale)}</time></div><h1>{tr(selectedItem.title,locale)}</h1><p>{localizedDetail.summary}</p></header>
       <img className="publication-detail-image" src={selectedItem.image.src} alt={tr(selectedItem.image.alt,locale)}/>
-      <div className="publication-detail-body">{localizedDetail.sections.map((block,index)=><section key={index}>{block.heading&&<h2>{block.heading}</h2>}{block.paragraphs?.map((paragraph,i)=><p key={i}>{paragraph}</p>)}{block.bullets&&<ul>{block.bullets.map((bullet,i)=><li key={i}>{bullet}</li>)}</ul>}</section>)}<a href={selectedDetail.sourceUrl} target="_blank" rel="noreferrer">{tr(labels.source,locale)} ↗</a></div>
+      <div className="publication-detail-body">{localizedDetail.contentHtml?<div className="publication-rich-content" dangerouslySetInnerHTML={{__html:localizedDetail.contentHtml}}/>:(localizedDetail.sections??[]).map((block,index)=><section key={index}>{block.heading&&<h2>{block.heading}</h2>}{block.paragraphs?.map((paragraph,i)=><p key={i}>{paragraph}</p>)}{block.bullets&&<ul>{block.bullets.map((bullet,i)=><li key={i}>{bullet}</li>)}</ul>}</section>)}{selectedDetail.sourceUrl&&<a href={selectedDetail.sourceUrl} target="_blank" rel="noreferrer">{tr(labels.source,locale)} ↗</a>}</div>
     </article>:<>
       <section className="publications-hero"><button onClick={onHome}>← {tr(labels.back,locale)}</button><p>{tr(section.eyebrow,locale)}</p><h1>{tr(section.title,locale)}</h1><span>{tr(labels.intro,locale)}</span></section>
       <section className="publication-controls" aria-label={tr(section.eyebrow,locale)}><div className="publication-filters">{(["all","article","news"] as const).map(value=><button key={value} className={kind===value?"active":""} aria-pressed={kind===value} onClick={()=>setKind(value)}><span className="filter-dot"/>{tr(labels[value],locale)}</button>)}</div><div className="publication-order" role="group" aria-label="Orden">{(["newest","oldest"] as const).map(value=><button key={value} className={order===value?"active":""} aria-pressed={order===value} onClick={()=>setOrder(value)}><span aria-hidden="true">{value==="newest"?"↓":"↑"}</span>{tr(labels[value],locale)}</button>)}</div></section>

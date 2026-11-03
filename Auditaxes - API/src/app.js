@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import cors from "cors";
 import express from "express";
 import { config, publicUser, users } from "./config.js";
-import { createSection, deleteSection, describeSections, fieldsHash, getAiJobRef, getEditorialContent, getFieldAiJobRef, getPageContent, getPublishedPageContent, getSharedContent, getSiteConfiguration, getTranslation, getTranslationJobRef, recordAiJob, recordFieldAiJob, recordTranslationJob, updateEditorialStatus, updateSection, updateSectionOrder, updateTranslation, updateTranslationJob } from "./content-store.js";
+import { createSection, deletePublication, deleteSection, describeSections, fieldsHash, getAiJobRef, getEditorialContent, getFieldAiJobRef, getPageContent, getPublications, getPublishedPageContent, getSharedContent, getSiteConfiguration, getTranslation, getTranslationJobRef, recordAiJob, recordFieldAiJob, recordTranslationJob, savePublication, savePublicationImage, updateEditorialStatus, updateSection, updateSectionOrder, updateTranslation, updateTranslationJob } from "./content-store.js";
 import { inferenceRequest } from "./inference.js";
 
 const sessions = new Map();
@@ -25,7 +25,7 @@ export function createApp() {
   app.disable("x-powered-by");
   const localOrigins = new Set([config.editorOrigin, ...[5173, 4321, 4322, 4323].flatMap(port => [`http://localhost:${port}`, `http://127.0.0.1:${port}`])]);
   app.use(cors({ origin: (origin, done) => done(null, !origin || localOrigins.has(origin)), methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: ["Content-Type", "Authorization"] }));
-  app.use(express.json({ limit: "500kb" }));
+  app.use(express.json({ limit: "7mb" }));
 
   app.get("/api/health", (_request, response) => {
     response.json({ status: "ok", service: "auditaxes-api", contentRoot: config.contentRoot });
@@ -82,6 +82,28 @@ export function createApp() {
       ]);
       response.json({ siteId: site.id, sourceLocale: site.defaultLocale, sections: describeSections(content) });
     } catch (error) { next(error); }
+  });
+
+  app.get("/api/content/current/publications", authenticate, async (request, response, next) => {
+    try { response.json({ publications: await getPublications(request.auth.user.siteId) }); }
+    catch (error) { next(error); }
+  });
+
+  app.put("/api/content/current/publications/:publicationId", authenticate, async (request, response, next) => {
+    try {
+      if (request.body?.id && request.body.id !== request.params.publicationId) return response.status(400).json({ error: "El identificador no coincide" });
+      response.json({ publication: await savePublication(request.auth.user.siteId, { ...request.body, id: request.params.publicationId }, request.auth.user.id) });
+    } catch (error) { next(error); }
+  });
+
+  app.delete("/api/content/current/publications/:publicationId", authenticate, async (request, response, next) => {
+    try { response.json(await deletePublication(request.auth.user.siteId, request.params.publicationId)); }
+    catch (error) { next(error); }
+  });
+
+  app.post("/api/content/current/publication-images", authenticate, async (request, response, next) => {
+    try { response.status(201).json(await savePublicationImage(request.auth.user.siteId, request.body?.name, request.body?.type, request.body?.data)); }
+    catch (error) { next(error); }
   });
 
   app.get("/api/content/current/sections/:sectionId", authenticate, async (request, response, next) => {
@@ -276,6 +298,30 @@ export function createApp() {
       const ref = await getFieldAiJobRef(siteId, sectionId, jobId);
       if (!ref) return response.status(404).json({ error: "Trabajo no encontrado" });
       response.json({ ...await inferenceRequest(`/v1/jobs/${encodeURIComponent(jobId)}`), path: ref.path, textHash: ref.textHash });
+    } catch (error) { next(error); }
+  });
+
+  app.post("/api/content/current/sections/:sectionId/draft-ai-jobs", authenticate, async (request, response, next) => {
+    try {
+      const { siteId } = request.auth.user;
+      const { sectionId } = request.params;
+      const { fields, sourceLocale, task = "proofread" } = request.body || {};
+      const section = (await getPageContent(siteId)).sections[sectionId];
+      if (!section) return response.status(404).json({ error: "Sección no encontrada" });
+      if (task !== "proofread") return response.status(400).json({ error: "Tarea no disponible" });
+      if (!["es", "en"].includes(sourceLocale) || !fields || typeof fields !== "object" || Array.isArray(fields)) return response.status(400).json({ error: "Campos inválidos" });
+      const entries = Object.entries(fields);
+      if (!entries.length || entries.length > 60 || entries.some(([id, value]) => {
+        let path;
+        try { path = JSON.parse(id); } catch { return true; }
+        const fieldName = String(path?.at(-2) || "").toLowerCase();
+        return !Array.isArray(path) || path.length < 2 || path.length > 12 || path.at(-1) !== sourceLocale ||
+          path.some(part => !(typeof part === "string" && part.length <= 80 || Number.isInteger(part) && part >= 0)) ||
+          /^(href|src|url|email|phone|id)$/.test(fieldName) || typeof value !== "string" || !value.trim() || value.length > 4000;
+      }) || entries.reduce((total, [, value]) => total + value.length, 0) > 4000) return response.status(400).json({ error: "La sección excede el límite o contiene campos no admitidos" });
+      const job = await inferenceRequest("/v1/jobs", { method: "POST", body: JSON.stringify({ task, input: { source_locale: sourceLocale, fields } }) });
+      await recordFieldAiJob(siteId, sectionId, job.id, entries.map(([id]) => JSON.parse(id)), task, fieldsHash(fields));
+      response.status(202).json(job);
     } catch (error) { next(error); }
   });
 
