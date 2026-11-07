@@ -3,12 +3,27 @@ import crypto from "node:crypto";
 import path from "node:path";
 import sanitizeHtml from "sanitize-html";
 import { config } from "./config.js";
+import { ARTICLE_MAX_HTML, ARTICLE_MAX_TEXT, fieldLimit } from "../../shared/editor-limits.mjs";
 
 const pageFiles = Object.freeze({
   global: "global.json",
   mexico: path.join("countries", "mexico.json"),
   salvador: path.join("countries", "salvador.json"),
 });
+
+function assertFieldLimits(value, previous, fieldPath = []) {
+  if (typeof value === "string") {
+    const max = fieldLimit(fieldPath);
+    if (value !== previous && value.length > max) {
+      throw Object.assign(new Error(`El campo «${fieldPath.join(" › ")}» admite hasta ${max} caracteres.`), { status: 413 });
+    }
+  } else if (value && typeof value === "object") {
+    if (fieldPath.length >= 32) throw Object.assign(new Error("La sección tiene demasiados niveles de campos."), { status: 413 });
+    for (const [key, child] of Object.entries(value)) {
+      assertFieldLimits(child, previous?.[key], [...fieldPath, Array.isArray(value) ? Number(key) : key]);
+    }
+  }
+}
 
 async function readState(filename) {
   try { return JSON.parse(await readFile(filename, "utf8")); }
@@ -169,6 +184,7 @@ export async function updateSection(siteId, sectionId, section, actor = null, re
   if (!(sectionId in content.sections)) {
     throw Object.assign(new Error("Sección no encontrada"), { status: 404 });
   }
+  assertFieldLimits(section, content.sections[sectionId]);
 
   await getPublishedPageContent(siteId);
   const state = await readState(config.editorialStatePath);
@@ -204,6 +220,7 @@ export async function createSection(siteId, sectionId, section, sourceLocale = n
   if (sourceLocale !== null && !["es", "en"].includes(sourceLocale)) throw Object.assign(new Error("Idioma original inválido"), { status: 400 });
   const content = await getPageContent(siteId);
   if (sectionId in content.sections) throw Object.assign(new Error("Ya existe una sección con ese identificador"), { status: 409 });
+  assertFieldLimits(section);
   await getPublishedPageContent(siteId);
   content.sections[sectionId] = section;
   content.sectionOrder = [...(content.sectionOrder || Object.keys(content.sections).filter(id => id !== sectionId)), sectionId];
@@ -269,9 +286,10 @@ export async function updateTranslation(siteId, sectionId, fields, sourceHash, s
   if (sourceHash !== current.sourceHash) throw Object.assign(new Error("El original cambió; vuelve a cargar la sección"), { status: 409 });
   const ids = Object.keys(current.fields);
   if (!fields || typeof fields !== "object" || Array.isArray(fields) || !ids.length || Object.keys(fields).length !== ids.length ||
-      ids.some(id => typeof fields[id] !== "string" || !fields[id].trim() || fields[id].length > 4000)) {
+      ids.some(id => typeof fields[id] !== "string" || !fields[id].trim())) {
     throw Object.assign(new Error("Campos de traducción inválidos"), { status: 400 });
   }
+  for (const id of ids) assertFieldLimits(fields[id], current.translatedFields[id], JSON.parse(id));
   const targetLocale = current.targetLocale;
   const state = await readState(config.editorialStatePath);
   const metadata = metadataFor(state, siteId, sectionId);
@@ -452,7 +470,22 @@ export async function savePublication(siteId, publication, actor = null) {
   }
   const legacyBody = detail.contentHtml === undefined && Array.isArray(previousDetail?.sections)
     && !previousDetail.contentHtml && previousDetail.summary === detail.summary;
+  assertFieldLimits(publication.title, items[index]?.title, ["title"]);
+  assertFieldLimits(publication.image, items[index]?.image, ["image"]);
+  assertFieldLimits(publication.category, items[index]?.category, ["category"]);
+  assertFieldLimits(detail.summary, previousDetail?.summary, ["summary"]);
+  assertFieldLimits(detail.sourceUrl, previousDetail?.sourceUrl, ["sourceUrl"]);
+  if (detail.contentHtml !== previousDetail?.contentHtml && detail.contentHtml?.length > ARTICLE_MAX_HTML) {
+    throw Object.assign(new Error("El formato del artículo es demasiado extenso. Pega el texto con menos formato."), { status: 413 });
+  }
   const contentHtml = typeof detail.contentHtml === "string" ? sanitizePublicationHtml(detail.contentHtml) : "";
+  if (contentHtml && detail.contentHtml !== previousDetail?.contentHtml) {
+    const plain = sanitizeHtml(contentHtml, { allowedTags: [], allowedAttributes: {} })
+      .replace(/&(?:amp|lt|gt|quot|apos|#39);/g, "x");
+    if (plain.length > ARTICLE_MAX_TEXT) {
+      throw Object.assign(new Error(`El contenido del artículo admite hasta ${ARTICLE_MAX_TEXT} caracteres.`), { status: 413 });
+    }
+  }
   if (!legacyBody && !contentHtml.trim()) {
     throw Object.assign(new Error("Completa el contenido de la publicación"), { status: 400 });
   }

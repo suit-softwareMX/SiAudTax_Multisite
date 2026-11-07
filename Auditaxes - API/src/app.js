@@ -3,7 +3,7 @@ import cors from "cors";
 import express from "express";
 import { config, publicUser, users } from "./config.js";
 import { createSection, deletePublication, deleteSection, describeSections, fieldsHash, getAiJobRef, getEditorialContent, getFieldAiJobRef, getPageContent, getPublications, getPublicPageContent, getSharedContent, getSiteConfiguration, getTranslation, getTranslationJobRef, isPublicationImageName, legacyPublicationImageDirectory, publicationImagePath, recordAiJob, recordFieldAiJob, recordTranslationJob, savePublication, savePublicationImage, updateEditorialStatus, updateSection, updateSectionOrder, updateTranslation, updateTranslationJob } from "./content-store.js";
-import { inferenceRequest } from "./inference.js";
+import { inferenceRequest, startInferenceJob } from "./inference.js";
 
 const sessions = new Map();
 
@@ -191,7 +191,7 @@ export function createApp() {
       } else {
         const requested = request.body?.fields;
         if (!requested || typeof requested !== "object" || Array.isArray(requested) || !Object.keys(requested).length ||
-            Object.entries(requested).some(([id, value]) => !Object.hasOwn(current.fields, id) || typeof value !== "string" || !value.trim() || value.length > 4000)) {
+            Object.entries(requested).some(([id, value]) => !Object.hasOwn(current.fields, id) || typeof value !== "string" || !value.trim())) {
           return response.status(400).json({ error: "Campos inválidos" });
         }
         if (task === "review" && Object.keys(requested).length !== Object.keys(current.fields).length) {
@@ -204,11 +204,7 @@ export function createApp() {
         input.fields = Object.fromEntries(Object.keys(fields).map(id => [id, current.fields[id]]));
         input.translated_fields = fields;
       } else input.fields = fields;
-      if (Object.keys(input.fields).length > 60 || Object.values(input.fields).join("").length > 4000 ||
-          Object.values(input.translated_fields || {}).join("").length > 4000) {
-        return response.status(413).json({ error: "La sección excede el límite de 60 campos o 4000 caracteres por trabajo" });
-      }
-      const job = await inferenceRequest("/v1/jobs", { method: "POST", body: JSON.stringify({ task, input }) });
+      const job = await startInferenceJob(task, input);
       await recordTranslationJob(siteId, sectionId, { id: job.id, task, sourceHash: current.sourceHash, sourceLocale: current.sourceLocale,
         targetLocale: current.targetLocale, fields, status: job.status, user: request.auth.user.id, createdAt: new Date().toISOString() });
       response.status(202).json(job);
@@ -243,7 +239,7 @@ export function createApp() {
         }
         input.translated_fields = translation.metadata.translations[translation.targetLocale].fields;
       }
-      const job = await inferenceRequest("/v1/jobs", { method: "POST", body: JSON.stringify({ task, input }) });
+      const job = await startInferenceJob(task, input);
       await recordAiJob(siteId, sectionId, task, job.id, fieldsHash(input));
       response.status(202).json(job);
     } catch (error) { next(error); }
@@ -278,14 +274,14 @@ export function createApp() {
       const fieldName = String(path.at(-2)).toLowerCase();
       if (!parent || typeof parent !== "object" || typeof parent[path.at(-1)] !== "string" ||
           !["es", "en"].some(locale => locale in parent) || /^(href|src|url|email|phone|id)$/.test(fieldName) ||
-          typeof text !== "string" || !text.trim() || text.length > 4000 || !["translate", "proofread", "detect_language"].includes(task)) {
+          typeof text !== "string" || !text.trim() || !["translate", "proofread", "detect_language"].includes(task)) {
         return response.status(400).json({ error: "Texto o tarea no admitida" });
       }
       if (task !== "detect_language" && !["es", "en"].includes(sourceLocale)) return response.status(400).json({ error: "Elige el idioma del texto" });
       const input = { fields: { field: text } };
       if (task !== "detect_language") input.source_locale = sourceLocale;
       if (task === "translate") input.target_locale = sourceLocale === "es" ? "en" : "es";
-      const job = await inferenceRequest("/v1/jobs", { method: "POST", body: JSON.stringify({ task, input }) });
+      const job = await startInferenceJob(task, input, path);
       await recordFieldAiJob(siteId, sectionId, job.id, path, task, fieldsHash(text));
       response.status(202).json(job);
     } catch (error) { next(error); }
@@ -311,15 +307,16 @@ export function createApp() {
       if (task !== "proofread") return response.status(400).json({ error: "Tarea no disponible" });
       if (!["es", "en"].includes(sourceLocale) || !fields || typeof fields !== "object" || Array.isArray(fields)) return response.status(400).json({ error: "Campos inválidos" });
       const entries = Object.entries(fields);
-      if (!entries.length || entries.length > 60 || entries.some(([id, value]) => {
+      if (!entries.length || entries.some(([id, value]) => {
         let path;
         try { path = JSON.parse(id); } catch { return true; }
-        const fieldName = String(path?.at(-2) || "").toLowerCase();
-        return !Array.isArray(path) || path.length < 2 || path.length > 12 || path.at(-1) !== sourceLocale ||
+        if (!Array.isArray(path)) return true;
+        const fieldName = String(path.at(-2) || "").toLowerCase();
+        return path.length < 2 || path.length > 12 || path.at(-1) !== sourceLocale ||
           path.some(part => !(typeof part === "string" && part.length <= 80 || Number.isInteger(part) && part >= 0)) ||
-          /^(href|src|url|email|phone|id)$/.test(fieldName) || typeof value !== "string" || !value.trim() || value.length > 4000;
-      }) || entries.reduce((total, [, value]) => total + value.length, 0) > 4000) return response.status(400).json({ error: "La sección excede el límite o contiene campos no admitidos" });
-      const job = await inferenceRequest("/v1/jobs", { method: "POST", body: JSON.stringify({ task, input: { source_locale: sourceLocale, fields } }) });
+          /^(href|src|url|email|phone|id)$/.test(fieldName) || typeof value !== "string" || !value.trim();
+      })) return response.status(400).json({ error: "La sección contiene campos no admitidos" });
+      const job = await startInferenceJob(task, { source_locale: sourceLocale, fields });
       await recordFieldAiJob(siteId, sectionId, job.id, entries.map(([id]) => JSON.parse(id)), task, fieldsHash(fields));
       response.status(202).json(job);
     } catch (error) { next(error); }

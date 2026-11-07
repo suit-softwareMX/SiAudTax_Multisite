@@ -6,6 +6,7 @@ import path from "node:path";
 import { after, before, test } from "node:test";
 import { createApp, clearSessions } from "../src/app.js";
 import { config } from "../src/config.js";
+import { AI_MAX_TEXT, ARTICLE_MAX_TEXT, fieldLimit } from "../../shared/editor-limits.mjs";
 
 let root, server, base, provider;
 const original = { ...config };
@@ -136,6 +137,41 @@ test("crear una publicación local o copiar una de Global conserva el aislamient
   assert.equal((await save(global, { ...newItem, id: "qa-publicacion-global" })).status, 200);
   const globalAfter = await getPublic("global");
   assert.equal(globalAfter.content.sections.news.items.find(item => item.id === sourceId).title.es, original.title.es);
+});
+
+test("rechaza campos extensos y trabajos de IA que exceden el presupuesto", async t => {
+  const { inferenceUrl, inferenceKey } = config;
+  config.inferenceUrl = "http://127.0.0.1:1";
+  config.inferenceKey = "";
+  t.after(() => Object.assign(config, { inferenceUrl, inferenceKey }));
+  const headers = await login("global");
+  const current = `${base}/api/content/current`;
+  const request = (route, body, method = "POST") => fetch(current + route, {
+    method, headers, body: JSON.stringify(body),
+  });
+  const titleLimit = fieldLimit(["title", "en"]);
+  const content = (await (await fetch(current, { headers })).json()).content;
+  const hero = structuredClone(content.sections.hero);
+  hero.title.en = "X".repeat(titleLimit + 1);
+  assert.equal((await request("/sections/hero", { section: hero }, "PUT")).status, 413);
+  assert.equal((await request("/sections/hero/field-ai-jobs", {
+    path: ["title", "en"], text: hero.title.en, task: "proofread", sourceLocale: "en",
+  })).status, 413);
+
+  const largeText = "x".repeat(Math.floor(AI_MAX_TEXT / 3) + 1);
+  const fields = Object.fromEntries(["body", "intro", "description"].map(key => [JSON.stringify([key, "en"]), largeText]));
+  assert.equal((await request("/sections/hero/draft-ai-jobs", { fields, sourceLocale: "en" })).status, 413);
+
+  const services = structuredClone(content.sections.services);
+  for (const item of services.items.slice(0, 3)) item.body.en = largeText;
+  assert.equal((await request("/sections/services", { section: services }, "PUT")).status, 200);
+  assert.equal((await request("/sections/services/ai-jobs/translate", {})).status, 413);
+  assert.equal((await request("/sections/services/translation-jobs", { task: "translate" })).status, 413);
+
+  const article = (await (await fetch(current + "/publications", { headers })).json()).publications
+    .find(item => item.detail?.summary);
+  const detail = { ...article.detail, contentHtml: `<p>${"x".repeat(ARTICLE_MAX_TEXT + 1)}</p>` };
+  assert.equal((await request(`/publications/${article.id}`, { ...article, detail }, "PUT")).status, 413);
 });
 
 test("el orden y la eliminación se reflejan en el sitio sin publicar secciones en borrador", async () => {
