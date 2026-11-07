@@ -149,9 +149,18 @@ const sectionLabels = {
 };
 
 const localeKeys = ["es", "en", "pt", "fr"];
-const fieldLabels = { eyebrow:"Etiqueta superior", title:"Título", body:"Descripción", intro:"Introducción", label:"Etiqueta", href:"Enlace", src:"Imagen", alt:"Texto alternativo", name:"Nombre", role:"Cargo", email:"Correo electrónico", phone:"Teléfono", address:"Dirección", value:"Valor", suffix:"Sufijo", items:"Elementos", people:"Personas", stats:"Indicadores", steps:"Pasos", links:"Enlaces", social:"Redes sociales" };
+const fieldLabels = { eyebrow:"Etiqueta superior", title:"Título", body:"Descripción", intro:"Introducción", label:"Etiqueta", href:"Enlace", src:"Imagen", alt:"Texto alternativo", name:"Nombre", role:"Cargo", email:"Correo electrónico", phone:"Teléfono", address:"Dirección", value:"Valor", suffix:"Sufijo", items:"Elementos", people:"Personas", stats:"Indicadores", steps:"Pasos", links:"Enlaces", social:"Redes sociales", legalNote:"Nota legal", blocks:"Bloques de contenido" };
 const humanize = key => fieldLabels[key] || key.replace(/([A-Z])/g," $1").replace(/^./,letter=>letter.toUpperCase());
 const isLocalized = value => value && typeof value === "object" && !Array.isArray(value) && localeKeys.some(key => key in value);
+const blockLabels = { heading: "Subtítulo", text: "Texto", bullets: "Viñetas" };
+
+function collectionItemTitle(item, locale, index) {
+  if (item?.siteId) return sites.find(site=>site.id === item.siteId)?.name || "Sitio";
+  const title = item?.title ?? item?.name ?? item?.label;
+  if (isLocalized(title)) return title[locale] || title.en || title.es || `Elemento ${index + 1}`;
+  if (typeof title === "string" && title.trim()) return title;
+  return blockLabels[item?.type] || `Elemento ${index + 1}`;
+}
 
 const staticSalvadorSections = new Set(["firm", "method", "practices", "industries", "team"]);
 const staticSection = (siteId, id) => siteId === "salvador" && staticSalvadorSections.has(id);
@@ -186,13 +195,11 @@ function SectionImageField({ src, onUpload, onChange, pending, disabled, error }
   </div>;
 }
 
-function ValueEditor({ value, label, path, locale, onChange, onRemove, sectionId, siteId, images }) {
+function ValueEditor({ value, label, path, locale, onChange, onRemove, sectionId, siteId, images, inCard = false }) {
   if (fieldUnavailable(siteId, sectionId, path)) {
     return <p className="read-only-field">{humanize(label)} · {sectionId === "news" ? "Se administra en Publicaciones" : "Solo lectura"}</p>;
   }
-  if (["id", "siteId", "type"].includes(path.at(-1))) {
-    return <p className="read-only-field">{humanize(label)}: {String(value)}</p>;
-  }
+  if (["id", "siteId", "type"].includes(path.at(-1))) return null;
   if (path.at(-1) === "src" && typeof value === "string") {
     const upload = images.state?.key === JSON.stringify(path) ? images.state : null;
     return <SectionImageField src={value} onUpload={file=>images.upload(path,file)}
@@ -209,10 +216,33 @@ function ValueEditor({ value, label, path, locale, onChange, onRemove, sectionId
     return <div className="field dynamic-field"><label htmlFor={id}>{humanize(label)} <small>{locale === "es" ? "Español" : "Inglés"} · original</small></label><textarea id={id} lang={locale} rows={text.length > 140 ? 5 : 3} value={text} onChange={event => onChange([...path, locale], event.target.value)}/></div>;
   }
   if (Array.isArray(value)) {
-    return <section className="field-group collection"><header><b>{humanize(label)}</b><span>{value.length} elementos</span></header>{value.map((item,index)=><div className="collection-item" key={item?.id || index}><div className="item-number">{String(index+1).padStart(2,"0")}{item?.id && <small>{item.id}</small>}{sectionId !== "insights" && <button type="button" className="remove-item" onClick={()=>onRemove([...path,index])} aria-label={`Eliminar ${humanize(label)} ${index+1}`}><Trash2/></button>}</div><ValueEditor value={item} label={`${humanize(label)} ${index+1}`} path={[...path,index]} locale={locale} onChange={onChange} onRemove={onRemove} sectionId={sectionId} siteId={siteId} images={images}/></div>)}</section>;
+    const consortium = sectionId === "consortium" && path.length === 1 && label === "items";
+    return <section className={`field-group collection collection-editor${consortium ? " collection-consortium" : ""}`}>
+      <header><b>{consortium ? "Principios del consorcio" : humanize(label)}</b>
+        <span>{value.length} {value.length === 1 ? "elemento" : "elementos"}</span>
+      </header>
+      <ol className="collection-items">
+        {value.map((item,index)=>{
+          const title = collectionItemTitle(item, locale, index);
+          return <li className="collection-card" key={item?.id || index}>
+            <div className="collection-card-heading">
+              <span className="item-number">{String(index+1).padStart(2,"0")}</span>
+              {!consortium && <strong>{title}</strong>}
+            </div>
+            <ValueEditor value={item} label={consortium ? "Principio" : "Contenido"} path={[...path,index]}
+              locale={locale} onChange={onChange} onRemove={onRemove} sectionId={sectionId} siteId={siteId} images={images} inCard/>
+            {sectionId !== "insights" && <button type="button" className="remove-item" disabled={images.disabled}
+              onClick={()=>onRemove([...path,index])} aria-label={`Eliminar ${title}`} title={`Eliminar ${title}`}><Trash2/></button>}
+          </li>;
+        })}
+      </ol>
+    </section>;
   }
   if (value && typeof value === "object") {
-    return <section className="field-group"><header><b>{label === "image" ? "Imagen" : humanize(label)}</b></header><div className="nested-fields">{Object.entries(value).map(([key,nested])=><ValueEditor key={key} value={nested} label={key} path={[...path,key]} locale={locale} onChange={onChange} onRemove={onRemove} sectionId={sectionId} siteId={siteId} images={images}/>)}</div></section>;
+    const fields = <div className="nested-fields">{Object.entries(value).map(([key,nested])=>
+      <ValueEditor key={key} value={nested} label={key} path={[...path,key]} locale={locale} onChange={onChange}
+        onRemove={onRemove} sectionId={sectionId} siteId={siteId} images={images}/>)}</div>;
+    return inCard ? fields : <section className="field-group"><header><b>{label === "image" ? "Imagen" : humanize(label)}</b></header>{fields}</section>;
   }
   if (typeof value === "boolean") {
     return <label className="boolean-field"><input type="checkbox" checked={value} onChange={event=>onChange(path,event.target.checked)}/><span>{humanize(label)}</span></label>;
@@ -244,7 +274,7 @@ function ContentPage({ site, onDirtyChange, goTranslations }) {
   useEffect(() => { getCurrentContent().then(result => { setDocument(result); setEditorial(result.editorial || {}); }).catch(reason => setLoadError(reason.message)); }, [site.id]);
   const locale = writingLocale;
   const sectionIds = document ? (document.content.sectionOrder || Object.keys(document.content.sections)) : [];
-  const sections = document ? sectionIds.map(id => { const section=document.content.sections[id]; const customTitle=section?.title?.[locale] || id; return [id, ...(sectionLabels[id] || [customTitle, "Sección personalizada"])]; }) : [];
+  const sections = document ? sectionIds.map(id => { const section=document.content.sections[id]; const customTitle=section?.title?.[locale] || section?.title?.en || section?.title?.es || "Sección sin título"; return [id, ...(sectionLabels[id] || [customTitle, "Sección personalizada"])]; }) : [];
   const readOnly = staticSection(site.id, selected);
   const movableIds = sectionIds.filter(id => !staticSection(site.id, id));
   const selectedIndex = Math.max(0, sections.findIndex(([id]) => id === selected));
@@ -419,6 +449,10 @@ function ContentPage({ site, onDirtyChange, goTranslations }) {
     ["Publicado", "Esta es la versión visible en el sitio."],
   ];
   const previewUrl=`/site-preview/${site.id === "salvador" ? "el-salvador" : site.id}?sitio=${site.id}&lang=${locale}`;
+  const fields = Object.entries(draft ?? {}).filter(([key])=>key!=="enabled"&&key!=="type");
+  const renderFields = entries => entries.map(([key,value])=>
+    <ValueEditor key={`${selected}-${key}`} value={value} label={key} path={[key]} locale={locale} onChange={updateDraft}
+      onRemove={removeDraftItem} sectionId={selected} siteId={site.id} images={{state:imageUpload,upload:uploadSectionImage,disabled:working}}/>);
   async function moveSelected(offset) { const index=movableIds.indexOf(selected); const target=movableIds[index+offset]; if (target) await dropSection(target, selected); }
   return <div className="page content-page">
     {savePrompt && <div className="ai-modal-backdrop"><div className="ai-modal save-review-modal" role="dialog" aria-modal="true" aria-labelledby="save-review-title" onKeyDown={event=>{if(event.key==="Escape")setSavePrompt(false);}}><h2 id="save-review-title">Guardar borrador</h2><p>Puedes guardar el borrador directamente o revisar la ortografía antes de guardarlo. Podrás publicarlo después.</p><div><button type="button" className="secondary" onClick={()=>setSavePrompt(false)}>Volver a editar</button><button type="button" className="secondary" onClick={requestDraftReview}><Sparkles/> Revisar ortografía</button><button type="button" className="primary" autoFocus onClick={()=>{setSavePrompt(false);persistDraft(draft);}}>Guardar borrador ahora</button></div></div></div>}
@@ -456,7 +490,12 @@ function ContentPage({ site, onDirtyChange, goTranslations }) {
       <div className="source-language language-choice"><Globe2/><div><small>IDIOMA ORIGINAL DE ESTA SECCIÓN</small><div className="language-options" role="group" aria-label="Idioma original de esta sección"><button type="button" className={locale === "es" ? "active" : ""} aria-pressed={locale === "es"} onClick={()=>chooseLocale("es")}>Español</button><button type="button" className={locale === "en" ? "active" : ""} aria-pressed={locale === "en"} onClick={()=>chooseLocale("en")}>Inglés</button></div><p>Estás redactando en {locale === "es" ? "español" : "inglés"}; revisarás el {locale === "es" ? "inglés" : "español"} en Traducciones.</p></div><ShieldCheck/></div>
 
       {draft?.type==="custom"&&<div className="block-toolbar"><span>Agregar bloque</span><button type="button" onClick={()=>addBlock("heading")}><Plus/> Subtítulo</button><button type="button" onClick={()=>addBlock("text")}><Plus/> Texto</button><button type="button" onClick={()=>addBlock("bullets")}><Plus/> Viñetas</button></div>}
-      {draft && <div className="dynamic-fields">{Object.entries(draft).filter(([key])=>key!=="enabled"&&key!=="type").map(([key,value])=><ValueEditor key={`${selected}-${key}`} value={value} label={key} path={[key]} locale={locale} onChange={updateDraft} onRemove={removeDraftItem} sectionId={selected} siteId={site.id} images={{state:imageUpload,upload:uploadSectionImage,disabled:working}}/>)}</div>}
+      {draft && (selected === "consortium"
+        ? <div className="consortium-editor">
+          <div className="dynamic-fields consortium-editor-title">{renderFields(fields.filter(([key])=>["eyebrow","title"].includes(key)))}</div>
+          <div className="dynamic-fields">{renderFields(fields.filter(([key])=>!["eyebrow","title"].includes(key)))}</div>
+        </div>
+        : <div className="dynamic-fields">{renderFields(fields)}</div>)}
       </>}
     </form></div>
   </div>;
@@ -524,7 +563,7 @@ function TranslationsPage({ site, onDirtyChange }) {
   const sectionIds = (document.content.sectionOrder || Object.keys(document.content.sections)).filter(id => !staticSection(site.id, id));
   const locale = source?.sourceLocale || (site.id === "global" ? "en" : "es");
   const selectedSection = document.content.sections[selected];
-  const selectedMeta = sectionLabels[selected] || [selectedSection?.title?.[locale] || selected, "Sección personalizada"];
+  const selectedMeta = sectionLabels[selected] || [selectedSection?.title?.[locale] || "Sección sin título", "Sección personalizada"];
   const translationStatusLabels = { translation_pending: "Pendiente", queued: "En cola", running: "Analizando", review: "En revisión", approved: "Aprobada", stale: "Desactualizada", failed: "Error" };
   const ready = source && Object.keys(source.fields).length > 0 && Object.keys(source.fields).every(id => draft[id]?.trim());
   const proofreadIds = source?.needsReview ? Object.keys(source.fields).filter(id => draft[id]?.trim()) : changed;
