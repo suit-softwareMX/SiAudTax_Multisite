@@ -392,7 +392,7 @@ function publicationDetail(details, siteId, id) {
 const uploadedImage = /^(global|mexico|salvador)-\d+-[a-z0-9-]+\.(jpg|png|webp|gif)$/;
 export const publicationImagePath = "/api/public/publication-images";
 
-export function publicationImageDirectory() {
+export function legacyPublicationImageDirectory() {
   return path.resolve(config.contentRoot, "../../public/images/news");
 }
 
@@ -491,7 +491,7 @@ export async function savePublicationImage(siteId, name, mimeType, base64) {
   if (!validSignature[extension]) throw Object.assign(new Error("El archivo no coincide con el formato de imagen seleccionado"), { status: 400 });
   const stem = String(name || "publicacion").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 45) || "publicacion";
   const filename = `${siteId}-${Date.now()}-${crypto.randomUUID()}-${stem}.${extension}`;
-  const directory = publicationImageDirectory();
+  const directory = config.publicationImagesRoot;
   await mkdir(directory, { recursive: true });
   await writeFile(path.join(directory, filename), buffer);
   return { src: `${publicationImagePath}/${filename}` };

@@ -16,6 +16,7 @@ before(async () => {
   await cp(config.contentRoot, contentRoot, { recursive: true });
   Object.assign(config, {
     contentRoot, backupRoot: path.join(root, "backups"),
+    publicationImagesRoot: path.join(root, "uploads"),
     editorialStatePath: path.join(root, "editorial.json"), publishedContentPath: path.join(root, "published.json"),
   });
   server = createApp().listen(0, "127.0.0.1");
@@ -77,6 +78,9 @@ test("publica cambios del artículo y sirve imágenes nuevas y antiguas desde el
   });
   assert.equal(uploaded.status, 201);
   const { src } = await uploaded.json();
+  const uploadedName = path.basename(src);
+  assert.deepEqual(await readFile(path.join(config.publicationImagesRoot, uploadedName)), Buffer.from(png, "base64"));
+  await assert.rejects(readFile(path.join(directory, uploadedName)), { code: "ENOENT" });
   for (const imageUrl of [item.image.src, src]) {
     const image = await fetch(base + imageUrl);
     assert.equal(image.status, 200);

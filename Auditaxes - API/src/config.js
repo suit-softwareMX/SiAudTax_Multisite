@@ -8,6 +8,7 @@ export const config = {
   port: Number(process.env.PORT || 4100),
   editorOrigin: process.env.EDITOR_ORIGIN || "http://localhost:5173",
   contentRoot: path.resolve(apiRoot, process.env.CONTENT_ROOT || "../Auditaxes - Sitio/app/content"),
+  publicationImagesRoot: path.resolve(apiRoot, process.env.PUBLICATION_IMAGES_ROOT || "../../Auditaxes-data/publication-images"),
   backupRoot: path.resolve(apiRoot, "backups"),
   editorialStatePath: path.resolve(apiRoot, "editorial-state.json"),
   publishedContentPath: path.resolve(apiRoot, "published-content.json"),

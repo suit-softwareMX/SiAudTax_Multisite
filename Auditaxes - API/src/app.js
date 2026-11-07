@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import cors from "cors";
 import express from "express";
 import { config, publicUser, users } from "./config.js";
-import { createSection, deletePublication, deleteSection, describeSections, fieldsHash, getAiJobRef, getEditorialContent, getFieldAiJobRef, getPageContent, getPublications, getPublicPageContent, getSharedContent, getSiteConfiguration, getTranslation, getTranslationJobRef, isPublicationImageName, publicationImageDirectory, publicationImagePath, recordAiJob, recordFieldAiJob, recordTranslationJob, savePublication, savePublicationImage, updateEditorialStatus, updateSection, updateSectionOrder, updateTranslation, updateTranslationJob } from "./content-store.js";
+import { createSection, deletePublication, deleteSection, describeSections, fieldsHash, getAiJobRef, getEditorialContent, getFieldAiJobRef, getPageContent, getPublications, getPublicPageContent, getSharedContent, getSiteConfiguration, getTranslation, getTranslationJobRef, isPublicationImageName, legacyPublicationImageDirectory, publicationImagePath, recordAiJob, recordFieldAiJob, recordTranslationJob, savePublication, savePublicationImage, updateEditorialStatus, updateSection, updateSectionOrder, updateTranslation, updateTranslationJob } from "./content-store.js";
 import { inferenceRequest } from "./inference.js";
 
 const sessions = new Map();
@@ -354,9 +354,15 @@ export function createApp() {
     const { filename } = request.params;
     response.set({ "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" });
     if (!isPublicationImageName(filename)) return response.sendStatus(404);
-    response.sendFile(filename, { root: publicationImageDirectory(), dotfiles: "deny" }, error => {
-      if (error?.status === 404) response.sendStatus(404);
-      else if (error) next(error);
+    response.sendFile(filename, { root: config.publicationImagesRoot, dotfiles: "deny" }, error => {
+      if (error?.status !== 404 || response.headersSent) {
+        if (error) next(error);
+        return;
+      }
+      response.sendFile(filename, { root: legacyPublicationImageDirectory(), dotfiles: "deny" }, legacyError => {
+        if (legacyError?.status === 404 && !response.headersSent) response.sendStatus(404);
+        else if (legacyError) next(legacyError);
+      });
     });
   });
 
