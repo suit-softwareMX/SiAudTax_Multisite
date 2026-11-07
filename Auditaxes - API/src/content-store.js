@@ -137,6 +137,13 @@ async function saveDocument(siteId, content) {
   await writeFile(absolutePath, `${JSON.stringify(content, null, 2)}\n`, "utf8");
 }
 
+async function publishNewsSection(siteId, content) {
+  const published = await readState(config.publishedContentPath);
+  published[siteId] ||= await getPublishedPageContent(siteId);
+  published[siteId].sections.news = structuredClone(content.sections.news);
+  await writeState(config.publishedContentPath, published);
+}
+
 export async function updateSection(siteId, sectionId, section, actor = null, requestedLocale = null) {
   if (!section || typeof section !== "object" || Array.isArray(section)) {
     throw Object.assign(new Error("La sección debe ser un objeto JSON"), { status: 400 });
@@ -351,7 +358,9 @@ function sanitizePublicationHtml(html) {
 export async function getPublications(siteId) {
   const content = await getPageContent(siteId);
   const details = await readJson(publicationDetailsFile);
-  return (content.sections.news?.items || []).map(item => ({ ...item, detail: details[item.id] || null }));
+  const ownItems = content.sections.news?.items;
+  const items = ownItems || (siteId === "global" ? [] : (await getPageContent("global")).sections.news?.items || []);
+  return items.map(item => ({ ...item, detail: details[item.id] || null, inherited: siteId !== "global" && !item.id.startsWith(`${siteId}-`) }));
 }
 
 export async function savePublication(siteId, publication, actor = null) {
@@ -365,11 +374,13 @@ export async function savePublication(siteId, publication, actor = null) {
   }
   const content = await getPageContent(siteId);
   content.sections.news ||= { enabled: true, eyebrow: { es: "NOVEDADES", en: "NEWS", pt: "NOVIDADES", fr: "ACTUALITÉS" }, title: { es: "Últimas publicaciones.", en: "Latest publications.", pt: "Últimas publicações.", fr: "Dernières publications." }, actionLabel: { es: "Ver todas las publicaciones", en: "View all publications", pt: "Ver todas as publicações", fr: "Voir toutes les publications" }, items: [] };
-  content.sections.news.items ||= [];
+  if (!content.sections.news.items) content.sections.news.items = siteId === "global" ? [] : structuredClone((await getPageContent("global")).sections.news?.items || []);
   const item = { id, category: publication.category, title: publication.title, image: publication.image };
-  const index = content.sections.news.items.findIndex(current => current.id === id);
+  const originalId = String(publication.originalId || id);
+  const index = content.sections.news.items.findIndex(current => current.id === originalId);
   if (index >= 0) content.sections.news.items[index] = item; else content.sections.news.items.unshift(item);
   await saveDocument(siteId, content);
+  await publishNewsSection(siteId, content);
   const details = await readJson(publicationDetailsFile);
   details[id] = { date: detail.date, kind: detail.kind, sourceUrl: detail.sourceUrl || "", summary: detail.summary, contentHtml: sanitizePublicationHtml(detail.contentHtml) };
   await writeFile(path.resolve(config.contentRoot, publicationDetailsFile), `${JSON.stringify(details, null, 2)}\n`, "utf8");
@@ -378,13 +389,16 @@ export async function savePublication(siteId, publication, actor = null) {
 
 export async function deletePublication(siteId, publicationId) {
   const content = await getPageContent(siteId);
-  const items = content.sections.news?.items || [];
+  content.sections.news ||= {};
+  if (!content.sections.news.items) content.sections.news.items = siteId === "global" ? [] : structuredClone((await getPageContent("global")).sections.news?.items || []);
+  const items = content.sections.news.items;
   const index = items.findIndex(item => item.id === publicationId);
   if (index < 0) throw Object.assign(new Error("Publicación no encontrada"), { status: 404 });
   items.splice(index, 1);
   await saveDocument(siteId, content);
+  await publishNewsSection(siteId, content);
   const details = await readJson(publicationDetailsFile);
-  delete details[publicationId];
+  if (siteId === "global" || publicationId.startsWith(`${siteId}-`)) delete details[publicationId];
   await writeFile(path.resolve(config.contentRoot, publicationDetailsFile), `${JSON.stringify(details, null, 2)}\n`, "utf8");
   return { deleted: true, publicationId };
 }

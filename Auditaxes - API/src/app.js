@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import path from "node:path";
 import cors from "cors";
 import express from "express";
 import { config, publicUser, users } from "./config.js";
@@ -29,6 +30,14 @@ export function createApp() {
 
   app.get("/api/health", (_request, response) => {
     response.json({ status: "ok", service: "auditaxes-api", contentRoot: config.contentRoot });
+  });
+
+  app.get("/api/publication-images/:filename", (request, response) => {
+    const filename = String(request.params.filename || "");
+    if (!/^[a-z0-9][a-z0-9._-]{2,180}\.(?:jpe?g|png|webp|gif)$/i.test(filename) || path.basename(filename) !== filename) return response.status(400).json({ error: "Imagen inválida" });
+    response.sendFile(path.resolve(config.contentRoot, "../../public/images/news", filename), error => {
+      if (error && !response.headersSent) response.status(error.statusCode === 404 ? 404 : 500).json({ error: "Imagen no encontrada" });
+    });
   });
 
   app.get("/api/inference/health", authenticate, async (_request, response, next) => {
@@ -343,12 +352,15 @@ export function createApp() {
 
   app.get("/api/public/content/:siteId", async (request, response, next) => {
     try {
-      const [site, content] = await Promise.all([
+      const [site, content, publications] = await Promise.all([
         getSiteConfiguration(request.params.siteId),
         getPublishedPageContent(request.params.siteId),
+        getPublications(request.params.siteId),
       ]);
+      content.sections.news ||= {};
+      content.sections.news.items = publications.map(({ detail: _detail, inherited: _inherited, ...publication }) => publication);
       response.set("Cache-Control", "no-store");
-      response.json({ site, sourceLocale: site.defaultLocale, content });
+      response.json({ site, sourceLocale: site.defaultLocale, content, publications });
     } catch (error) { next(error); }
   });
 

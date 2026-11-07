@@ -1,6 +1,11 @@
 const API_URL = import.meta.env.VITE_API_URL || "/api";
 const TOKEN_KEY = "auditaxes-editor-token";
 
+export function publicationImageUrl(src) {
+  if (!src?.startsWith("/images/news/")) return src || "";
+  return `${API_URL}/publication-images/${encodeURIComponent(src.split("/").at(-1))}`;
+}
+
 async function request(path, options = {}) {
   const token = sessionStorage.getItem(TOKEN_KEY);
   const response = await fetch(`${API_URL}${path}`, {

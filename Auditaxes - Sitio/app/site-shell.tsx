@@ -1,6 +1,6 @@
 "use client";
 import { startTransition, useEffect, useState } from "react";
-import { GlobalPage, Header, LocalPage, PublicationsPage } from "./components";
+import { GlobalPage, Header, LocalPage, mergeNewsDetails, PublicationsPage } from "./components";
 import { content, isLocale, isPageKey, type Locale, type PageKey } from "./content";
 
 type View = "home" | "publications";
@@ -30,7 +30,7 @@ export default function SiteShell({forcedPage,view="home"}:{forcedPage?:PageKey,
  useEffect(()=>{startTransition(()=>setState(initialState(forcedPage)))},[forcedPage]);
  useEffect(()=>{
   let active=true;
-  const refresh=async()=>{try{const apiOrigin=location.pathname.startsWith("/site-preview")?"":"http://localhost:4100";const response=await fetch(`${apiOrigin}/api/public/content/${page}`,{cache:"no-store"});if(!response.ok)return;const payload=await response.json();if(!active)return;const target=page==="global"?content.global:content.countries[page];Object.assign(target,payload.content);setContentRevision(value=>value+1)}catch{ /* El JSON compilado permanece como respaldo si la API local no está activa. */ }};
+  const refresh=async()=>{try{const response=await fetch(`/api/public/content/${page}`,{cache:"no-store"});if(!response.ok)return;const payload=await response.json();if(!active)return;const target=page==="global"?content.global:content.countries[page];Object.assign(target,payload.content);mergeNewsDetails(payload.publications);setContentRevision(value=>value+1)}catch{ /* El JSON compilado permanece como respaldo si la API local no está activa. */ }};
   refresh(); window.addEventListener("focus",refresh); return()=>{active=false;window.removeEventListener("focus",refresh)};
  },[page]);
  useEffect(()=>{document.documentElement.lang=locale;const doc=page==="global"?content.global:content.countries[page];document.title=view==="publications"?`${({es:"Publicaciones",en:"Publications",pt:"Publicações",fr:"Publications"}[locale])} | AUDITAXES`:doc.metadata.title[locale];document.querySelector('meta[name="description"]')?.setAttribute("content",doc.metadata.description[locale])},[locale,page,view,contentRevision]);

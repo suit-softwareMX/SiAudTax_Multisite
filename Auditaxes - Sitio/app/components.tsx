@@ -9,6 +9,7 @@ const ui = content.shared.ui;
 const countries = content.network.countries;
 type NewsKind = "news" | "article";
 const newsDetails = newsDetailsData as Record<string,any>;
+export function mergeNewsDetails(publications:any[]){for(const publication of publications??[]){if(publication?.id&&publication.detail)newsDetails[publication.id]=publication.detail}}
 const tr = (value: Record<string,string>, locale: Locale) => value[locale] ?? value.en;
 const siteDoc = (page: PageKey) => page === "global" ? content.global : getCountryContent(page);
 
