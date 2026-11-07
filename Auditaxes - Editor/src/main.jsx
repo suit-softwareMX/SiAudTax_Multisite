@@ -169,6 +169,15 @@ const fieldUnavailable = (siteId, sectionId, path) =>
   (siteId === "global" && sectionId === "contact" && ["labels", "phones", "whatsapp", "address", "mapsQuery"].includes(path[0])) ||
   (siteId === "global" && sectionId === "leadership" && path[0] === "people" && path.at(-1) === "name");
 
+function ImageUploadStatus() {
+  return <div className="upload-feedback" role="status">
+    <div className="upload-feedback-panel">
+      <strong>Subiendo imagen…</strong>
+      <span className="upload-feedback-track" aria-hidden="true"><span/></span>
+    </div>
+  </div>;
+}
+
 function SectionImageField({ src, onUpload, onChange, pending, disabled, error }) {
   const picker = useRef(null);
   const [failedSrc, setFailedSrc] = useState(null);
@@ -177,6 +186,7 @@ function SectionImageField({ src, onUpload, onChange, pending, disabled, error }
       {src && failedSrc !== src
         ? <img key={src} src={src} alt="Vista previa de la imagen" onError={()=>setFailedSrc(src)}/>
         : <span>{src ? "No se pudo mostrar la imagen" : "Sin imagen"}</span>}
+      {pending && <ImageUploadStatus/>}
     </div>
     <div>
       <input ref={picker} type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden
@@ -637,6 +647,7 @@ const legacyPublicationHtml = sections => (sections || []).map(block => `${block
 function PublicationsPage({ site, onDirtyChange }) {
   const [items,setItems]=useState([]),[draft,setDraft]=useState(null),[original,setOriginal]=useState(null),[message,setMessage]=useState(""),[error,setError]=useState(""),[busy,setBusy]=useState(false);
   const [contentError, setContentError] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   useEffect(()=>{getPublications().then(result=>setItems(result.publications)).catch(reason=>setError(reason.message))},[site.id]);
   const dirty=Boolean(draft&&JSON.stringify(draft)!==JSON.stringify(original));
   useEffect(()=>{onDirtyChange(dirty);return()=>onDirtyChange(false)},[dirty,onDirtyChange]);
@@ -650,7 +661,23 @@ function PublicationsPage({ site, onDirtyChange }) {
     setContentError(false);
   }
   function change(path,value){setDraft(current=>{const next=structuredClone(current);let cursor=next;path.slice(0,-1).forEach(key=>cursor=cursor[key]);cursor[path.at(-1)]=value;return next})}
-  async function imagePicked(event){const file=event.target.files?.[0];event.target.value="";if(!file)return;setBusy(true);setError("");try{const result=await uploadPublicationImage(file);change(["image","src"],result.src)}catch(reason){setError(reason.message)}finally{setBusy(false)}}
+  async function imagePicked(event) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file || busy) return;
+    setBusy(true);
+    setUploadingImage(true);
+    setError("");
+    try {
+      const { src } = await uploadPublicationImage(file);
+      change(["image","src"], src);
+    } catch (reason) {
+      setError(reason.message);
+    } finally {
+      setUploadingImage(false);
+      setBusy(false);
+    }
+  }
   async function submit(event){
     event.preventDefault();
     if (busy) return;
@@ -684,7 +711,7 @@ function PublicationsPage({ site, onDirtyChange }) {
       }}/>
       {contentError && <p id="publication-content-error" className="api-error" role="alert">Completa el contenido de la publicación.</p>}
     </div><label className="field"><span>Enlace de fuente <small>Opcional</small></span><input type="url" value={draft.detail.sourceUrl} onChange={event=>change(["detail","sourceUrl"],event.target.value)} placeholder="https://…"/></label></section>
-    <aside className="publication-media"><h2>Imagen principal</h2><label className="image-drop">{draft.image.src?<img src={draft.image.src} alt="Vista previa"/>:<><Newspaper/><b>Selecciona una imagen</b><span>JPG, PNG, WEBP o GIF · máximo 5 MB</span></>}<input type="file" aria-label="Cambiar imagen principal" disabled={busy} accept="image/jpeg,image/png,image/webp,image/gif" onChange={imagePicked}/></label><label className="field"><span>Texto alternativo</span><input value={draft.image.alt.es} onChange={event=>change(["image","alt","es"],event.target.value)} placeholder="Describe la imagen"/></label><div className="publication-save"><span>{dirty?"Cambios sin guardar":"Sin cambios pendientes"}</span><button className="primary" disabled={busy}>{busy?"Guardando…":"Guardar publicación"}</button></div></aside>
+    <aside className="publication-media"><h2>Imagen principal</h2><label className="image-drop">{draft.image.src?<img src={draft.image.src} alt="Vista previa"/>:<><Newspaper/><b>Selecciona una imagen</b><span>JPG, PNG, WEBP o GIF · máximo 5 MB</span></>}<input type="file" aria-label="Cambiar imagen principal" disabled={busy} accept="image/jpeg,image/png,image/webp,image/gif" onChange={imagePicked}/>{uploadingImage && <ImageUploadStatus/>}</label><label className="field"><span>Texto alternativo</span><input value={draft.image.alt.es} onChange={event=>change(["image","alt","es"],event.target.value)} placeholder="Describe la imagen"/></label><div className="publication-save"><span>{dirty?"Cambios sin guardar":"Sin cambios pendientes"}</span><button className="primary" disabled={busy}>{uploadingImage ? "Subiendo imagen…" : busy ? "Guardando…" : "Guardar publicación"}</button></div></aside>
   </form></div>;
   return <div className="page publications-page"><div className="page-heading"><div><span className="eyebrow">CONTENIDO EDITORIAL</span><h1>Publicaciones</h1><p>Crea noticias y artículos con la misma plantilla del sitio.</p></div><button className="primary" onClick={create}><Plus/> Nueva publicación</button></div>{message&&<div className="translation-message">{message}</div>}{error&&<div className="api-error" role="alert">{error}</div>}<div className="publications-admin-grid">{items.map(item=><article className="publication-admin-card" key={item.id}><div className="publication-admin-image">{item.image?.src?<img src={item.image.src} alt={item.image.alt?.es||item.title.es}/>:<Newspaper/>}</div><div><span className={`publication-kind ${item.detail?.kind||"news"}`}>{item.detail?.kind==="article"?"Artículo":"Noticia"}</span><time>{item.detail?.date?new Date(`${item.detail.date}T12:00:00`).toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"}):"Sin fecha"}</time><h2>{item.title.es}</h2><p>{item.detail?.summary||"Esta publicación usa la plantilla anterior; ábrela para completar su resumen y contenido editable."}</p></div><footer><button className="secondary" onClick={()=>edit(item)}>Editar</button><button className="delete-publication" disabled={busy} onClick={()=>remove(item)}>Eliminar</button></footer></article>)}{!items.length&&<div className="empty-publications"><Newspaper/><h2>Aún no hay publicaciones propias</h2><p>Crea la primera noticia o artículo para {site.name}.</p></div>}</div></div>;
 }

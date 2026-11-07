@@ -125,13 +125,31 @@ function newsKindLabel(kind:NewsKind,locale:Locale){return ({news:{es:"Noticia",
 function NewsSection({locale,section,site="global",limit=3,showAction=true,itemsOverride,onSelect}:{locale:Locale,section:any,site?:PageKey,limit?:number,showAction?:boolean,itemsOverride?:any[],onSelect?:(id:string)=>void}){
   const details=siteDoc(site).publicationDetails??newsDetails;
   const items=(itemsOverride??section.items??(content.global.sections as any).news.items).slice(0,limit);
+  const grid=useRef<HTMLDivElement>(null);
+  const itemOrder=JSON.stringify(items.map(item=>item.id));
+  useEffect(()=>{
+    if(!grid.current || typeof IntersectionObserver==="undefined" || matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+    const observer=new IntersectionObserver(entries=>{
+      for(const entry of entries){
+        if(!entry.isIntersecting)continue;
+        entry.target.classList.replace("news-card-pending","news-card-enter");
+        observer.unobserve(entry.target);
+      }
+    },{threshold:.14});
+    for(const card of grid.current.children){
+      if(card.classList.contains("news-card-enter"))continue;
+      card.classList.add("news-card-pending");
+      observer.observe(card);
+    }
+    return ()=>observer.disconnect();
+  },[itemOrder,section.enabled]);
   const select=(id:string)=>{if(onSelect)onSelect(id);else location.assign(`${publicationsPath(site)}?lang=${locale}&publicacion=${id}`)};
   return <section data-enabled={section.enabled} className="global-news" id="novedades" style={{order:site==="global"?undefined:6}}>
     <header className="global-news-heading">
       <div><p className="section-label">{tr(section.eyebrow,locale)}</p><h2>{tr(section.title,locale)}</h2></div>
       {showAction&&<button type="button" onClick={()=>location.assign(`${publicationsPath(site)}?lang=${locale}`)} aria-label={tr(section.actionLabel,locale)}>{tr(section.actionLabel,locale)} <span>→</span></button>}
     </header>
-    <div className="global-news-grid">
+    <div className="global-news-grid" ref={grid}>
       {items.map((item:any)=><article key={item.id}>
         <button type="button" className="news-card-button" onClick={()=>select(item.id)} aria-label={tr(item.title,locale)}>
         <div className="global-news-image"><img src={item.image.src} alt={tr(item.image.alt,locale)}/></div>
@@ -174,7 +192,7 @@ export function PublicationsPage({page,locale,onHome,onPage,onLocale}:{page:Page
   const choose=(id:string|null)=>{setSelected(id);const query=new URLSearchParams(location.search);if(id)query.set("publicacion",id);else query.delete("publicacion");history.pushState({},"",`${location.pathname}?${query}`);window.scrollTo({top:0,behavior:"smooth"})};
   return <>
     <Header proposal={2} page={page} locale={locale} onLocale={onLocale} onPage={onPage} onHome={onHome}/>
-    {selectedItem&&selectedDetail?<article className="publication-detail">
+    {selectedItem&&selectedDetail?<article className="publication-detail" key={selectedItem.id}>
       <header><button onClick={()=>choose(null)}>← {tr(labels.backToNews,locale)}</button><div className="publication-detail-meta"><span className={`publication-tag ${selectedDetail.kind}`}>{newsKindLabel(selectedDetail.kind,locale)}</span><time dateTime={selectedDetail.date}>{formatNewsDate(selectedDetail.date,locale)}</time></div><h1>{tr(selectedItem.title,locale)}</h1><p>{localizedDetail.summary}</p></header>
       <img className="publication-detail-image" src={selectedItem.image.src} alt={tr(selectedItem.image.alt,locale)}/>
       <div className="publication-detail-body">{localizedDetail.contentHtml?<div className="publication-rich-content" dangerouslySetInnerHTML={{__html:localizedDetail.contentHtml}}/>:(localizedDetail.sections??[]).map((block,index)=><section key={index}>{block.heading&&<h2>{block.heading}</h2>}{block.paragraphs?.map((paragraph,i)=><p key={i}>{paragraph}</p>)}{block.bullets&&<ul>{block.bullets.map((bullet,i)=><li key={i}>{bullet}</li>)}</ul>}</section>)}{selectedDetail.sourceUrl&&<a href={selectedDetail.sourceUrl} target="_blank" rel="noreferrer">{tr(labels.source,locale)} ↗</a>}</div>
