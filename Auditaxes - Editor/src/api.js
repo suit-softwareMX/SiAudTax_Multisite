@@ -11,8 +11,11 @@ async function request(path, options = {}) {
       ...options.headers,
     },
   });
-  const body = response.status === 204 ? null : await response.json();
-  if (!response.ok) throw new Error(body?.error || "No fue posible conectar con la API");
+  if (response.status === 204) return null;
+  const body = await response.json().catch(() => null);
+  if (!response.ok || body === null) {
+    throw new Error(body?.error || `La API no respondió correctamente (HTTP ${response.status}). Intenta de nuevo.`);
+  }
   return body;
 }
 
@@ -116,7 +119,13 @@ export function deletePublication(publicationId) {
   return request(`/content/current/publications/${encodeURIComponent(publicationId)}`, { method: "DELETE" });
 }
 
-export function uploadPublicationImage(file) {
+export async function uploadPublicationImage(file) {
+  if (!["image/jpeg", "image/png", "image/webp", "image/gif"].includes(file.type)) {
+    throw new Error("Usa una imagen JPG, PNG, WEBP o GIF");
+  }
+  if (!file.size || file.size > 5 * 1024 * 1024) {
+    throw new Error("Selecciona una imagen de hasta 5 MB");
+  }
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onerror = () => reject(new Error("No se pudo leer la imagen"));
