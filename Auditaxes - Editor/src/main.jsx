@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowLeft, ArrowRight, BarChart3, Bell, ChevronDown, CircleHelp,
@@ -613,9 +613,10 @@ function Placeholder({ title }) {
   return <div className="page placeholder"><div className="placeholder-card"><span><Icon/></span><p className="eyebrow">MÓDULO DEL EDITOR</p><h1>{title}</h1><p>Esta sección está preparada para conectarse con la API y el flujo editorial en la siguiente etapa.</p></div></div>;
 }
 
-function RichTextEditor({ value, onChange }) {
-  const editor = React.useRef(null);
-  useEffect(() => { if (editor.current && editor.current.innerHTML !== value) editor.current.innerHTML = value || ""; }, [value]);
+function RichTextEditor({ initialValue, onChange, invalid }) {
+  const editor = useRef(null);
+  const initialHtml = useRef(initialValue);
+  useLayoutEffect(() => { editor.current.innerHTML = initialHtml.current || ""; }, []);
   function command(name, argument = null) { editor.current?.focus(); window.document.execCommand(name, false, argument); onChange(editor.current?.innerHTML || ""); }
   return <div className="rich-editor"><div className="rich-toolbar" role="toolbar" aria-label="Formato del contenido">
     <select aria-label="Fuente" defaultValue="Arial" onChange={event=>command("fontName",event.target.value)}><option>Arial</option><option>Georgia</option><option>Times New Roman</option><option>Verdana</option><option>Courier New</option></select>
@@ -623,7 +624,10 @@ function RichTextEditor({ value, onChange }) {
     <button type="button" title="Negritas" onClick={()=>command("bold")}><b>B</b></button><button type="button" title="Cursiva" onClick={()=>command("italic")}><i>I</i></button><button type="button" title="Subrayado" onClick={()=>command("underline")}><u>U</u></button>
     <button type="button" title="Título" onClick={()=>command("formatBlock","h2")}>H2</button><button type="button" title="Párrafo" onClick={()=>command("formatBlock","p")}>¶</button><button type="button" title="Lista con viñetas" onClick={()=>command("insertUnorderedList")}>• Lista</button><button type="button" title="Lista numerada" onClick={()=>command("insertOrderedList")}>1. Lista</button>
     <button type="button" title="Alinear a la izquierda" onClick={()=>command("justifyLeft")}>≡</button><button type="button" title="Centrar" onClick={()=>command("justifyCenter")}>≡</button><button type="button" title="Añadir enlace" onClick={()=>{const url=window.prompt("Dirección del enlace");if(url)command("createLink",url)}}>🔗</button><button type="button" title="Quitar formato" onClick={()=>command("removeFormat")}>Tx</button>
-  </div><div ref={editor} className="rich-editor-area" contentEditable suppressContentEditableWarning data-placeholder="Escribe el contenido completo de la publicación…" onInput={event=>onChange(event.currentTarget.innerHTML)}/></div>;
+  </div><div ref={editor} className="rich-editor-area" contentEditable suppressContentEditableWarning
+    role="textbox" aria-labelledby="publication-content-label" aria-multiline="true" aria-required="true"
+    aria-invalid={invalid || undefined} aria-describedby={invalid ? "publication-content-error" : undefined}
+    data-placeholder="Escribe el contenido completo de la publicación…" onInput={event=>onChange(event.currentTarget.innerHTML)}/></div>;
 }
 
 const emptyPublication = () => ({ id:"", title:{es:"",en:"",pt:"",fr:""}, category:{es:"Noticias",en:"News",pt:"Notícias",fr:"Actualités"}, image:{src:"",alt:{es:"",en:"",pt:"",fr:""}}, detail:{date:new Date().toLocaleDateString("en-CA"),kind:"news",sourceUrl:"",summary:"",contentHtml:""} });
@@ -632,28 +636,54 @@ const legacyPublicationHtml = sections => (sections || []).map(block => `${block
 
 function PublicationsPage({ site, onDirtyChange }) {
   const [items,setItems]=useState([]),[draft,setDraft]=useState(null),[original,setOriginal]=useState(null),[message,setMessage]=useState(""),[error,setError]=useState(""),[busy,setBusy]=useState(false);
+  const [contentError, setContentError] = useState(false);
   useEffect(()=>{getPublications().then(result=>setItems(result.publications)).catch(reason=>setError(reason.message))},[site.id]);
   const dirty=Boolean(draft&&JSON.stringify(draft)!==JSON.stringify(original));
   useEffect(()=>{onDirtyChange(dirty);return()=>onDirtyChange(false)},[dirty,onDirtyChange]);
   function edit(item){const next=structuredClone(item);next.detail||={date:new Date().toLocaleDateString("en-CA"),kind:"news",sourceUrl:"",summary:"",contentHtml:""};next.detail.contentHtml ||= legacyPublicationHtml(next.detail.sections);setDraft(next);setOriginal(structuredClone(next));setMessage("");setError("")}
   function create(){const next=emptyPublication();setDraft(next);setOriginal(structuredClone(next));setMessage("");setError("")}
+  function closeEditor() {
+    if (busy || (dirty && !window.confirm("Hay cambios sin guardar. ¿Salir del editor?"))) return;
+    setDraft(null);
+    setOriginal(null);
+    setError("");
+    setContentError(false);
+  }
   function change(path,value){setDraft(current=>{const next=structuredClone(current);let cursor=next;path.slice(0,-1).forEach(key=>cursor=cursor[key]);cursor[path.at(-1)]=value;return next})}
   async function imagePicked(event){const file=event.target.files?.[0];event.target.value="";if(!file)return;setBusy(true);setError("");try{const result=await uploadPublicationImage(file);change(["image","src"],result.src)}catch(reason){setError(reason.message)}finally{setBusy(false)}}
-  async function submit(event){event.preventDefault();setError("");const id=draft.id||`${site.id}-${draft.title.es.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)}-${Date.now().toString().slice(-5)}`;const next = { ...draft, id, detail: { ...draft.detail } };
+  async function submit(event){
+    event.preventDefault();
+    if (busy) return;
+    setError("");
+    const content = event.currentTarget.querySelector(".rich-editor-area");
+    if (!content.textContent.trim()) {
+      setContentError(true);
+      content.focus();
+      return;
+    }
+    setContentError(false);
+    const id=draft.id||`${site.id}-${draft.title.es.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)}-${Date.now().toString().slice(-5)}`;
+    const next = { ...draft, id, detail: { ...draft.detail } };
     if (original?.detail.sections && draft.detail.summary === original.detail.summary
         && draft.detail.contentHtml === legacyPublicationHtml(original.detail.sections)) {
       delete next.detail.contentHtml;
     }
     setBusy(true);try{const result=await savePublication(next);setItems(current=>[result.publication,...current.filter(item=>item.id!==id)]);setDraft(null);setOriginal(null);setMessage("Publicación guardada. Ya forma parte de la plantilla del sitio.")}catch(reason){setError(reason.message)}finally{setBusy(false)}}
   async function remove(item){if(!window.confirm(`¿Eliminar “${item.title.es}”?`))return;setBusy(true);try{await deletePublication(item.id);setItems(current=>current.filter(currentItem=>currentItem.id!==item.id));if(draft?.id===item.id)setDraft(null);setMessage("Publicación eliminada.")}catch(reason){setError(reason.message)}finally{setBusy(false)}}
-  if(draft)return <div className="page publications-page"><div className="publication-editor-head"><button className="secondary" onClick={()=>{if(!dirty||window.confirm("Hay cambios sin guardar. ¿Salir del editor?"))setDraft(null)}}>← Volver</button><div><span className="eyebrow">PUBLICACIONES · {site.name.toUpperCase()}</span><h1>{draft.id?"Editar publicación":"Nueva publicación"}</h1></div></div>{error&&<div className="api-error" role="alert">{error}</div>}<form className="publication-form" onSubmit={submit}>
+  if(draft)return <div className="page publications-page"><div className="publication-editor-head"><button className="secondary" disabled={busy} onClick={closeEditor}>← Volver</button><div><span className="eyebrow">PUBLICACIONES · {site.name.toUpperCase()}</span><h1>{draft.id?"Editar publicación":"Nueva publicación"}</h1></div></div>{error&&<div className="api-error" role="alert">{error}</div>}<form className="publication-form" onSubmit={submit}>
     <section className="publication-fields"><div className="form-pair"><label className="field"><span>Tipo de publicación</span><select value={draft.detail.kind} onChange={event=>{const kind=event.target.value;change(["detail","kind"],kind);change(["category"],kind==="news"?{es:"Noticias",en:"News",pt:"Notícias",fr:"Actualités"}:{es:"Artículo",en:"Article",pt:"Artigo",fr:"Article"})}}><option value="news">Noticia</option><option value="article">Artículo</option></select></label><label className="field"><span>Fecha</span><input type="date" required value={draft.detail.date} onChange={event=>change(["detail","date"],event.target.value)}/></label></div>
     <label className="field"><span>Título</span><input required value={draft.title.es} onChange={event=>change(["title","es"],event.target.value)} placeholder="Título de la publicación"/></label><details className="publication-locales"><summary>Títulos y textos alternativos en otros idiomas</summary>
     {[["en", "Inglés"], ["pt", "Portugués"], ["fr", "Francés"]].map(([code, language]) => <div className="form-pair" key={code}>
       <label className="field"><span>Título · {language}</span><input value={draft.title[code] ?? ""} onChange={event=>change(["title",code],event.target.value)}/></label>
       <label className="field"><span>Texto alternativo · {language}</span><input value={draft.image.alt[code] ?? ""} onChange={event=>change(["image","alt",code],event.target.value)}/></label>
     </div>)}</details>
-    <label className="field"><span>Resumen breve</span><textarea required rows="4" value={draft.detail.summary} onChange={event=>change(["detail","summary"],event.target.value)} placeholder="Texto que introduce la publicación"/></label><label className="field"><span>Contenido</span><RichTextEditor value={draft.detail.contentHtml} onChange={value=>change(["detail","contentHtml"],value)}/></label><label className="field"><span>Enlace de fuente <small>Opcional</small></span><input type="url" value={draft.detail.sourceUrl} onChange={event=>change(["detail","sourceUrl"],event.target.value)} placeholder="https://…"/></label></section>
+    <label className="field"><span>Resumen breve</span><textarea required rows="4" value={draft.detail.summary} onChange={event=>change(["detail","summary"],event.target.value)} placeholder="Texto que introduce la publicación"/></label><div className="field"><span id="publication-content-label">Contenido</span>
+      <RichTextEditor initialValue={draft.detail.contentHtml} invalid={contentError} onChange={value=>{
+        setContentError(false);
+        change(["detail","contentHtml"],value);
+      }}/>
+      {contentError && <p id="publication-content-error" className="api-error" role="alert">Completa el contenido de la publicación.</p>}
+    </div><label className="field"><span>Enlace de fuente <small>Opcional</small></span><input type="url" value={draft.detail.sourceUrl} onChange={event=>change(["detail","sourceUrl"],event.target.value)} placeholder="https://…"/></label></section>
     <aside className="publication-media"><h2>Imagen principal</h2><label className="image-drop">{draft.image.src?<img src={draft.image.src} alt="Vista previa"/>:<><Newspaper/><b>Selecciona una imagen</b><span>JPG, PNG, WEBP o GIF · máximo 5 MB</span></>}<input type="file" aria-label="Cambiar imagen principal" disabled={busy} accept="image/jpeg,image/png,image/webp,image/gif" onChange={imagePicked}/></label><label className="field"><span>Texto alternativo</span><input value={draft.image.alt.es} onChange={event=>change(["image","alt","es"],event.target.value)} placeholder="Describe la imagen"/></label><div className="publication-save"><span>{dirty?"Cambios sin guardar":"Sin cambios pendientes"}</span><button className="primary" disabled={busy}>{busy?"Guardando…":"Guardar publicación"}</button></div></aside>
   </form></div>;
   return <div className="page publications-page"><div className="page-heading"><div><span className="eyebrow">CONTENIDO EDITORIAL</span><h1>Publicaciones</h1><p>Crea noticias y artículos con la misma plantilla del sitio.</p></div><button className="primary" onClick={create}><Plus/> Nueva publicación</button></div>{message&&<div className="translation-message">{message}</div>}{error&&<div className="api-error" role="alert">{error}</div>}<div className="publications-admin-grid">{items.map(item=><article className="publication-admin-card" key={item.id}><div className="publication-admin-image">{item.image?.src?<img src={item.image.src} alt={item.image.alt?.es||item.title.es}/>:<Newspaper/>}</div><div><span className={`publication-kind ${item.detail?.kind||"news"}`}>{item.detail?.kind==="article"?"Artículo":"Noticia"}</span><time>{item.detail?.date?new Date(`${item.detail.date}T12:00:00`).toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"}):"Sin fecha"}</time><h2>{item.title.es}</h2><p>{item.detail?.summary||"Esta publicación usa la plantilla anterior; ábrela para completar su resumen y contenido editable."}</p></div><footer><button className="secondary" onClick={()=>edit(item)}>Editar</button><button className="delete-publication" disabled={busy} onClick={()=>remove(item)}>Eliminar</button></footer></article>)}{!items.length&&<div className="empty-publications"><Newspaper/><h2>Aún no hay publicaciones propias</h2><p>Crea la primera noticia o artículo para {site.name}.</p></div>}</div></div>;
