@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowLeft, ArrowRight, BarChart3, Bell, Check, ChevronDown, CircleHelp,
@@ -11,10 +11,10 @@ import { createSection, deletePublication, deleteSection, getCurrentContent, get
 
 const localLogin = ["localhost", "127.0.0.1"].includes(location.hostname);
 const DEMO_PASSWORD = "Auditaxes2026";
-const demoUsers = [
-  { id: "global", name: "Andrea Méndez", initials: "AM", role: "Administradora Global", email: "global@auditaxes.com", password: DEMO_PASSWORD },
-  { id: "mexico", name: "Carlos Rivera", initials: "CR", role: "Administrador México", email: "mexico@auditaxes.com", password: DEMO_PASSWORD },
-  { id: "salvador", name: "Sofía Hernández", initials: "SH", role: "Administradora El Salvador", email: "salvador@auditaxes.com", password: DEMO_PASSWORD },
+const loginAccounts = [
+  { role: "Administradora Global", email: "global@auditaxes.com" },
+  { role: "Administrador México", email: "mexico@auditaxes.com" },
+  { role: "Administradora El Salvador", email: "salvador@auditaxes.com" },
 ];
 
 const sites = [
@@ -39,6 +39,15 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
+  const passwordField = useRef(null);
+
+  function selectAccount(account) {
+    setEmail(account.email);
+    setPassword(localLogin ? DEMO_PASSWORD : "");
+    setShow(false);
+    setError("");
+    passwordField.current?.focus();
+  }
 
   async function submit(event) {
     event.preventDefault();
@@ -64,11 +73,17 @@ function Login({ onLogin }) {
         <p className="intro">Ingresa tus credenciales para acceder al editor de contenidos.</p>
         <form onSubmit={submit}>
           <label>Correo electrónico<input type="email" value={email} onChange={e => {setEmail(e.target.value); setError("")}} placeholder="nombre@auditaxes.com" autoComplete="email" required /></label>
-          <label>Contraseña<div className="password-field"><input type={show ? "text" : "password"} value={password} onChange={e => {setPassword(e.target.value); setError("")}} placeholder="••••••••••••" autoComplete="current-password" required /><button type="button" onClick={() => setShow(!show)} aria-label="Mostrar contraseña">{show ? <X/> : <LockKeyhole/>}</button></div></label>
+          <label>Contraseña<div className="password-field"><input ref={passwordField} type={show ? "text" : "password"} value={password} onChange={e => {setPassword(e.target.value); setError("")}} placeholder="••••••••••••" autoComplete="current-password" required /><button type="button" onClick={() => setShow(!show)} aria-label="Mostrar contraseña">{show ? <X/> : <LockKeyhole/>}</button></div></label>
           {error && <p className="login-error" role="alert">{error}</p>}
           <button className="primary login-button">Ingresar al editor <ArrowRight /></button>
         </form>
-        {localLogin && <div className="demo-note accounts-note"><ShieldCheck/><div><b>Cuentas provisionales</b>{demoUsers.map(user => <button type="button" key={user.id} onClick={() => {setEmail(user.email); setPassword(DEMO_PASSWORD); setError("")}}><span>{user.role}</span><small>{user.email}</small></button>)}<em>Contraseña común: {DEMO_PASSWORD}</em></div></div>}
+        <div className="demo-note accounts-note"><ShieldCheck/><div>
+          <b>{localLogin ? "Cuentas provisionales" : "Selecciona tu cuenta"}</b>
+          {loginAccounts.map(account => <button type="button" key={account.email} onClick={() => selectAccount(account)}>
+            <span>{account.role}</span><small>{account.email}</small>
+          </button>)}
+          {localLogin && <em>Contraseña común: {DEMO_PASSWORD}</em>}
+        </div></div>
         <footer>Si necesitas acceso, contacta al administrador de tu sitio.</footer>
       </div>
     </section>
