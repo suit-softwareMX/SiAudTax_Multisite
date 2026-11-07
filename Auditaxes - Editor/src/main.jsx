@@ -239,7 +239,7 @@ function ValueEditor({ value, label, path, locale, onChange, onRemove, sectionId
     </section>;
   }
   if (value && typeof value === "object") {
-    const fields = <div className="nested-fields">{Object.entries(value).map(([key,nested])=>
+    const fields = <div className={label === "image" ? "nested-fields image-fields" : "nested-fields"}>{Object.entries(value).map(([key,nested])=>
       <ValueEditor key={key} value={nested} label={key} path={[...path,key]} locale={locale} onChange={onChange}
         onRemove={onRemove} sectionId={sectionId} siteId={siteId} images={images}/>)}</div>;
     return inCard ? fields : <section className="field-group"><header><b>{label === "image" ? "Imagen" : humanize(label)}</b></header>{fields}</section>;
