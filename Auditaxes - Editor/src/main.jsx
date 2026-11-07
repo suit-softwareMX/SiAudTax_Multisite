@@ -43,7 +43,7 @@ function Login({ onLogin }) {
 
   function selectAccount(account) {
     setEmail(account.email);
-    setPassword(localLogin ? DEMO_PASSWORD : "");
+    setPassword(DEMO_PASSWORD);
     setShow(false);
     setError("");
     passwordField.current?.focus();
