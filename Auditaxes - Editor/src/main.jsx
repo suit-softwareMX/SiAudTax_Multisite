@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
-  ArrowLeft, ArrowRight, BarChart3, Bell, Check, ChevronDown, CircleHelp,
+  ArrowLeft, ArrowRight, BarChart3, Bell, ChevronDown, CircleHelp,
   Clock3, FileText, Globe2, GripVertical, Languages, LayoutDashboard, LockKeyhole, LogOut,
   Menu, Newspaper, PanelLeftClose, Plus, Search, Settings, ShieldCheck,
   Sparkles, Trash2, Users, X
 } from "lucide-react";
 import "./styles.css";
-import { createSection, deletePublication, deleteSection, getCurrentContent, getFieldAiJob, getInferenceHealth, getPublications, getTranslationJob, getTranslationSection, login, logout as closeApiSession, restoreSession, savePublication, saveSection, saveSectionOrder, saveTranslation, startDraftAiJob, startTranslationJob, updateSectionStatus, uploadPublicationImage } from "./api";
+import { createSection, deletePublication, deleteSection, getCurrentContent, getFieldAiJob, getPublications, getTranslationJob, getTranslationSection, login, logout as closeApiSession, restoreSession, savePublication, saveSection, saveSectionOrder, saveTranslation, startDraftAiJob, startTranslationJob, updateSectionStatus, uploadPublicationImage } from "./api";
 
 const localLogin = ["localhost", "127.0.0.1"].includes(location.hostname);
 const DEMO_PASSWORD = "Auditaxes2026";
@@ -160,27 +160,59 @@ const fieldUnavailable = (siteId, sectionId, path) =>
   (siteId === "global" && sectionId === "contact" && ["labels", "phones", "whatsapp", "address", "mapsQuery"].includes(path[0])) ||
   (siteId === "global" && sectionId === "leadership" && path[0] === "people" && path.at(-1) === "name");
 
-function ValueEditor({ value, label, path, locale, onChange, onRemove, sectionId, siteId }) {
+function SectionImageField({ src, onUpload, onChange, pending, disabled, error }) {
+  const picker = useRef(null);
+  const [failedSrc, setFailedSrc] = useState(null);
+  return <div className="section-image-field">
+    <div className="section-image-preview">
+      {src && failedSrc !== src
+        ? <img key={src} src={src} alt="Vista previa de la imagen" onError={()=>setFailedSrc(src)}/>
+        : <span>{src ? "No se pudo mostrar la imagen" : "Sin imagen"}</span>}
+    </div>
+    <div>
+      <input ref={picker} type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden
+        onChange={event=>{const file=event.target.files?.[0];event.target.value="";if(file)onUpload(file);}}/>
+      <button type="button" className="secondary" disabled={disabled} onClick={()=>picker.current?.click()}>
+        {pending ? "Subiendo imagen…" : src ? "Cambiar imagen" : "Elegir imagen"}
+      </button>
+      <p>JPG, PNG, WEBP o GIF · Hasta 5 MB. La imagen aparecerá en el sitio al publicar la sección.</p>
+      {error && <p className="api-error" role="alert">{error}</p>}
+      <details><summary>Usar una dirección de imagen</summary>
+        <label className="field"><span>Dirección de imagen</span>
+          <input value={src} disabled={disabled} onChange={event=>onChange(event.target.value)}/>
+        </label>
+      </details>
+    </div>
+  </div>;
+}
+
+function ValueEditor({ value, label, path, locale, onChange, onRemove, sectionId, siteId, images }) {
   if (fieldUnavailable(siteId, sectionId, path)) {
     return <p className="read-only-field">{humanize(label)} · {sectionId === "news" ? "Se administra en Publicaciones" : "Solo lectura"}</p>;
   }
   if (["id", "siteId", "type"].includes(path.at(-1))) {
     return <p className="read-only-field">{humanize(label)}: {String(value)}</p>;
   }
+  if (path.at(-1) === "src" && typeof value === "string") {
+    const upload = images.state?.key === JSON.stringify(path) ? images.state : null;
+    return <SectionImageField src={value} onUpload={file=>images.upload(path,file)}
+      onChange={src=>onChange(path,src)} disabled={images.disabled}
+      pending={upload?.pending} error={upload?.error}/>;
+  }
   if (isLocalized(value)) {
     const text = value[locale] ?? "";
     if (typeof text === "object") {
       return <ValueEditor value={text} label={label} path={[...path, locale]} locale={locale}
-        onChange={onChange} onRemove={onRemove} sectionId={sectionId} siteId={siteId}/>;
+        onChange={onChange} onRemove={onRemove} sectionId={sectionId} siteId={siteId} images={images}/>;
     }
     const id = `field-${sectionId}-${path.join("-")}`;
     return <div className="field dynamic-field"><label htmlFor={id}>{humanize(label)} <small>{locale === "es" ? "Español" : "Inglés"} · original</small></label><textarea id={id} lang={locale} rows={text.length > 140 ? 5 : 3} value={text} onChange={event => onChange([...path, locale], event.target.value)}/></div>;
   }
   if (Array.isArray(value)) {
-    return <section className="field-group collection"><header><b>{humanize(label)}</b><span>{value.length} elementos</span></header>{value.map((item,index)=><div className="collection-item" key={item?.id || index}><div className="item-number">{String(index+1).padStart(2,"0")}{item?.id && <small>{item.id}</small>}{sectionId !== "insights" && <button type="button" className="remove-item" onClick={()=>onRemove([...path,index])} aria-label={`Eliminar ${humanize(label)} ${index+1}`}><Trash2/></button>}</div><ValueEditor value={item} label={`${humanize(label)} ${index+1}`} path={[...path,index]} locale={locale} onChange={onChange} onRemove={onRemove} sectionId={sectionId} siteId={siteId}/></div>)}</section>;
+    return <section className="field-group collection"><header><b>{humanize(label)}</b><span>{value.length} elementos</span></header>{value.map((item,index)=><div className="collection-item" key={item?.id || index}><div className="item-number">{String(index+1).padStart(2,"0")}{item?.id && <small>{item.id}</small>}{sectionId !== "insights" && <button type="button" className="remove-item" onClick={()=>onRemove([...path,index])} aria-label={`Eliminar ${humanize(label)} ${index+1}`}><Trash2/></button>}</div><ValueEditor value={item} label={`${humanize(label)} ${index+1}`} path={[...path,index]} locale={locale} onChange={onChange} onRemove={onRemove} sectionId={sectionId} siteId={siteId} images={images}/></div>)}</section>;
   }
   if (value && typeof value === "object") {
-    return <section className="field-group"><header><b>{humanize(label)}</b></header><div className="nested-fields">{Object.entries(value).map(([key,nested])=><ValueEditor key={key} value={nested} label={key} path={[...path,key]} locale={locale} onChange={onChange} onRemove={onRemove} sectionId={sectionId} siteId={siteId}/>)}</div></section>;
+    return <section className="field-group"><header><b>{label === "image" ? "Imagen" : humanize(label)}</b></header><div className="nested-fields">{Object.entries(value).map(([key,nested])=><ValueEditor key={key} value={nested} label={key} path={[...path,key]} locale={locale} onChange={onChange} onRemove={onRemove} sectionId={sectionId} siteId={siteId} images={images}/>)}</div></section>;
   }
   if (typeof value === "boolean") {
     return <label className="boolean-field"><input type="checkbox" checked={value} onChange={event=>onChange(path,event.target.checked)}/><span>{humanize(label)}</span></label>;
@@ -202,7 +234,8 @@ function ContentPage({ site, onDirtyChange, goTranslations }) {
   const [draggedSection, setDraggedSection] = useState(null);
   const [creating, setCreating] = useState(false);
   const [newSectionName, setNewSectionName] = useState("");
-  const [translatePrompt, setTranslatePrompt] = useState(null);
+  const [translationOffer, setTranslationOffer] = useState(null);
+  const [imageUpload, setImageUpload] = useState(null);
   const [localePrompt, setLocalePrompt] = useState(null);
   const [writingLocale, setWritingLocale] = useState(site.id === "global" ? "en" : "es");
   const [notice, setNotice] = useState("");
@@ -217,10 +250,11 @@ function ContentPage({ site, onDirtyChange, goTranslations }) {
   const selectedIndex = Math.max(0, sections.findIndex(([id]) => id === selected));
   const selectedMeta = sections[selectedIndex] || [selected, selected, "Sección de contenido"];
   const contentLoaded = Boolean(document);
-  useEffect(() => { const section=document?.content.sections[selected]; setDraft(section ? structuredClone(section) : null); setWritingLocale(editorial[selected]?.sourceLocale || document?.sourceLocale || (site.id === "global" ? "en" : "es")); setSaveState("idle"); setNotice(""); }, [contentLoaded, selected, site.id]);
+  useEffect(() => { const section=document?.content.sections[selected]; setDraft(section ? structuredClone(section) : null); setWritingLocale(editorial[selected]?.sourceLocale || document?.sourceLocale || (site.id === "global" ? "en" : "es")); setSaveState("idle"); setNotice(""); setTranslationOffer(null); setImageUpload(null); }, [contentLoaded, selected, site.id]);
   const dirty = Boolean(draft && document?.content.sections[selected] && (JSON.stringify(draft) !== JSON.stringify(document.content.sections[selected]) || locale !== (editorial[selected]?.sourceLocale || document.sourceLocale)));
   useEffect(() => { onDirtyChange(dirty); return () => onDirtyChange(false); }, [dirty, onDirtyChange]);
-  function selectSection(id) { if (id !== selected && dirty && !window.confirm("Hay cambios sin guardar en esta sección. ¿Cambiar sin guardarlos?")) return; setSelected(id); }
+  const working = saveState === "saving" || Boolean(imageUpload?.pending);
+  function selectSection(id) { if (working || (id !== selected && dirty && !window.confirm("Hay cambios sin guardar en esta sección. ¿Cambiar sin guardarlos?"))) return; setSelected(id); }
   function chooseLocale(next) {
     if (next === locale) return;
     if (draft && Object.values(draft).some(value => value && typeof value === "object")) setLocalePrompt(next);
@@ -229,7 +263,20 @@ function ContentPage({ site, onDirtyChange, goTranslations }) {
   function updateDraft(path, value) {
     setDraft(current => { const next=structuredClone(current); let cursor=next; path.slice(0,-1).forEach(key=>{cursor=cursor[key]}); cursor[path.at(-1)]=value; return next; });
   }
+  async function uploadSectionImage(path, file) {
+    if (working) return;
+    const key = JSON.stringify(path);
+    setImageUpload({ key, pending: true });
+    try {
+      const { src } = await uploadPublicationImage(file);
+      updateDraft(path, src);
+      setImageUpload(null);
+    } catch (error) {
+      setImageUpload({ key, pending: false, error: error.message });
+    }
+  }
   function removeDraftItem(path) {
+    if (working) return;
     setDraft(current => { const next=structuredClone(current); let cursor=next; path.slice(0,-1).forEach(key=>{cursor=cursor[key]}); cursor.splice(path.at(-1),1); return next; });
   }
   function addBlock(type) {
@@ -239,6 +286,7 @@ function ContentPage({ site, onDirtyChange, goTranslations }) {
   }
   async function createNewSection(event) {
     event.preventDefault();
+    if (working) return;
     if (dirty && !window.confirm("Hay cambios sin guardar. ¿Crear otra sección sin guardarlos?")) return;
     const name=newSectionName.trim(); if(!name)return;
     const base=name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || `seccion-${Date.now()}`;
@@ -255,7 +303,7 @@ function ContentPage({ site, onDirtyChange, goTranslations }) {
     try{await saveSectionOrder(order)}catch(reason){setLoadError(reason.message);setDocument(current=>({...current,content:{...current.content,sectionOrder:sectionIds}}))}
   }
   async function removeCustomSection() {
-    if(draft?.type!=="custom"||!window.confirm("¿Eliminar esta sección personalizada?"))return;
+    if(working||draft?.type!=="custom"||!window.confirm("¿Eliminar esta sección personalizada?"))return;
     try{const result=await deleteSection(selected);setDocument(current=>{const next=structuredClone(current);delete next.content.sections[selected];next.content.sectionOrder=result.sectionOrder;return next});setSelected(result.sectionOrder[0]||"hero")}
     catch(reason){setLoadError(reason.message)}
   }
@@ -301,59 +349,114 @@ function ContentPage({ site, onDirtyChange, goTranslations }) {
     return () => { active = false; clearInterval(timer); };
   }, [draftAi?.id, draftAi?.status, selected]);
   async function persistDraft(sectionToSave) {
-    if (!draft || saveState === "saving") return;
-    setSaveState("saving"); setLoadError("");
+    if (!draft || working) return;
+    setSaveState("saving");
+    setLoadError("");
+    setNotice("");
+    setTranslationOffer(null);
+    setDraft(structuredClone(sectionToSave));
     try {
       const result = await saveSection(selected, sectionToSave, locale);
-      setDraft(structuredClone(sectionToSave));
-      setDocument(current => ({ ...current, content: { ...current.content, sections: { ...current.content.sections, [selected]: structuredClone(sectionToSave) } } }));
+      setDocument(current => ({ ...current, content: { ...current.content, sections: { ...current.content.sections, [selected]: result.section } } }));
       setEditorial(current => ({ ...current, [selected]: result.metadata }));
-      setSaveState("saved"); setTimeout(() => setSaveState("idle"), 2600);
-    } catch (reason) { setSaveState("error"); setLoadError(reason.message); return; }
+    } catch (reason) {
+      setSaveState("error");
+      setLoadError(reason.message);
+      return;
+    }
     try {
       const translation = await getTranslationSection(selected);
-      if (translation.needsReview) setNotice(`Los textos en ${translation.targetLocale === "es" ? "español" : "inglés"} se conservaron y requieren revisión en Traducciones.`);
+      if (translation.needsReview) setNotice(`Revisa la traducción al ${translation.targetLocale === "es" ? "español" : "inglés"} en Traducciones.`);
       if (translation.missingFields.length) {
-        const health = await getInferenceHealth().catch(() => null);
-        setTranslatePrompt({ sectionId: selected, title: selectedMeta[1], sourceLocale: translation.sourceLocale, targetLocale: translation.targetLocale, sourceHash: translation.sourceHash,
-          count: translation.missingFields.length, model: health?.models?.translate?.active || "No disponible", fallback: health?.models?.translate?.using_fallback });
+        const { sourceLocale, targetLocale, sourceHash } = translation;
+        setTranslationOffer({ sectionId: selected, sourceLocale, targetLocale, sourceHash });
       }
-    } catch (reason) { setLoadError(`Borrador guardado; no se pudo comprobar la traducción: ${reason.message}`); }
+    } catch {
+      setNotice("Borrador guardado. Puedes consultar el estado de la traducción en Traducciones.");
+    } finally {
+      setSaveState("idle");
+    }
   }
-  function save() { if (draft && !readOnly && saveState !== "saving") setSavePrompt(true); }
+  function save() { if (draft && dirty && !readOnly && !working) setSavePrompt(true); }
   async function confirmTranslation() {
-    const prompt = translatePrompt;
-    setTranslatePrompt(null);
-    try { await startTranslationJob(prompt.sectionId, "translate", undefined, prompt.sourceHash, prompt.sourceLocale, prompt.targetLocale); setNotice("Traducción en cola. Abre Traducciones para revisar la propuesta."); }
-    catch (error) { setLoadError(error.message); }
+    const offer = translationOffer;
+    setTranslationOffer(null);
+    setSaveState("saving");
+    try {
+      await startTranslationJob(offer.sectionId, "translate", undefined, offer.sourceHash, offer.sourceLocale, offer.targetLocale);
+      setNotice("Traducción en cola. Abre Traducciones para revisar la propuesta.");
+    } catch (error) {
+      setTranslationOffer(offer);
+      setLoadError(error.message);
+    } finally {
+      setSaveState("idle");
+    }
   }
   async function changeStatus(status) {
+    if (dirty || working || (status === "approved" && selectedEditorial.sourceSwitchPending)) return;
     setLoadError("");
-    if (dirty) { setLoadError("Guarda los cambios antes de cambiar el estado"); return; }
-    if (status === "approved" && selectedEditorial.sourceSwitchPending) { setLoadError("Aprueba primero la traducción del nuevo idioma original en Traducciones"); return; }
-    try { const result = await updateSectionStatus(selected, status); setEditorial(current => ({ ...current, [selected]: result.metadata })); setSaveState("saved"); }
-    catch (reason) { setLoadError(reason.message); setSaveState("error"); }
+    setSaveState("saving");
+    try {
+      const result = await updateSectionStatus(selected, status);
+      setEditorial(current => ({ ...current, [selected]: result.metadata }));
+      setSaveState("idle");
+    } catch (reason) {
+      setLoadError(reason.message);
+      setSaveState("error");
+    }
   }
   const statusLabels = { draft: "Borrador", review: "En revisión", approved: "Aprobado" };
   const selectedEditorial = editorial[selected] || { status: "approved" };
+  const status = selectedEditorial.status;
+  const publishingBlocked = status === "review" && selectedEditorial.sourceSwitchPending;
+  const currentStep = dirty ? 0 : status === "draft" ? 1 : status === "review" ? 2 : 3;
+  const stepMessages = [
+    ["Cambios sin guardar", "Guarda el borrador para conservar tus cambios. La versión pública seguirá igual."],
+    ["Borrador guardado", "Cuando termines de editar, envía el borrador a revisión."],
+    publishingBlocked
+      ? ["Traducción pendiente", "Aprueba primero la traducción del nuevo idioma original."]
+      : ["Listo para publicar", "Revisa los cambios y aprueba la sección para que aparezcan en el sitio."],
+    ["Publicado", "Esta es la versión visible en el sitio."],
+  ];
   const previewUrl=`/site-preview/${site.id === "salvador" ? "el-salvador" : site.id}?sitio=${site.id}&lang=${locale}`;
   async function moveSelected(offset) { const index=movableIds.indexOf(selected); const target=movableIds[index+offset]; if (target) await dropSection(target, selected); }
   return <div className="page content-page">
-    {savePrompt && <div className="ai-modal-backdrop"><div className="ai-modal save-review-modal" role="dialog" aria-modal="true" aria-labelledby="save-review-title"><h2 id="save-review-title">Preparar cambios para guardar</h2><p>Terminaste de editar esta sección. Puedes revisar de una sola vez la ortografía y la redacción de todos sus textos antes de guardarla.</p><p>La traducción se ofrecerá después del guardado, también como un solo trabajo para la sección.</p><div><button type="button" className="secondary" onClick={()=>setSavePrompt(false)}>Volver a editar</button><button type="button" className="secondary" onClick={()=>{setSavePrompt(false);persistDraft(draft);}}>Guardar sin revisar</button><button type="button" className="primary" onClick={requestDraftReview}><Sparkles/> Revisar ortografía y redacción</button></div></div></div>}
-    {draftAi && <div className="ai-modal-backdrop"><div className="ai-modal draft-review-modal" role="dialog" aria-modal="true" aria-labelledby="draft-review-title"><h2 id="draft-review-title">Revisión final de la sección</h2>{["queued","running"].includes(draftAi.status) ? <><div className="field-ai-scene"><div className="field-ai-orbit"><Sparkles/></div><div className="field-ai-scene-copy"><b>Revisando todos los textos</b><span>Una sola llamada de IA para esta sección</span></div><div className="field-ai-progress"><i/></div></div><p role="status">{draftAi.status === "queued" ? "En cola…" : "Analizando ortografía y redacción…"}</p></> : draftAi.status === "failed" ? <><p className="field-ai-error">No se pudo completar la revisión. Puedes guardar sin IA.</p><div><button type="button" className="secondary" onClick={()=>setDraftAi(null)}>Volver</button><button type="button" className="primary" onClick={()=>{setDraftAi(null);persistDraft(draft);}}>Guardar sin revisar</button></div></> : <><p>Revisa el resumen y decide si aplicas la propuesta completa antes de guardar.</p><div className="draft-review-summary">{Object.entries(draftAi.result?.fields || {}).filter(([id,value])=>value !== draftAi.original[id]).map(([id,value])=><div key={id}><small>{humanize(String(JSON.parse(id).at(-2)))}</small><p><del>{draftAi.original[id]}</del></p><p>{value}</p></div>)}{!Object.entries(draftAi.result?.fields || {}).some(([id,value])=>value !== draftAi.original[id]) && <p>No se encontraron cambios necesarios.</p>}</div><div><button type="button" className="secondary" onClick={()=>{setDraftAi(null);persistDraft(draft);}}>Conservar original y guardar</button><button type="button" className="primary" onClick={()=>{const reviewed=applyDraftFields(draft,draftAi.result.fields);setDraftAi(null);persistDraft(reviewed);}}>Aplicar revisión y guardar</button></div></>}</div></div>}
+    {savePrompt && <div className="ai-modal-backdrop"><div className="ai-modal save-review-modal" role="dialog" aria-modal="true" aria-labelledby="save-review-title" onKeyDown={event=>{if(event.key==="Escape")setSavePrompt(false);}}><h2 id="save-review-title">Guardar borrador</h2><p>Puedes guardar el borrador directamente o revisar la ortografía antes de guardarlo. Podrás publicarlo después.</p><div><button type="button" className="secondary" onClick={()=>setSavePrompt(false)}>Volver a editar</button><button type="button" className="secondary" onClick={requestDraftReview}><Sparkles/> Revisar ortografía</button><button type="button" className="primary" autoFocus onClick={()=>{setSavePrompt(false);persistDraft(draft);}}>Guardar borrador ahora</button></div></div></div>}
+    {draftAi && <div className="ai-modal-backdrop"><div className="ai-modal draft-review-modal" role="dialog" aria-modal="true" aria-labelledby="draft-review-title"><h2 id="draft-review-title">Revisión final de la sección</h2>{["queued","running"].includes(draftAi.status) ? <><div className="field-ai-scene"><div className="field-ai-orbit"><Sparkles/></div><div className="field-ai-scene-copy"><b>Revisando todos los textos</b><span>Te mostraremos los cambios sugeridos</span></div><div className="field-ai-progress"><i/></div></div><p role="status">{draftAi.status === "queued" ? "En cola…" : "Analizando ortografía y redacción…"}</p></> : draftAi.status === "failed" ? <><p className="field-ai-error">No se pudo completar la revisión. Puedes guardar sin IA.</p><div><button type="button" className="secondary" onClick={()=>setDraftAi(null)}>Volver</button><button type="button" className="primary" onClick={()=>{setDraftAi(null);persistDraft(draft);}}>Guardar borrador ahora</button></div></> : <><p>Revisa el resumen y decide si aplicas la propuesta completa antes de guardar.</p><div className="draft-review-summary">{Object.entries(draftAi.result?.fields || {}).filter(([id,value])=>value !== draftAi.original[id]).map(([id,value])=><div key={id}><small>{humanize(String(JSON.parse(id).at(-2)))}</small><p><del>{draftAi.original[id]}</del></p><p>{value}</p></div>)}{!Object.entries(draftAi.result?.fields || {}).some(([id,value])=>value !== draftAi.original[id]) && <p>No se encontraron cambios necesarios.</p>}</div><div><button type="button" className="secondary" onClick={()=>{setDraftAi(null);persistDraft(draft);}}>Conservar original y guardar</button><button type="button" className="primary" onClick={()=>{const reviewed=applyDraftFields(draft,draftAi.result.fields);setDraftAi(null);persistDraft(reviewed);}}>Aplicar revisión y guardar</button></div></>}</div></div>}
     {localePrompt && <div className="ai-modal-backdrop"><div className="ai-modal" role="dialog" aria-modal="true" aria-labelledby="locale-prompt-title" onKeyDown={event => { if(event.key === "Escape") setLocalePrompt(null); }}><h2 id="locale-prompt-title">Cambiar idioma original</h2><p>Conservaremos los textos en español e inglés. La traducción al {localePrompt === "es" ? "inglés" : "español"} deberá revisarse antes de publicar nuevos cambios.</p>{dirty && <p>Los cambios sin guardar seguirán en este borrador; guárdalos antes de salir.</p>}<div><button type="button" className="secondary" autoFocus onClick={()=>setLocalePrompt(null)}>Cancelar</button><button type="button" className="primary" onClick={()=>{setWritingLocale(localePrompt);setLocalePrompt(null);}}>Cambiar a {localePrompt === "es" ? "español" : "inglés"}</button></div></div></div>}
-    {translatePrompt && <div className="ai-modal-backdrop"><div className="ai-modal" role="dialog" aria-modal="true" aria-labelledby="translate-prompt-title" onKeyDown={event => { if (event.key === "Escape") setTranslatePrompt(null); }}><h2 id="translate-prompt-title">¿Traducir esta sección?</h2><p><b>{translatePrompt.title}</b>: {translatePrompt.count} campos de {translatePrompt.sourceLocale.toUpperCase()} a {translatePrompt.targetLocale.toUpperCase()}.</p><p>Modelo: {translatePrompt.model}{translatePrompt.fallback ? " (alternativo)" : ""}. La traducción quedará pendiente de revisión y no se publicará.</p><div><button type="button" className="secondary" autoFocus onClick={()=>setTranslatePrompt(null)}>Solo guardar borrador</button><button type="button" className="primary" onClick={confirmTranslation}>Traducir sección</button></div></div></div>}
-    <div className="editor-head"><div><div><span className="eyebrow">{site.name.toUpperCase()} · {locale === "es" ? "ESPAÑOL" : "INGLÉS"}</span><h1>Editar contenido</h1></div></div><div><span className="draft-dot">{saveState === "saving" ? "Guardando…" : saveState === "error" ? "No se guardó" : dirty ? "Cambios sin guardar" : "Conectado al sitio"}</span><a className="secondary preview-link" href={previewUrl} target="_blank" rel="noopener noreferrer">Vista previa en {locale === "es" ? "español" : "inglés"}</a><button className="primary" onClick={save} disabled={!draft || readOnly || saveState === "saving"}>{saveState === "saved" ? <Check/> : null}{saveState === "saving" ? "Guardando…" : saveState === "saved" ? "Cambios guardados" : "Guardar borrador"}</button></div></div>
+    <div className="editor-head"><div><div><span className="eyebrow">{site.name.toUpperCase()} · {locale === "es" ? "ESPAÑOL" : "INGLÉS"}</span><h1>Editar contenido</h1></div></div><div><a className="secondary preview-link" href={previewUrl} target="_blank" rel="noopener noreferrer">Ver versión publicada</a></div></div>
     <p className="mobile-section-hint">← Desliza para ver más secciones →</p><div className="editor-layout"><aside className="section-list"><div><b>SECCIONES DE LA PÁGINA</b><span>Arrastra o usa ↑ ↓ para reordenar</span></div>{sections.map(([id,title,desc]) => <button draggable={!staticSection(site.id, id)} onDragStart={()=>setDraggedSection(id)} onDragOver={event=>event.preventDefault()} onDrop={()=>dropSection(id)} className={[selected === id ? "active" : "",draggedSection===id?"dragging":""].join(" ")} onClick={() => selectSection(id)} key={id}><GripVertical/><span><b>{title}</b><small>{desc}</small></span><i>{staticSection(site.id, id) ? "Solo lectura" : statusLabels[editorial[id]?.status] || "Aprobado"}</i></button>)}<button className="add-section" onClick={()=>setCreating(true)}><Plus/><span><b>Nueva sección</b><small>Textos, títulos y viñetas</small></span></button>{creating&&<form className="new-section-form" onSubmit={createNewSection}><label>Nombre de la sección<input autoFocus value={newSectionName} onChange={event=>setNewSectionName(event.target.value)} placeholder="Por ejemplo: Preguntas frecuentes"/></label><div><button type="button" onClick={()=>setCreating(false)}>Cancelar</button><button type="submit">Crear</button></div></form>}</aside>
     <form className="editor-form dynamic-editor" onSubmit={event => { event.preventDefault(); save(); }}><div className="form-title"><div><span className="eyebrow">SECCIÓN {String(selectedIndex+1).padStart(2,"0")}</span><h2>{selectedMeta[1]}</h2><p>{selectedMeta[2]}</p></div>{!readOnly && <div className="section-controls"><button type="button" className="secondary reorder-button" disabled={movableIds.indexOf(selected) <= 0} aria-label="Mover sección arriba" onClick={()=>moveSelected(-1)}>↑</button><button type="button" className="secondary reorder-button" disabled={movableIds.indexOf(selected) >= movableIds.length - 1} aria-label="Mover sección abajo" onClick={()=>moveSelected(1)}>↓</button>{draft?.type==="custom"&&<button type="button" className="delete-section" onClick={removeCustomSection}><Trash2/> Eliminar sección</button>}{draft && "enabled" in draft && <label className="toggle"><input type="checkbox" checked={draft.enabled !== false} onChange={event=>updateDraft(["enabled"],event.target.checked)}/><i/><span>Sección visible</span></label>}</div>}</div>
       {loadError && <div className="api-error" role="alert">{loadError}</div>}
       {notice && <div className="translation-message" role="status">{notice} <button type="button" className="secondary" onClick={goTranslations}>Ir a Traducciones</button></div>}
       {!document && !loadError && <div className="api-loading">Recuperando contenido desde la API…</div>}
       {readOnly ? <p className="read-only-field">Solo lectura. Esta sección forma parte del perfil institucional de El Salvador.</p> : <>
+      {draft && <div className="editorial-actions editorial-workflow">
+        <ol aria-label="Pasos para publicar">
+          {["Guardar borrador", "Enviar a revisión", "Aprobar y publicar"].map((step, index)=>
+            <li key={step} aria-current={index === currentStep ? "step" : undefined} data-completed={index < currentStep}>
+              <span aria-hidden="true">{index < currentStep ? "✓" : index + 1}</span>{step}
+            </li>)}
+        </ol>
+        <div className="editorial-next">
+          <div role="status"><strong>{stepMessages[currentStep][0]}</strong><p>{stepMessages[currentStep][1]}</p></div>
+          {dirty && <button type="button" className="primary" disabled={working} onClick={save}>Guardar borrador</button>}
+          {!dirty && status === "draft" && <button type="button" className="primary" disabled={working} onClick={()=>changeStatus("review")}>Enviar a revisión</button>}
+          {!dirty && status === "review" && <>
+            <button type="button" className="secondary" disabled={working} onClick={()=>changeStatus("draft")}>Regresar a borrador</button>
+            {publishingBlocked ? <button type="button" className="primary" onClick={goTranslations}>Ir a Traducciones</button>
+              : <button type="button" className="primary" disabled={working} onClick={()=>changeStatus("approved")}>Aprobar y publicar</button>}
+          </>}
+        </div>
+      </div>}
+      {translationOffer && !dirty && <div className="translation-message">
+        <span>Hay textos pendientes de traducir.</span>
+        <button type="button" className="secondary" disabled={working} onClick={confirmTranslation}>Solicitar traducción</button>
+      </div>}
       <div className="source-language language-choice"><Globe2/><div><small>IDIOMA ORIGINAL DE ESTA SECCIÓN</small><div className="language-options" role="group" aria-label="Idioma original de esta sección"><button type="button" className={locale === "es" ? "active" : ""} aria-pressed={locale === "es"} onClick={()=>chooseLocale("es")}>Español</button><button type="button" className={locale === "en" ? "active" : ""} aria-pressed={locale === "en"} onClick={()=>chooseLocale("en")}>Inglés</button></div><p>Estás redactando en {locale === "es" ? "español" : "inglés"}; revisarás el {locale === "es" ? "inglés" : "español"} en Traducciones.</p></div><ShieldCheck/></div>
-      <div className="editorial-actions"><span>Contenido guardado: {statusLabels[selectedEditorial.status] || "Aprobado"}{dirty ? " · Cambios locales sin guardar" : ""}{selectedEditorial.updatedAt ? ` · Último cambio: ${new Date(selectedEditorial.updatedAt).toLocaleString("es-MX")} (${selectedEditorial.updatedBy || "sin usuario"})` : ""}</span>{selectedEditorial.status === "draft" && <button type="button" className="secondary" onClick={() => changeStatus("review")}>Enviar a revisión</button>}{selectedEditorial.status === "review" && <><button type="button" className="secondary" onClick={() => changeStatus("draft")}>Regresar a borrador</button><button type="button" className="primary" onClick={() => changeStatus("approved")}>Aprobar sección y publicar</button></>}</div>
+
       {draft?.type==="custom"&&<div className="block-toolbar"><span>Agregar bloque</span><button type="button" onClick={()=>addBlock("heading")}><Plus/> Subtítulo</button><button type="button" onClick={()=>addBlock("text")}><Plus/> Texto</button><button type="button" onClick={()=>addBlock("bullets")}><Plus/> Viñetas</button></div>}
-      {draft && <div className="dynamic-fields">{Object.entries(draft).filter(([key])=>key!=="enabled"&&key!=="type").map(([key,value])=><ValueEditor key={`${selected}-${key}`} value={value} label={key} path={[key]} locale={locale} onChange={updateDraft} onRemove={removeDraftItem} sectionId={selected} siteId={site.id}/>)}</div>}
+      {draft && <div className="dynamic-fields">{Object.entries(draft).filter(([key])=>key!=="enabled"&&key!=="type").map(([key,value])=><ValueEditor key={`${selected}-${key}`} value={value} label={key} path={[key]} locale={locale} onChange={updateDraft} onRemove={removeDraftItem} sectionId={selected} siteId={site.id} images={{state:imageUpload,upload:uploadSectionImage,disabled:working}}/>)}</div>}
       </>}
     </form></div>
   </div>;

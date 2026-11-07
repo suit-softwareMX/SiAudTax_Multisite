@@ -73,8 +73,8 @@ Para detener todos los servicios, presiona `Ctrl+C` en la terminal del lanzador.
 1. Inicia todos los servicios.
 2. Abre `http://localhost:5173`.
 3. Inicia sesión con la cuenta Global, México o El Salvador.
-4. Entra en **Contenido**, selecciona una sección y edítala.
-5. Presiona **Guardar cambios**. La API crea un borrador y un respaldo; el sitio público sigue mostrando la versión aprobada.
+4. Entra en **Contenido**, selecciona una sección y edítala. Para reemplazar una foto, pulsa **Cambiar imagen** y elige un archivo de hasta 5 MB.
+5. Pulsa **Guardar borrador**. Puedes guardarlo directamente o revisar la ortografía. El sitio público muestra la versión aprobada hasta que publiques los cambios.
 6. Para traducir, entra en **Traducciones**, genera una propuesta, corrígela y apruébala. Esto añade el inglés al borrador, sin publicarlo.
 7. En **Contenido**, envía la sección a revisión y pulsa **Aprobar y publicar**. El sitio público recupera el contenido aprobado al cargar o al recuperar el foco.
 

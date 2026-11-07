@@ -30,9 +30,9 @@ La validación ocurre en la API. El token se conserva en `sessionStorage`; al re
 1. Inicia sesión con la cuenta del mercado que deseas administrar.
 2. En **Resumen**, presiona **Administrar contenido** o abre **Contenido**.
 3. Selecciona una sección en la columna izquierda.
-4. Modifica sus textos, enlaces, imágenes, cifras o interruptores.
-5. Presiona **Guardar cambios** para escribir esa sección en el JSON.
-6. Usa **Vista previa** para abrir el sitio asignado.
+4. Modifica sus textos, enlaces, cifras o interruptores. Para reemplazar una foto, pulsa **Cambiar imagen** y elige un JPG, PNG, WEBP o GIF de hasta 5 MB.
+5. Pulsa **Guardar borrador** y sigue los pasos **Enviar a revisión** y **Aprobar y publicar**.
+6. Usa **Ver versión publicada** para comprobar el resultado en el sitio asignado.
 7. Cierra la sesión desde el icono de salida cuando termines.
 
 ### Idiomas
@@ -41,7 +41,7 @@ El formulario edita el idioma fuente: inglés para Global y español para Méxic
 
 ### Colecciones
 
-Las listas, personas e indicadores aparecen como colecciones numeradas. El icono de papelera retira un elemento del borrador; después debes presionar **Guardar cambios** para aplicarlo al archivo.
+Las listas, personas e indicadores aparecen como colecciones numeradas. El icono de papelera retira un elemento. Guarda el borrador y publica la sección para aplicar el cambio en el sitio.
 
 ### Crear una sección
 

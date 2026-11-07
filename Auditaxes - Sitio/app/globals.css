@@ -472,3 +472,9 @@ html,body{overflow-x:hidden}
 @media(max-width:900px){.proposal footer{grid-template-columns:1fr 1fr}.legal-modal{padding:.75rem}.legal-modal>section{max-height:92vh}.legal-modal-copy p{font-size:.9rem;line-height:1.7}}
 @media(max-width:520px){.proposal footer{grid-template-columns:1fr}.proposal footer>div{grid-column:1}.legal-modal>section>header{padding:1.4rem}.legal-modal-copy{padding:1.4rem}.legal-modal h2{font-size:2.5rem}}
 @media(prefers-reduced-motion:reduce){.legal-modal,.legal-modal>section{animation:none}}
+
+.site-content-pending{visibility:hidden}
+.site-loading{position:fixed;inset:0;display:grid;place-items:center;background:#fff;color:#526775;font-size:.85rem}
+.site-content-ready{animation:site-content-enter .24s ease-out both}
+@keyframes site-content-enter{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.site-content-ready{animation:none}}
