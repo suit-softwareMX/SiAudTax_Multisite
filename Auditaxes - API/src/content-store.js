@@ -1,6 +1,7 @@
 import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import crypto from "node:crypto";
 import path from "node:path";
+import sanitizeHtml from "sanitize-html";
 import { config } from "./config.js";
 
 const pageFiles = Object.freeze({
@@ -97,6 +98,26 @@ export async function getPublishedPageContent(siteId) {
   return published[siteId];
 }
 
+export async function getPublicPageContent(siteId) {
+  const [content, state, details] = await Promise.all([
+    getPublishedPageContent(siteId), readState(config.editorialStatePath), readJson(publicationDetailsFile),
+  ]);
+  const news = await publicNews(siteId, content, state);
+  const publicationSite = news?.items === undefined ? "global" : siteId;
+  const items = news?.items ?? (await publicNews("global", await getPublishedPageContent("global"), state))?.items ?? [];
+  if (news) content.sections.news = { ...news, items: items.map(publicationImageUrl) };
+  const publicationDetails = Object.fromEntries(items.map(({ id }) => [id, publicationDetail(details, publicationSite, id)]));
+  return { content, publicationDetails };
+}
+
+async function publicNews(siteId, published, state) {
+  const news = published.sections.news;
+  // The dedicated publications editor saves directly. Section drafts still need approval.
+  if (["draft", "review"].includes(state[siteId]?.news?.status)) return news;
+  const current = (await getPageContent(siteId)).sections.news;
+  return news && current ? { ...news, items: current.items } : news ?? current;
+}
+
 export async function getEditorialContent(siteId) {
   const content = await getPageContent(siteId);
   const state = await readState(config.editorialStatePath);
@@ -135,13 +156,6 @@ async function saveDocument(siteId, content) {
   await mkdir(backupDirectory, { recursive: true });
   await copyFile(absolutePath, path.join(backupDirectory, `${timestamp}.json`));
   await writeFile(absolutePath, `${JSON.stringify(content, null, 2)}\n`, "utf8");
-}
-
-async function publishNewsSection(siteId, content) {
-  const published = await readState(config.publishedContentPath);
-  published[siteId] ||= await getPublishedPageContent(siteId);
-  published[siteId].sections.news = structuredClone(content.sections.news);
-  await writeState(config.publishedContentPath, published);
 }
 
 export async function updateSection(siteId, sectionId, section, actor = null, requestedLocale = null) {
@@ -208,9 +222,11 @@ export async function updateSectionOrder(siteId, sectionOrder) {
   if (!Array.isArray(sectionOrder) || sectionOrder.length !== existing.length || new Set(sectionOrder).size !== existing.length || sectionOrder.some(id => !existing.includes(id))) {
     throw Object.assign(new Error("El orden debe incluir cada sección exactamente una vez"), { status: 400 });
   }
-  await getPublishedPageContent(siteId);
+  const published = await getPublishedPageContent(siteId);
   content.sectionOrder = sectionOrder;
   await saveDocument(siteId, content);
+  published.sectionOrder = sectionOrder.filter(id => id in published.sections);
+  await writeState(config.publishedContentPath, { ...await readState(config.publishedContentPath), [siteId]: published });
   return { sectionOrder, savedAt: new Date().toISOString() };
 }
 
@@ -219,10 +235,13 @@ export async function deleteSection(siteId, sectionId) {
   const section = content.sections[sectionId];
   if (!section) throw Object.assign(new Error("Sección no encontrada"), { status: 404 });
   if (section.type !== "custom") throw Object.assign(new Error("Las secciones estructurales no pueden eliminarse"), { status: 400 });
-  await getPublishedPageContent(siteId);
+  const published = await getPublishedPageContent(siteId);
   delete content.sections[sectionId];
   content.sectionOrder = (content.sectionOrder || Object.keys(content.sections)).filter(id => id !== sectionId);
   await saveDocument(siteId, content);
+  delete published.sections[sectionId];
+  published.sectionOrder = published.sectionOrder.filter(id => id !== sectionId);
+  await writeState(config.publishedContentPath, { ...await readState(config.publishedContentPath), [siteId]: published });
   const state = await readState(config.editorialStatePath);
   if (state[siteId]) delete state[siteId][sectionId];
   await writeState(config.editorialStatePath, state);
@@ -352,15 +371,62 @@ export async function getSharedContent() {
 
 const publicationDetailsFile = "news-details.json";
 function sanitizePublicationHtml(html) {
-  return String(html).replace(/<(script|iframe|object|embed|form|input|button)[^>]*>[\s\S]*?<\/\1>/gi, "").replace(/<(script|iframe|object|embed|form|input|button)[^>]*\/?\s*>/gi, "").replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "").replace(/(href|src)\s*=\s*(["'])\s*javascript:[\s\S]*?\2/gi, '$1="#"');
+  return sanitizeHtml(html, {
+    allowedTags: [...sanitizeHtml.defaults.allowedTags, "font", "u"],
+    allowedAttributes: { a: ["href"], font: ["face", "size"], "*": ["align", "style"] },
+    allowedStyles: {
+      "*": {
+        "text-align": [/^(left|center|right|justify)$/],
+        "font-family": [/^[\w ,'"-]+$/],
+        "font-size": [/^([\d.]+(px|pt|em|rem|%)|small|medium|large)$/],
+      },
+    },
+  });
+}
+
+function publicationDetail(details, siteId, id) {
+  const detail = details[`${siteId}/${id}`] ?? details[id];
+  return detail?.contentHtml ? { ...detail, contentHtml: sanitizePublicationHtml(detail.contentHtml) } : detail ?? null;
+}
+
+const uploadedImage = /^(global|mexico|salvador)-\d+-[a-z0-9-]+\.(jpg|png|webp|gif)$/;
+export const publicationImagePath = "/api/public/publication-images";
+
+export function legacyPublicationImageDirectory() {
+  return path.resolve(config.contentRoot, "../../public/images/news");
+}
+
+export function isPublicationImageName(filename) {
+  return uploadedImage.test(filename);
+}
+
+function publicationImageUrl(item) {
+  const src = item.image?.src;
+  const legacyPrefix = "/images/news/";
+  if (typeof src !== "string" || !src.startsWith(legacyPrefix)) return item;
+  const filename = src.slice(legacyPrefix.length);
+  return isPublicationImageName(filename)
+    ? { ...item, image: { ...item.image, src: `${publicationImagePath}/${filename}` } }
+    : item;
+}
+
+async function publishNewsItems(siteId, published, news, items) {
+  published.sections.news = { ...(published.sections.news ?? news), items };
+  await writeState(config.publishedContentPath, { ...await readState(config.publishedContentPath), [siteId]: published });
 }
 
 export async function getPublications(siteId) {
   const content = await getPageContent(siteId);
   const details = await readJson(publicationDetailsFile);
   const ownItems = content.sections.news?.items;
-  const items = ownItems || (siteId === "global" ? [] : (await getPageContent("global")).sections.news?.items || []);
-  return items.map(item => ({ ...item, detail: details[item.id] || null, inherited: siteId !== "global" && !item.id.startsWith(`${siteId}-`) }));
+  const inherited = siteId !== "global" && ownItems === undefined;
+  const items = inherited ? (await getPageContent("global")).sections.news?.items || [] : ownItems || [];
+  const detailSite = inherited ? "global" : siteId;
+  return items.map(item => ({
+    ...publicationImageUrl(item),
+    detail: publicationDetail(details, detailSite, item.id),
+    ...(inherited ? { inherited: true } : {}),
+  }));
 }
 
 export async function savePublication(siteId, publication, actor = null) {
@@ -369,52 +435,71 @@ export async function savePublication(siteId, publication, actor = null) {
   const detail = publication.detail || {};
   if (!/^[a-z][a-z0-9-]{2,80}$/.test(id) || !["news", "article"].includes(detail.kind) || !/^\d{4}-\d{2}-\d{2}$/.test(detail.date || "") ||
       typeof publication.title?.es !== "string" || !publication.title.es.trim() || typeof detail.summary !== "string" || !detail.summary.trim() ||
-      typeof detail.contentHtml !== "string" || !detail.contentHtml.trim() || typeof publication.image?.src !== "string" || !publication.image.src.trim()) {
+      typeof publication.image?.src !== "string" || !publication.image.src.trim()) {
     throw Object.assign(new Error("Completa título, fecha, tipo, resumen, imagen y contenido"), { status: 400 });
   }
   const content = await getPageContent(siteId);
   content.sections.news ||= { enabled: true, eyebrow: { es: "NOVEDADES", en: "NEWS", pt: "NOVIDADES", fr: "ACTUALITÉS" }, title: { es: "Últimas publicaciones.", en: "Latest publications.", pt: "Últimas publicações.", fr: "Dernières publications." }, actionLabel: { es: "Ver todas las publicaciones", en: "View all publications", pt: "Ver todas as publicações", fr: "Voir toutes les publications" }, items: [] };
   if (!content.sections.news.items) content.sections.news.items = siteId === "global" ? [] : structuredClone((await getPageContent("global")).sections.news?.items || []);
-  const item = { id, category: publication.category, title: publication.title, image: publication.image };
   const originalId = String(publication.originalId || id);
   const index = content.sections.news.items.findIndex(current => current.id === originalId);
+  const details = await readJson(publicationDetailsFile);
+  const previousDetail = index >= 0 ? publicationDetail(details, publication.originalId ? "global" : siteId, originalId) : null;
+  const legacyBody = detail.contentHtml === undefined && Array.isArray(previousDetail?.sections)
+    && !previousDetail.contentHtml && previousDetail.summary === detail.summary;
+  const contentHtml = typeof detail.contentHtml === "string" ? sanitizePublicationHtml(detail.contentHtml) : "";
+  if (!legacyBody && !contentHtml.trim()) {
+    throw Object.assign(new Error("Completa el contenido de la publicación"), { status: 400 });
+  }
+  const published = await getPublishedPageContent(siteId);
+  const item = publicationImageUrl({ id, category: publication.category, title: publication.title, image: publication.image });
   if (index >= 0) content.sections.news.items[index] = item; else content.sections.news.items.unshift(item);
   await saveDocument(siteId, content);
-  await publishNewsSection(siteId, content);
-  const details = await readJson(publicationDetailsFile);
-  details[id] = { date: detail.date, kind: detail.kind, sourceUrl: detail.sourceUrl || "", summary: detail.summary, contentHtml: sanitizePublicationHtml(detail.contentHtml) };
+  const key = `${siteId}/${id}`;
+  details[key] = {
+    date: detail.date, kind: detail.kind, sourceUrl: detail.sourceUrl || "", summary: detail.summary,
+    ...(legacyBody ? { sections: previousDetail.sections } : { contentHtml }),
+  };
   await writeFile(path.resolve(config.contentRoot, publicationDetailsFile), `${JSON.stringify(details, null, 2)}\n`, "utf8");
-  return { ...item, detail: details[id], updatedBy: actor, savedAt: new Date().toISOString() };
+  await publishNewsItems(siteId, published, content.sections.news, content.sections.news.items);
+  return { ...item, detail: details[key], updatedBy: actor, savedAt: new Date().toISOString() };
 }
 
 export async function deletePublication(siteId, publicationId) {
   const content = await getPageContent(siteId);
-  content.sections.news ||= {};
-  if (!content.sections.news.items) content.sections.news.items = siteId === "global" ? [] : structuredClone((await getPageContent("global")).sections.news?.items || []);
-  const items = content.sections.news.items;
+  const items = content.sections.news?.items || [];
   const index = items.findIndex(item => item.id === publicationId);
   if (index < 0) throw Object.assign(new Error("Publicación no encontrada"), { status: 404 });
+  const published = await getPublishedPageContent(siteId);
   items.splice(index, 1);
   await saveDocument(siteId, content);
-  await publishNewsSection(siteId, content);
   const details = await readJson(publicationDetailsFile);
-  if (siteId === "global" || publicationId.startsWith(`${siteId}-`)) delete details[publicationId];
+  delete details[`${siteId}/${publicationId}`];
   await writeFile(path.resolve(config.contentRoot, publicationDetailsFile), `${JSON.stringify(details, null, 2)}\n`, "utf8");
+  await publishNewsItems(siteId, published, content.sections.news, (published.sections.news?.items ?? []).filter(item => item.id !== publicationId));
   return { deleted: true, publicationId };
 }
 
 export async function savePublicationImage(siteId, name, mimeType, base64) {
   const extensions = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif" };
-  const extension = extensions[mimeType];
+  const extension = Object.hasOwn(extensions, mimeType) ? extensions[mimeType] : null;
   if (!extension || typeof base64 !== "string") throw Object.assign(new Error("Usa una imagen JPG, PNG, WEBP o GIF"), { status: 400 });
   const buffer = Buffer.from(base64, "base64");
   if (!buffer.length || buffer.length > 5 * 1024 * 1024) throw Object.assign(new Error("La imagen debe pesar menos de 5 MB"), { status: 413 });
+  const signature = buffer.subarray(0, 12);
+  const validSignature = {
+    jpg: signature.subarray(0, 3).toString("hex") === "ffd8ff",
+    png: signature.subarray(0, 8).toString("hex") === "89504e470d0a1a0a",
+    webp: signature.toString("ascii", 0, 4) === "RIFF" && signature.toString("ascii", 8, 12) === "WEBP",
+    gif: ["GIF87a", "GIF89a"].includes(signature.toString("ascii", 0, 6)),
+  };
+  if (!validSignature[extension]) throw Object.assign(new Error("El archivo no coincide con el formato de imagen seleccionado"), { status: 400 });
   const stem = String(name || "publicacion").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 45) || "publicacion";
-  const filename = `${siteId}-${Date.now()}-${stem}.${extension}`;
-  const directory = path.resolve(config.contentRoot, "../../public/images/news");
+  const filename = `${siteId}-${Date.now()}-${crypto.randomUUID()}-${stem}.${extension}`;
+  const directory = config.publicationImagesRoot;
   await mkdir(directory, { recursive: true });
   await writeFile(path.join(directory, filename), buffer);
-  return { src: `/images/news/${filename}` };
+  return { src: `${publicationImagePath}/${filename}` };
 }
 
 export function describeSections(content) {

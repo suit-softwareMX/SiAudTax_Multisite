@@ -56,11 +56,15 @@ En esta computadora, usa `iniciar-todo.cmd` para tomar el Node 24 incluido en Co
 | API | `http://localhost:4100` |
 | Editor | `http://localhost:5173` |
 
+En Windows, volver a ejecutar `iniciar-todo.cmd` cierra las instancias anteriores de Auditaxes en esos cinco puertos antes de iniciar los servicios. Si un puerto está ocupado por un programa ajeno, el lanzador indica el puerto y el PID para que puedas revisarlo.
+
 Abre `iniciar-todo.cmd` desde la carpeta del sitio: el lanzador pide la clave de la workstation sin mostrarla, configura la URL `http://192.168.0.107:4110` en esa sesión e inicia los cinco servicios. Para probar solo el sitio local sin IA, pulsa Enter sin escribir clave; el editor funcionará y las acciones de IA quedarán deshabilitadas. No hace falta pegar comandos de PowerShell ni guardar la clave en un archivo. Si el proceso ya recibió `INFERENCE_API_KEY` de un gestor de secretos, no vuelve a pedirla.
 
 La API usa `http://192.168.0.107:4110` por defecto; puedes cambiarlo con `INFERENCE_URL` si ejecutas la API por separado. No se inicia inferencia en este servidor. La URL y la clave solo se configuran en el backend, nunca en Vite ni en el navegador. Ollama de la workstation permanece en localhost y su API 11434 no se expone. No cierres la ventana del lanzador mientras uses el proyecto.
 
-Para pruebas por el túnel `adminauditaxes.suitmx.com`, mantén Cloudflare Access obligatorio para usuarios autorizados. El túnel debe apuntar solo al editor `127.0.0.1:5173`; Vite reenvía `/api` a la API local y `/site-preview`, `/_next` e imágenes al sitio Global local (`127.0.0.1:4321`). La vista previa usa el mismo dominio del editor y acepta Global, México y El Salvador por ruta. Mantén activos la API y el sitio Global para que carguen los textos aprobados. Tras actualizar código del sitio, recompila y reinicia sus procesos antes de probar la vista previa. No definas `VITE_API_URL` con `localhost` para visitantes remotos. Las cuentas y contraseñas de demostración siguen visibles en el editor: este túnel no debe tratarse como despliegue público definitivo.
+Para pruebas por el túnel, usa Cloudflare Access para `adminauditaxes.suitmx.com`, configura contraseñas propias y apunta ese dominio al editor en `127.0.0.1:5173`. Vite reenvía `/api` a la API local y `/site-preview`, `/_next` e imágenes estáticas al sitio Global en `127.0.0.1:4321`. Los dominios públicos tienen sus propios orígenes locales. Consulta la [revisión del editor y comprobación del túnel](docs/revision-editor.md) para ver las rutas, los resultados locales y los pasos que debe ejecutar el operador.
+
+Al guardar en **Publicaciones**, el sitio y la vista previa recuperan los cambios al cargar o recuperar el foco. Las imágenes que subas se guardan fuera del repositorio en `../Auditaxes-data/publication-images`, desde la raíz del proyecto. Puedes indicar otra carpeta persistente con `PUBLICATION_IMAGES_ROOT`. La API también puede leer las subidas anteriores en `Auditaxes - Sitio/public/images/news`. Conserva ambas carpetas hasta trasladar las imágenes anteriores. Si tienes reglas de caché personalizadas en Cloudflare, excluye `/api/*`. El contenido de las secciones conserva su flujo de aprobación.
 
 Para detener todos los servicios, presiona `Ctrl+C` en la terminal del lanzador. Si lo abriste con doble clic, confirma la interrupción cuando Windows lo solicite.
 
@@ -69,8 +73,8 @@ Para detener todos los servicios, presiona `Ctrl+C` en la terminal del lanzador.
 1. Inicia todos los servicios.
 2. Abre `http://localhost:5173`.
 3. Inicia sesión con la cuenta Global, México o El Salvador.
-4. Entra en **Contenido**, selecciona una sección y edítala.
-5. Presiona **Guardar cambios**. La API crea un borrador y un respaldo; el sitio público sigue mostrando la versión aprobada.
+4. Entra en **Contenido**, selecciona una sección y edítala. Para reemplazar una foto, pulsa **Cambiar imagen** y elige un archivo de hasta 5 MB.
+5. Pulsa **Guardar borrador**. Puedes guardarlo directamente o revisar la ortografía. El sitio público muestra la versión aprobada hasta que publiques los cambios.
 6. Para traducir, entra en **Traducciones**, genera una propuesta, corrígela y apruébala. Esto añade el inglés al borrador, sin publicarlo.
 7. En **Contenido**, envía la sección a revisión y pulsa **Aprobar y publicar**. El sitio público recupera el contenido aprobado al cargar o al recuperar el foco.
 

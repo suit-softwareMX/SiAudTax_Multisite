@@ -37,7 +37,8 @@ function launch(service) {
   const args = process.platform === "win32"
     ? ["/d", "/s", "/c", service.command]
     : service.command.replace(/^pnpm\s+/, "").split(" ");
-  const child = spawn(command, args, { cwd: path.resolve(process.cwd(), service.directory), env: localEnv, stdio: ["ignore", "pipe", "pipe"] });
+  const env = service.name === "API" ? { ...localEnv, PORT: "4100" } : localEnv;
+  const child = spawn(command, args, { cwd: path.resolve(process.cwd(), service.directory), env, stdio: ["ignore", "pipe", "pipe"] });
   children.add(child);
   const prefix = `${service.color}[${service.name.padEnd(6)}]${reset}`;
   writeLines(child.stdout, prefix, process.stdout);
@@ -66,6 +67,15 @@ function stop(exitCode = 0) {
 }
 
 console.log("\nAUDITAXES — entorno local\n");
+if (process.platform === "win32") {
+  const cleanup = spawnSync("powershell.exe", [
+    "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", path.resolve("scripts", "stop-auditaxes-ports.ps1"),
+  ], { env: localEnv, stdio: "inherit" });
+  if (cleanup.status !== 0) {
+    console.error("No fue posible liberar los puertos de AUDITAXES.");
+    process.exit(cleanup.status || 1);
+  }
+}
 console.log("Preparando la compilación compartida del sitio…\n");
 const siteDirectory = path.resolve(process.cwd(), "Auditaxes - Sitio");
 const build = process.platform === "win32"

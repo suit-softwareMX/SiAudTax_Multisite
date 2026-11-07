@@ -1,6 +1,10 @@
 node_modules/
 .env
 *.log
+/.codex-remote-attachments/
+Auditaxes - Sitio/public/images/news/global-[0-9]*
+Auditaxes - Sitio/public/images/news/mexico-[0-9]*
+Auditaxes - Sitio/public/images/news/salvador-[0-9]*
 Auditaxes - API/editorial-state.json
 Auditaxes - API/published-content.json
 Auditaxes - API/backups/

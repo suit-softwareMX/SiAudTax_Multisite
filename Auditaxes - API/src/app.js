@@ -1,9 +1,8 @@
 import crypto from "node:crypto";
-import path from "node:path";
 import cors from "cors";
 import express from "express";
 import { config, publicUser, users } from "./config.js";
-import { createSection, deletePublication, deleteSection, describeSections, fieldsHash, getAiJobRef, getEditorialContent, getFieldAiJobRef, getPageContent, getPublications, getPublishedPageContent, getSharedContent, getSiteConfiguration, getTranslation, getTranslationJobRef, recordAiJob, recordFieldAiJob, recordTranslationJob, savePublication, savePublicationImage, updateEditorialStatus, updateSection, updateSectionOrder, updateTranslation, updateTranslationJob } from "./content-store.js";
+import { createSection, deletePublication, deleteSection, describeSections, fieldsHash, getAiJobRef, getEditorialContent, getFieldAiJobRef, getPageContent, getPublications, getPublicPageContent, getSharedContent, getSiteConfiguration, getTranslation, getTranslationJobRef, isPublicationImageName, legacyPublicationImageDirectory, publicationImagePath, recordAiJob, recordFieldAiJob, recordTranslationJob, savePublication, savePublicationImage, updateEditorialStatus, updateSection, updateSectionOrder, updateTranslation, updateTranslationJob } from "./content-store.js";
 import { inferenceRequest } from "./inference.js";
 
 const sessions = new Map();
@@ -30,14 +29,6 @@ export function createApp() {
 
   app.get("/api/health", (_request, response) => {
     response.json({ status: "ok", service: "auditaxes-api", contentRoot: config.contentRoot });
-  });
-
-  app.get("/api/publication-images/:filename", (request, response) => {
-    const filename = String(request.params.filename || "");
-    if (!/^[a-z0-9][a-z0-9._-]{2,180}\.(?:jpe?g|png|webp|gif)$/i.test(filename) || path.basename(filename) !== filename) return response.status(400).json({ error: "Imagen inválida" });
-    response.sendFile(path.resolve(config.contentRoot, "../../public/images/news", filename), error => {
-      if (error && !response.headersSent) response.status(error.statusCode === 404 ? 404 : 500).json({ error: "Imagen no encontrada" });
-    });
   });
 
   app.get("/api/inference/health", authenticate, async (_request, response, next) => {
@@ -352,16 +343,27 @@ export function createApp() {
 
   app.get("/api/public/content/:siteId", async (request, response, next) => {
     try {
-      const [site, content, publications] = await Promise.all([
-        getSiteConfiguration(request.params.siteId),
-        getPublishedPageContent(request.params.siteId),
-        getPublications(request.params.siteId),
-      ]);
-      content.sections.news ||= {};
-      content.sections.news.items = publications.map(({ detail: _detail, inherited: _inherited, ...publication }) => publication);
+      const site = await getSiteConfiguration(request.params.siteId);
+      const published = await getPublicPageContent(site.id);
       response.set("Cache-Control", "no-store");
-      response.json({ site, sourceLocale: site.defaultLocale, content, publications });
+      response.json({ site, sourceLocale: site.defaultLocale, ...published });
     } catch (error) { next(error); }
+  });
+
+  app.get(`${publicationImagePath}/:filename`, (request, response, next) => {
+    const { filename } = request.params;
+    response.set({ "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" });
+    if (!isPublicationImageName(filename)) return response.sendStatus(404);
+    response.sendFile(filename, { root: config.publicationImagesRoot, dotfiles: "deny" }, error => {
+      if (error?.status !== 404 || response.headersSent) {
+        if (error) next(error);
+        return;
+      }
+      response.sendFile(filename, { root: legacyPublicationImageDirectory(), dotfiles: "deny" }, legacyError => {
+        if (legacyError?.status === 404 && !response.headersSent) response.sendStatus(404);
+        else if (legacyError) next(legacyError);
+      });
+    });
   });
 
   app.get("/api/content/shared", authenticate, async (_request, response, next) => {

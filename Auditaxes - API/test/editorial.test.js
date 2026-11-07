@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { cp, mkdtemp, rm } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { createServer } from "node:http";
 import os from "node:os";
 import path from "node:path";
@@ -12,9 +12,11 @@ const original = { ...config };
 
 before(async () => {
   root = await mkdtemp(path.join(os.tmpdir(), "auditaxes-editorial-"));
-  await cp(config.contentRoot, path.join(root, "content"), { recursive: true });
+  const contentRoot = path.join(root, "app", "content");
+  await cp(config.contentRoot, contentRoot, { recursive: true });
   Object.assign(config, {
-    contentRoot: path.join(root, "content"), backupRoot: path.join(root, "backups"),
+    contentRoot, backupRoot: path.join(root, "backups"),
+    publicationImagesRoot: path.join(root, "uploads"),
     editorialStatePath: path.join(root, "editorial.json"), publishedContentPath: path.join(root, "published.json"),
   });
   server = createApp().listen(0, "127.0.0.1");
@@ -35,6 +37,94 @@ async function login(site) {
     body: JSON.stringify({ email: `${site}@auditaxes.com`, password: "Auditaxes2026" }) });
   return { authorization: `Bearer ${(await response.json()).token}`, "content-type": "application/json" };
 }
+
+test("publica cambios del artículo y sirve imágenes nuevas y antiguas desde el disco", async () => {
+  const headers = await login("global");
+  const publicUrl = `${base}/api/public/content/global`;
+  const privateUrl = `${base}/api/content/current/publications`;
+  assert.equal((await fetch(publicUrl)).status, 200);
+  const png = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/l2cAAAAASUVORK5CYII=";
+  const filename = "global-1793921304598-portada.png";
+  const directory = path.join(root, "public", "images", "news");
+  await mkdir(directory, { recursive: true });
+  await writeFile(path.join(directory, filename), Buffer.from(png, "base64"));
+
+  // Simula una publicación guardada por el editor anterior después de crear la copia pública.
+  const globalPath = path.join(config.contentRoot, "global.json");
+  const globalContent = JSON.parse(await readFile(globalPath, "utf8"));
+  globalContent.sections.news.items.find(item => item.id === "electronic-invoicing").image.src = `/images/news/${filename}`;
+  await writeFile(globalPath, JSON.stringify(globalContent));
+
+  const { publications } = await (await fetch(privateUrl, { headers })).json();
+  const original = publications.find(item => item.id === "electronic-invoicing");
+  const live = await (await fetch(publicUrl)).json();
+  assert.equal(original.image.src, `/api/public/publication-images/${filename}`);
+  assert.equal(live.content.sections.news.items.find(item => item.id === original.id).image.src, original.image.src);
+  const draft = {
+    ...original,
+    detail: { ...original.detail, summary: "Resumen actualizado", contentHtml: '<h2>Contenido actualizado</h2><a href="jav&#x61;script:alert(1)">Enlace</a>' },
+  };
+  const articleUrl = `${privateUrl}/${draft.id}`;
+  const save = item => fetch(articleUrl, { method: "PUT", headers, body: JSON.stringify(item) });
+  assert.equal((await save(draft)).status, 200);
+  const published = await (await fetch(publicUrl)).json();
+  const item = published.content.sections.news.items.find(item => item.id === draft.id);
+  assert.equal(item.image.src, `/api/public/publication-images/${filename}`);
+  assert.equal(published.publicationDetails[draft.id].summary, draft.detail.summary);
+  assert.equal(published.publicationDetails[draft.id].contentHtml, "<h2>Contenido actualizado</h2><a>Enlace</a>");
+
+  const uploaded = await fetch(`${base}/api/content/current/publication-images`, {
+    method: "POST", headers, body: JSON.stringify({ name: "portada.png", type: "image/png", data: png }),
+  });
+  assert.equal(uploaded.status, 201);
+  const { src } = await uploaded.json();
+  const uploadedName = path.basename(src);
+  assert.deepEqual(await readFile(path.join(config.publicationImagesRoot, uploadedName)), Buffer.from(png, "base64"));
+  await assert.rejects(readFile(path.join(directory, uploadedName)), { code: "ENOENT" });
+  for (const imageUrl of [item.image.src, src]) {
+    const image = await fetch(base + imageUrl);
+    assert.equal(image.status, 200);
+    assert.equal(image.headers.get("content-type"), "image/png");
+    assert.deepEqual(Buffer.from(await image.arrayBuffer()), Buffer.from(png, "base64"));
+  }
+  const missing = await fetch(`${base}/api/public/publication-images/global-123-ausente.png`);
+  assert.equal(missing.status, 404);
+  assert.equal(missing.headers.get("cache-control"), "no-store");
+
+  assert.equal((await fetch(articleUrl, { method: "DELETE", headers })).status, 200);
+  const afterDelete = await (await fetch(publicUrl)).json();
+  assert.equal(afterDelete.content.sections.news.items.some(item => item.id === draft.id), false);
+  assert.equal(Object.hasOwn(afterDelete.publicationDetails, draft.id), false);
+});
+
+test("el orden y la eliminación se reflejan en el sitio sin publicar secciones en borrador", async () => {
+  const headers = await login("salvador");
+  const currentUrl = `${base}/api/content/current`;
+  const publicUrl = `${base}/api/public/content/salvador`;
+  const id = "section-test";
+  const create = await fetch(`${currentUrl}/sections`, {
+    method: "POST", headers, body: JSON.stringify({ sectionId: id, section: { type: "custom", enabled: true } }),
+  });
+  assert.equal(create.status, 201);
+  const { content } = await (await fetch(currentUrl, { headers })).json();
+  const sectionOrder = [...content.sectionOrder].reverse();
+  const reorder = await fetch(`${currentUrl}/sections-order`, {
+    method: "PUT", headers, body: JSON.stringify({ sectionOrder }),
+  });
+  assert.equal(reorder.status, 200);
+  const beforeApproval = (await (await fetch(publicUrl)).json()).content;
+  assert.deepEqual(beforeApproval.sectionOrder, sectionOrder.filter(sectionId => sectionId !== id));
+  assert.equal(Object.hasOwn(beforeApproval.sections, id), false);
+  for (const status of ["review", "approved"]) {
+    const response = await fetch(`${currentUrl}/sections/${id}/status`, { method: "PUT", headers, body: JSON.stringify({ status }) });
+    assert.equal(response.status, 200);
+  }
+  assert.equal((await (await fetch(publicUrl)).json()).content.sections[id].type, "custom");
+  assert.equal((await fetch(`${currentUrl}/sections/${id}`, { method: "DELETE", headers })).status, 200);
+  const afterDelete = (await (await fetch(publicUrl)).json()).content;
+  assert.equal(Object.hasOwn(afterDelete.sections, id), false);
+  assert.equal(afterDelete.sectionOrder.includes(id), false);
+});
 
 test("borrador, revisión, aprobación y traducción mantienen aislados los sitios", async () => {
   const mx = await login("mexico");
