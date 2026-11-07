@@ -417,15 +417,17 @@ async function publishNewsItems(siteId, published, news, items) {
 
 export async function getPublications(siteId) {
   const content = await getPageContent(siteId);
-  const details = await readJson(publicationDetailsFile);
   const ownItems = content.sections.news?.items;
-  const inherited = siteId !== "global" && ownItems === undefined;
-  const items = inherited ? (await getPageContent("global")).sections.news?.items || [] : ownItems || [];
-  const detailSite = inherited ? "global" : siteId;
-  return items.map(item => ({
+  if (siteId !== "global" && ownItems === undefined) {
+    const global = await getPublicPageContent("global");
+    return (global.content.sections.news?.items ?? []).map(item => ({
+      ...item, detail: global.publicationDetails[item.id], inherited: true,
+    }));
+  }
+  const details = await readJson(publicationDetailsFile);
+  return (ownItems ?? []).map(item => ({
     ...publicationImageUrl(item),
-    detail: publicationDetail(details, detailSite, item.id),
-    ...(inherited ? { inherited: true } : {}),
+    detail: publicationDetail(details, siteId, item.id),
   }));
 }
 
@@ -439,12 +441,15 @@ export async function savePublication(siteId, publication, actor = null) {
     throw Object.assign(new Error("Completa título, fecha, tipo, resumen, imagen y contenido"), { status: 400 });
   }
   const content = await getPageContent(siteId);
+  const inheritsGlobal = siteId !== "global" && content.sections.news?.items === undefined;
   content.sections.news ||= { enabled: true, eyebrow: { es: "NOVEDADES", en: "NEWS", pt: "NOVIDADES", fr: "ACTUALITÉS" }, title: { es: "Últimas publicaciones.", en: "Latest publications.", pt: "Últimas publicações.", fr: "Dernières publications." }, actionLabel: { es: "Ver todas las publicaciones", en: "View all publications", pt: "Ver todas as publicações", fr: "Voir toutes les publications" }, items: [] };
-  if (!content.sections.news.items) content.sections.news.items = siteId === "global" ? [] : structuredClone((await getPageContent("global")).sections.news?.items || []);
-  const originalId = String(publication.originalId || id);
-  const index = content.sections.news.items.findIndex(current => current.id === originalId);
+  const items = content.sections.news.items ||= [];
+  const index = items.findIndex(current => current.id === id);
   const details = await readJson(publicationDetailsFile);
-  const previousDetail = index >= 0 ? publicationDetail(details, publication.originalId ? "global" : siteId, originalId) : null;
+  let previousDetail = index >= 0 ? publicationDetail(details, siteId, id) : null;
+  if (inheritsGlobal && detail.contentHtml === undefined) {
+    previousDetail = (await getPublicPageContent("global")).publicationDetails[id];
+  }
   const legacyBody = detail.contentHtml === undefined && Array.isArray(previousDetail?.sections)
     && !previousDetail.contentHtml && previousDetail.summary === detail.summary;
   const contentHtml = typeof detail.contentHtml === "string" ? sanitizePublicationHtml(detail.contentHtml) : "";
@@ -453,7 +458,7 @@ export async function savePublication(siteId, publication, actor = null) {
   }
   const published = await getPublishedPageContent(siteId);
   const item = publicationImageUrl({ id, category: publication.category, title: publication.title, image: publication.image });
-  if (index >= 0) content.sections.news.items[index] = item; else content.sections.news.items.unshift(item);
+  if (index >= 0) items[index] = item; else items.unshift(item);
   await saveDocument(siteId, content);
   const key = `${siteId}/${id}`;
   details[key] = {
@@ -461,7 +466,11 @@ export async function savePublication(siteId, publication, actor = null) {
     ...(legacyBody ? { sections: previousDetail.sections } : { contentHtml }),
   };
   await writeFile(path.resolve(config.contentRoot, publicationDetailsFile), `${JSON.stringify(details, null, 2)}\n`, "utf8");
-  await publishNewsItems(siteId, published, content.sections.news, content.sections.news.items);
+  const publishedItems = published.sections.news?.items ?? [];
+  const nextItems = publishedItems.some(current => current.id === id)
+    ? publishedItems.map(current => current.id === id ? item : current)
+    : [item, ...publishedItems];
+  await publishNewsItems(siteId, published, content.sections.news, nextItems);
   return { ...item, detail: details[key], updatedBy: actor, savedAt: new Date().toISOString() };
 }
 
