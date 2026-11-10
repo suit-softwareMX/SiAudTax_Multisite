@@ -37,6 +37,8 @@ La validación ocurre en la API. El token se conserva en `sessionStorage`; al re
 
 ### Idiomas
 
+Los campos de texto tienen límites según su uso. Los títulos admiten 180 caracteres, el texto alternativo 250, los resúmenes 500 y los textos generales 1,600. El cuerpo de una publicación admite 12,000 caracteres. Las tareas de traducción y revisión admiten hasta 60 campos y 4,000 caracteres por idioma. Si se supera ese límite, puedes guardar el borrador sin enviarlo a la IA.
+
 El formulario edita el idioma fuente: inglés para Global y español para México y El Salvador. Los campos de los demás idiomas permanecen en el JSON para el futuro flujo de traducción.
 
 ### Colecciones

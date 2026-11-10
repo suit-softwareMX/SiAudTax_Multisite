@@ -3,12 +3,27 @@ import crypto from "node:crypto";
 import path from "node:path";
 import sanitizeHtml from "sanitize-html";
 import { config } from "./config.js";
+import { ARTICLE_MAX_HTML, ARTICLE_MAX_TEXT, fieldLimit } from "../../shared/editor-limits.mjs";
 
 const pageFiles = Object.freeze({
   global: "global.json",
   mexico: path.join("countries", "mexico.json"),
   salvador: path.join("countries", "salvador.json"),
 });
+
+function assertFieldLimits(value, previous, fieldPath = []) {
+  if (typeof value === "string") {
+    const max = fieldLimit(fieldPath);
+    if (value !== previous && value.length > max) {
+      throw Object.assign(new Error(`El campo «${fieldPath.join(" › ")}» admite hasta ${max} caracteres.`), { status: 413 });
+    }
+  } else if (value && typeof value === "object") {
+    if (fieldPath.length >= 32) throw Object.assign(new Error("La sección tiene demasiados niveles de campos."), { status: 413 });
+    for (const [key, child] of Object.entries(value)) {
+      assertFieldLimits(child, previous?.[key], [...fieldPath, Array.isArray(value) ? Number(key) : key]);
+    }
+  }
+}
 
 async function readState(filename) {
   try { return JSON.parse(await readFile(filename, "utf8")); }
@@ -169,6 +184,7 @@ export async function updateSection(siteId, sectionId, section, actor = null, re
   if (!(sectionId in content.sections)) {
     throw Object.assign(new Error("Sección no encontrada"), { status: 404 });
   }
+  assertFieldLimits(section, content.sections[sectionId]);
 
   await getPublishedPageContent(siteId);
   const state = await readState(config.editorialStatePath);
@@ -204,6 +220,7 @@ export async function createSection(siteId, sectionId, section, sourceLocale = n
   if (sourceLocale !== null && !["es", "en"].includes(sourceLocale)) throw Object.assign(new Error("Idioma original inválido"), { status: 400 });
   const content = await getPageContent(siteId);
   if (sectionId in content.sections) throw Object.assign(new Error("Ya existe una sección con ese identificador"), { status: 409 });
+  assertFieldLimits(section);
   await getPublishedPageContent(siteId);
   content.sections[sectionId] = section;
   content.sectionOrder = [...(content.sectionOrder || Object.keys(content.sections).filter(id => id !== sectionId)), sectionId];
@@ -269,9 +286,10 @@ export async function updateTranslation(siteId, sectionId, fields, sourceHash, s
   if (sourceHash !== current.sourceHash) throw Object.assign(new Error("El original cambió; vuelve a cargar la sección"), { status: 409 });
   const ids = Object.keys(current.fields);
   if (!fields || typeof fields !== "object" || Array.isArray(fields) || !ids.length || Object.keys(fields).length !== ids.length ||
-      ids.some(id => typeof fields[id] !== "string" || !fields[id].trim() || fields[id].length > 4000)) {
+      ids.some(id => typeof fields[id] !== "string" || !fields[id].trim())) {
     throw Object.assign(new Error("Campos de traducción inválidos"), { status: 400 });
   }
+  for (const id of ids) assertFieldLimits(fields[id], current.translatedFields[id], JSON.parse(id));
   const targetLocale = current.targetLocale;
   const state = await readState(config.editorialStatePath);
   const metadata = metadataFor(state, siteId, sectionId);
@@ -417,15 +435,17 @@ async function publishNewsItems(siteId, published, news, items) {
 
 export async function getPublications(siteId) {
   const content = await getPageContent(siteId);
-  const details = await readJson(publicationDetailsFile);
   const ownItems = content.sections.news?.items;
-  const inherited = siteId !== "global" && ownItems === undefined;
-  const items = inherited ? (await getPageContent("global")).sections.news?.items || [] : ownItems || [];
-  const detailSite = inherited ? "global" : siteId;
-  return items.map(item => ({
+  if (siteId !== "global" && ownItems === undefined) {
+    const global = await getPublicPageContent("global");
+    return (global.content.sections.news?.items ?? []).map(item => ({
+      ...item, detail: global.publicationDetails[item.id], inherited: true,
+    }));
+  }
+  const details = await readJson(publicationDetailsFile);
+  return (ownItems ?? []).map(item => ({
     ...publicationImageUrl(item),
-    detail: publicationDetail(details, detailSite, item.id),
-    ...(inherited ? { inherited: true } : {}),
+    detail: publicationDetail(details, siteId, item.id),
   }));
 }
 
@@ -439,21 +459,39 @@ export async function savePublication(siteId, publication, actor = null) {
     throw Object.assign(new Error("Completa título, fecha, tipo, resumen, imagen y contenido"), { status: 400 });
   }
   const content = await getPageContent(siteId);
+  const inheritsGlobal = siteId !== "global" && content.sections.news?.items === undefined;
   content.sections.news ||= { enabled: true, eyebrow: { es: "NOVEDADES", en: "NEWS", pt: "NOVIDADES", fr: "ACTUALITÉS" }, title: { es: "Últimas publicaciones.", en: "Latest publications.", pt: "Últimas publicações.", fr: "Dernières publications." }, actionLabel: { es: "Ver todas las publicaciones", en: "View all publications", pt: "Ver todas as publicações", fr: "Voir toutes les publications" }, items: [] };
-  if (!content.sections.news.items) content.sections.news.items = siteId === "global" ? [] : structuredClone((await getPageContent("global")).sections.news?.items || []);
-  const originalId = String(publication.originalId || id);
-  const index = content.sections.news.items.findIndex(current => current.id === originalId);
+  const items = content.sections.news.items ||= [];
+  const index = items.findIndex(current => current.id === id);
   const details = await readJson(publicationDetailsFile);
-  const previousDetail = index >= 0 ? publicationDetail(details, publication.originalId ? "global" : siteId, originalId) : null;
+  let previousDetail = index >= 0 ? publicationDetail(details, siteId, id) : null;
+  if (inheritsGlobal && detail.contentHtml === undefined) {
+    previousDetail = (await getPublicPageContent("global")).publicationDetails[id];
+  }
   const legacyBody = detail.contentHtml === undefined && Array.isArray(previousDetail?.sections)
     && !previousDetail.contentHtml && previousDetail.summary === detail.summary;
+  assertFieldLimits(publication.title, items[index]?.title, ["title"]);
+  assertFieldLimits(publication.image, items[index]?.image, ["image"]);
+  assertFieldLimits(publication.category, items[index]?.category, ["category"]);
+  assertFieldLimits(detail.summary, previousDetail?.summary, ["summary"]);
+  assertFieldLimits(detail.sourceUrl, previousDetail?.sourceUrl, ["sourceUrl"]);
+  if (detail.contentHtml !== previousDetail?.contentHtml && detail.contentHtml?.length > ARTICLE_MAX_HTML) {
+    throw Object.assign(new Error("El formato del artículo es demasiado extenso. Pega el texto con menos formato."), { status: 413 });
+  }
   const contentHtml = typeof detail.contentHtml === "string" ? sanitizePublicationHtml(detail.contentHtml) : "";
+  if (contentHtml && detail.contentHtml !== previousDetail?.contentHtml) {
+    const plain = sanitizeHtml(contentHtml, { allowedTags: [], allowedAttributes: {} })
+      .replace(/&(?:amp|lt|gt|quot|apos|#39);/g, "x");
+    if (plain.length > ARTICLE_MAX_TEXT) {
+      throw Object.assign(new Error(`El contenido del artículo admite hasta ${ARTICLE_MAX_TEXT} caracteres.`), { status: 413 });
+    }
+  }
   if (!legacyBody && !contentHtml.trim()) {
     throw Object.assign(new Error("Completa el contenido de la publicación"), { status: 400 });
   }
   const published = await getPublishedPageContent(siteId);
   const item = publicationImageUrl({ id, category: publication.category, title: publication.title, image: publication.image });
-  if (index >= 0) content.sections.news.items[index] = item; else content.sections.news.items.unshift(item);
+  if (index >= 0) items[index] = item; else items.unshift(item);
   await saveDocument(siteId, content);
   const key = `${siteId}/${id}`;
   details[key] = {
@@ -461,7 +499,11 @@ export async function savePublication(siteId, publication, actor = null) {
     ...(legacyBody ? { sections: previousDetail.sections } : { contentHtml }),
   };
   await writeFile(path.resolve(config.contentRoot, publicationDetailsFile), `${JSON.stringify(details, null, 2)}\n`, "utf8");
-  await publishNewsItems(siteId, published, content.sections.news, content.sections.news.items);
+  const publishedItems = published.sections.news?.items ?? [];
+  const nextItems = publishedItems.some(current => current.id === id)
+    ? publishedItems.map(current => current.id === id ? item : current)
+    : [item, ...publishedItems];
+  await publishNewsItems(siteId, published, content.sections.news, nextItems);
   return { ...item, detail: details[key], updatedBy: actor, savedAt: new Date().toISOString() };
 }
 
