@@ -243,13 +243,22 @@
   }
 
   function initializeWorldMap() {
-    const countries = networkContent?.countries;
+    const sourceCountries = networkContent?.countries;
     const canvas = document.querySelector(".map-canvas");
     const stage = canvas?.querySelector(".map-stage");
-    const listButtons = [...document.querySelectorAll(".location-list button")];
-    const nodes = [...document.querySelectorAll(".map-node")];
+    const sourceListButtons = [...document.querySelectorAll(".location-list button")];
+    const sourceNodes = [...document.querySelectorAll(".map-node")];
     const card = canvas?.querySelector(".map-card");
-    if (!countries?.length || !canvas || !stage || !card || !listButtons.length) return;
+    if (!sourceCountries?.length || !canvas || !stage || !card || !sourceListButtons.length) return;
+    const orderedEntries = sourceCountries
+      .map((country,index)=>({country,index,button:sourceListButtons[index],node:sourceNodes[index]}))
+      .sort((a,b)=>Number(b.country.status==="active")-Number(a.country.status==="active")||a.index-b.index);
+    const countries = orderedEntries.map(entry=>entry.country);
+    const listButtons = orderedEntries.map(entry=>entry.button);
+    const nodes = orderedEntries.map(entry=>entry.node);
+    const locationList = sourceListButtons[0].parentElement;
+    listButtons.forEach(button=>locationList.appendChild(button));
+    nodes.forEach(node=>stage.appendChild(node));
     const cardName = card.querySelector("strong");
     const cardStatus = card.querySelector("span");
     const visitButton = card.querySelector("button");
@@ -257,6 +266,14 @@
     const connections = stage.querySelector(".map-connections");
     const globalButton = canvas.querySelector(".global-map-button");
     const actions = sharedContent?.mapActions?.[locale] || sharedContent?.mapActions?.en || {};
+    const common = sharedContent?.catalogs?.[locale]?.common || sharedContent?.catalogs?.en?.common || {};
+    countries.forEach((country,index)=>{
+      const active = country.status === "active";
+      listButtons[index].querySelector("i")?.classList.toggle("live",active);
+      const statusLabel = listButtons[index].querySelector("small");
+      if (statusLabel) statusLabel.textContent = active ? common.active : common.soon;
+      nodes[index]?.classList.toggle("live",active);
+    });
     const zoomByCountry = { mexico:3.6, guatemala:4.8, "el-salvador":5.2, "costa-rica":4.8, panama:4.7, belize:5, colombia:3.8, peru:3.6, argentina:3.6, "dominican-republic":4.8, venezuela:3.7, "united-kingdom":3.8, ecuador:4.1, uruguay:4, spain:4, albania:4.2, cyprus:4.3, egypt:4, france:4, "united-states":3.6, nicaragua:5, jamaica:5, "saint-kitts":5.2, dominica:5.2, grenada:5.2, "saint-vincent":5.2 };
     const pointFor = country => [((country.coordinates.longitude + 180) / 360) * 100, ((90 - country.coordinates.latitude) / 180) * 100];
     const distance = (a, b) => { const rad=Math.PI/180, dLat=(b.coordinates.latitude-a.coordinates.latitude)*rad, dLon=(b.coordinates.longitude-a.coordinates.longitude)*rad; const v=Math.sin(dLat/2)**2+Math.cos(a.coordinates.latitude*rad)*Math.cos(b.coordinates.latitude*rad)*Math.sin(dLon/2)**2; return 2*Math.atan2(Math.sqrt(v),Math.sqrt(1-v)); };
@@ -323,7 +340,12 @@
     });
     visitButton.addEventListener("click",()=>{
       const country = countries[selected];
-      if (country.status !== "active" || !country.siteId) return;
+      if (country.status !== "active") return;
+      if (country.externalUrl) {
+        window.open(country.externalUrl, "_blank", "noopener,noreferrer");
+        return;
+      }
+      if (!country.siteId) return;
       const slug = country.siteId === "salvador" ? "el-salvador" : country.siteId;
       location.href = pageUrl(slug, locale, false);
     });

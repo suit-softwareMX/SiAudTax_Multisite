@@ -20,6 +20,7 @@
     {
       "id": "guatemala",
       "siteId": null,
+      "externalUrl": "https://auditaxes.gt/",
       "name": {
         "es": "Guatemala",
         "en": "Guatemala",
@@ -30,7 +31,7 @@
         "latitude": 15.7835,
         "longitude": -90.2308
       },
-      "status": "planned"
+      "status": "active"
     },
     {
       "id": "el-salvador",
@@ -65,6 +66,7 @@
     {
       "id": "panama",
       "siteId": null,
+      "externalUrl": "https://auditaxespa.com/es",
       "name": {
         "es": "Panamá",
         "en": "Panama",
@@ -75,7 +77,7 @@
         "latitude": 8.538,
         "longitude": -80.7821
       },
-      "status": "planned"
+      "status": "active"
     },
     {
       "id": "belize",
@@ -125,6 +127,7 @@
     {
       "id": "argentina",
       "siteId": null,
+      "externalUrl": "https://www.estudiovexina.com.ar/",
       "name": {
         "es": "Argentina",
         "en": "Argentina",
@@ -135,7 +138,7 @@
         "latitude": -38.4161,
         "longitude": -63.6167
       },
-      "status": "planned"
+      "status": "active"
     },
     {
       "id": "dominican-republic",
@@ -170,6 +173,7 @@
     {
       "id": "united-kingdom",
       "siteId": null,
+      "externalUrl": "https://auditaxesuk.com/auditaxes/",
       "name": {
         "es": "Reino Unido",
         "en": "United Kingdom",
@@ -180,7 +184,7 @@
         "latitude": 55.3781,
         "longitude": -3.436
       },
-      "status": "planned"
+      "status": "active"
     },
     {
       "id": "paraguay",
