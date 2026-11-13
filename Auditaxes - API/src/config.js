@@ -14,6 +14,9 @@ export const config = {
   publishedContentPath: path.resolve(apiRoot, "published-content.json"),
   inferenceUrl: process.env.INFERENCE_URL || "http://192.168.0.107:4110",
   inferenceKey: process.env.INFERENCE_API_KEY || "",
+  database: {
+    connectionString: process.env.SQL_CONNECTION_STRING || "Driver={ODBC Driver 17 for SQL Server};Server=localhost;Database=Auditaxes;Trusted_Connection=yes;TrustServerCertificate=yes;",
+  },
 };
 
 export const users = [

@@ -111,6 +111,17 @@ export function deleteSection(sectionId) {
 
 export function getPublications() { return request("/content/current/publications"); }
 
+export function getEmails() { return request("/emails/current"); }
+export function createEmail(userName, alternateEmail) {
+  return request("/emails/current", { method: "POST", body: JSON.stringify({ userName, alternateEmail }) });
+}
+export function requestEmailPasswordRecovery(id) {
+  return request(`/emails/current/${encodeURIComponent(id)}/password-recovery`, { method: "POST" });
+}
+export function deactivateEmail(id) {
+  return request(`/emails/current/${encodeURIComponent(id)}`, { method: "DELETE" });
+}
+
 export function savePublication(publication) {
   return request(`/content/current/publications/${encodeURIComponent(publication.id)}`, { method: "PUT", body: JSON.stringify(publication) });
 }

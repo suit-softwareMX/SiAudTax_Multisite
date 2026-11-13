@@ -4,6 +4,7 @@ import express from "express";
 import { config, publicUser, users } from "./config.js";
 import { createSection, deletePublication, deleteSection, describeSections, fieldsHash, getAiJobRef, getEditorialContent, getFieldAiJobRef, getPageContent, getPublications, getPublicPageContent, getSharedContent, getSiteConfiguration, getTranslation, getTranslationJobRef, isPublicationImageName, legacyPublicationImageDirectory, publicationImagePath, recordAiJob, recordFieldAiJob, recordTranslationJob, savePublication, savePublicationImage, updateEditorialStatus, updateSection, updateSectionOrder, updateTranslation, updateTranslationJob } from "./content-store.js";
 import { inferenceRequest, startInferenceJob } from "./inference.js";
+import { createEmailAccount, databaseHealth, deactivateEmailAccount, listEmailAccounts, requestPasswordRecovery } from "./email-store.js";
 
 const sessions = new Map();
 
@@ -29,6 +30,42 @@ export function createApp() {
 
   app.get("/api/health", (_request, response) => {
     response.json({ status: "ok", service: "auditaxes-api", contentRoot: config.contentRoot });
+  });
+
+  app.get("/api/database/health", authenticate, async (_request, response, next) => {
+    try { response.json({ status: "ok", ...await databaseHealth() }); }
+    catch (error) { next(error); }
+  });
+
+  app.get("/api/emails/current", authenticate, async (request, response, next) => {
+    try { response.json({ emails: await listEmailAccounts(request.auth.user.siteId) }); }
+    catch (error) { next(error); }
+  });
+
+  app.post("/api/emails/current", authenticate, async (request, response, next) => {
+    try {
+      const userName = String(request.body?.userName || "").trim();
+      const alternateEmail = String(request.body?.alternateEmail || "").trim().toLowerCase();
+      if (!userName || userName.length > 150 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(alternateEmail) || alternateEmail.length > 254) {
+        return response.status(400).json({ error: "Escribe un nombre y un correo alterno válidos" });
+      }
+      response.status(201).json({ email: await createEmailAccount(request.auth.user.siteId, userName, alternateEmail, request.auth.user.id) });
+    } catch (error) { next(error); }
+  });
+
+  app.post("/api/emails/current/:id/password-recovery", authenticate, async (request, response, next) => {
+    try {
+      const recovery = await requestPasswordRecovery(request.auth.user.siteId, request.params.id, request.auth.user.id);
+      if (!recovery) return response.status(404).json({ error: "Correo no encontrado" });
+      response.status(201).json({ recovery });
+    } catch (error) { next(error); }
+  });
+
+  app.delete("/api/emails/current/:id", authenticate, async (request, response, next) => {
+    try {
+      if (!await deactivateEmailAccount(request.auth.user.siteId, request.params.id, request.auth.user.id)) return response.status(404).json({ error: "Correo no encontrado" });
+      response.status(204).end();
+    } catch (error) { next(error); }
   });
 
   app.get("/api/inference/health", authenticate, async (_request, response, next) => {

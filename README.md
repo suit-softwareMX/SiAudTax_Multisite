@@ -21,6 +21,7 @@ Documentación detallada:
 
 - Node.js 22.13 o posterior.
 - pnpm disponible en la terminal.
+- SQL Server local y ODBC Driver 17 (la configuración local usa autenticación integrada de Windows).
 - Python 3.11+ y dependencias de `../AuditaxesInferenceServer` instaladas en `.venv`.
 - Ollama y el modelo `qwen3:4b-instruct-2507-q4_K_M` para generar resultados reales.
 
@@ -37,6 +38,16 @@ pnpm --dir "Auditaxes - Sitio" install
 pnpm --dir "Auditaxes - API" install
 pnpm --dir "Auditaxes - Editor" install
 ```
+
+Inicializa una vez la base de datos desde una terminal con acceso a SQL Server:
+
+```powershell
+sqlcmd -S localhost -E -i "Auditaxes - API/database/setup.sql"
+```
+
+La API usa la base `Auditaxes` y la tabla `dbo.EmailAccounts`. Para otro servidor define
+`SQL_CONNECTION_STRING`; no es necesario guardar credenciales en el código. La sección **Correos**
+genera la dirección a partir del nombre, la limita al país de la sesión y usa `IsActive` para las bajas.
 
 ## Iniciar y detener todo
 

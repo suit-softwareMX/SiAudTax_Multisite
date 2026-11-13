@@ -2,6 +2,15 @@
 
 La API conecta el editor con los archivos JSON del sitio. Autentica al administrador, limita cada cuenta a su sitio asignado y crea un respaldo antes de cada escritura.
 
+## Base de datos de correos
+
+Ejecuta `sqlcmd -S localhost -E -i database/setup.sql` una vez. La conexión predeterminada usa
+autenticación integrada de Windows y ODBC Driver 17. En otros entornos configura
+`SQL_CONNECTION_STRING` con una cadena ODBC completa.
+
+`EmailAccounts.IsActive` implementa la baja lógica; los registros inactivos se conservan y no se
+devuelven al editor. `PasswordRecoveryRequests` conserva la auditoría de solicitudes de recuperación.
+
 El lanzador de la raíz configura una clave temporal y conecta esta API con `../AuditaxesInferenceServer`. En ejecución independiente, configura `INFERENCE_URL` e `INFERENCE_API_KEY` con una clave definida también en `INFERENCE_API_KEYS` del servidor de inferencia. La clave nunca debe ir en el frontend.
 
 ## Ejecutar la API

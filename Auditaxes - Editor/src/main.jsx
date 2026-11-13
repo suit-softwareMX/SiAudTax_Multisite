@@ -3,12 +3,12 @@ import { createRoot } from "react-dom/client";
 import {
   ArrowLeft, ArrowRight, BarChart3, Bell, ChevronDown, CircleHelp,
   Clock3, FileText, Globe2, GripVertical, Languages, LayoutDashboard, LockKeyhole, LogOut,
-  Menu, Newspaper, PanelLeftClose, Plus, Search, Settings, ShieldCheck,
+  Mail, Menu, Newspaper, PanelLeftClose, Plus, Search, Settings, ShieldCheck,
   Sparkles, Trash2, Users, X
 } from "lucide-react";
 import "./styles.css";
 import { AI_MAX_FIELDS, AI_MAX_TEXT, ARTICLE_MAX_HTML, ARTICLE_MAX_TEXT, aiLimitError, fieldLimit } from "../../shared/editor-limits.mjs";
-import { createSection, deletePublication, deleteSection, getCurrentContent, getFieldAiJob, getPublications, getTranslationJob, getTranslationSection, login, logout as closeApiSession, restoreSession, savePublication, saveSection, saveSectionOrder, saveTranslation, startDraftAiJob, startTranslationJob, updateSectionStatus, uploadPublicationImage } from "./api";
+import { createEmail, createSection, deactivateEmail, deletePublication, deleteSection, getCurrentContent, getEmails, getFieldAiJob, getPublications, getTranslationJob, getTranslationSection, login, logout as closeApiSession, requestEmailPasswordRecovery, restoreSession, savePublication, saveSection, saveSectionOrder, saveTranslation, startDraftAiJob, startTranslationJob, updateSectionStatus, uploadPublicationImage } from "./api";
 
 const localLogin = ["localhost", "127.0.0.1"].includes(location.hostname);
 const DEMO_PASSWORD = "Auditaxes2026";
@@ -92,7 +92,7 @@ function Login({ onLogin }) {
 }
 
 const nav = [
-  ["Resumen", LayoutDashboard], ["Contenido", FileText], ["Publicaciones", Newspaper], ["Traducciones", Languages],
+  ["Resumen", LayoutDashboard], ["Contenido", FileText], ["Publicaciones", Newspaper], ["Traducciones", Languages], ["Correos", Mail],
   ["Configuración", Settings]
 ];
 
@@ -766,6 +766,43 @@ function PublicationsPage({ site, onDirtyChange }) {
   return <div className="page publications-page"><div className="page-heading"><div><span className="eyebrow">CONTENIDO EDITORIAL</span><h1>Publicaciones</h1><p>Crea noticias y artículos con la misma plantilla del sitio.</p></div><button className="primary" onClick={create}><Plus/> Nueva publicación</button></div>{items.some(item=>item.inherited)&&<div className="translation-message">Mientras no haya publicaciones propias, {site.name} muestra las de Global. Puedes empezar con una publicación nueva o copiar una de la lista.</div>}{message&&<div className="translation-message">{message}</div>}{error&&<div className="api-error" role="alert">{error}</div>}<div className="publications-admin-grid">{items.map(item=><article className="publication-admin-card" key={item.id}><div className="publication-admin-image">{item.image?.src?<img src={item.image.src} alt={item.image.alt?.es||item.title.es}/>:<Newspaper/>}</div><div><span className={`publication-kind ${item.detail?.kind||"news"}`}>{item.detail?.kind==="article"?"Artículo":"Noticia"}</span>{item.inherited&&<span className="inherited-publication">Global</span>}<time>{item.detail?.date?new Date(`${item.detail.date}T12:00:00`).toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"}):"Sin fecha"}</time><h2>{item.title.es}</h2><p>{item.detail?.summary||"Esta publicación usa la plantilla anterior; ábrela para completar su resumen y contenido editable."}</p></div><footer><button className="secondary" disabled={busy} onClick={()=>edit(item)}>{item.inherited ? "Crear copia local" : "Editar"}</button>{!item.inherited&&<button className="delete-publication" disabled={busy} onClick={()=>remove(item)}>Eliminar</button>}</footer></article>)}{!items.length&&<div className="empty-publications"><Newspaper/><h2>Aún no hay publicaciones propias</h2><p>Crea la primera noticia o artículo para {site.name}.</p></div>}</div></div>;
 }
 
+function EmailsPage({ site }) {
+  const [items, setItems] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [alternateEmail, setAlternateEmail] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const load = () => getEmails().then(result => setItems(result.emails)).catch(reason => setError(reason.message));
+  useEffect(load, [site.id]);
+  async function submit(event) {
+    event.preventDefault(); setBusy(true); setError(""); setMessage("");
+    try {
+      const result = await createEmail(userName, alternateEmail);
+      setItems(current => [result.email, ...current]); setUserName(""); setAlternateEmail(""); setShowForm(false);
+      setMessage(`Correo ${result.email.emailAddress} guardado correctamente.`);
+    } catch (reason) { setError(reason.message); } finally { setBusy(false); }
+  }
+  async function recover(item) {
+    if (!window.confirm(`¿Solicitar la recuperación de contraseña para ${item.emailAddress}?`)) return;
+    setBusy(true); setError(""); setMessage("");
+    try { await requestEmailPasswordRecovery(item.id); setMessage(`Solicitud de recuperación registrada para ${item.emailAddress}.`); }
+    catch (reason) { setError(reason.message); } finally { setBusy(false); }
+  }
+  async function remove(item) {
+    if (!window.confirm(`¿Dar de baja ${item.emailAddress}? El registro se conservará en la base de datos.`)) return;
+    setBusy(true); setError(""); setMessage("");
+    try { await deactivateEmail(item.id); setItems(current => current.filter(value => value.id !== item.id)); setMessage(`${item.emailAddress} fue dado de baja.`); }
+    catch (reason) { setError(reason.message); } finally { setBusy(false); }
+  }
+  return <div className="page emails-page"><div className="page-heading"><div><span className="eyebrow">ADMINISTRACIÓN · {site.name.toUpperCase()}</span><h1>Correos</h1><p>Administra las cuentas activas del país asignado.</p></div><button className="primary" onClick={() => setShowForm(true)}><Plus/> Nuevo correo</button></div>
+    {message && <div className="translation-message">{message}</div>}{error && <div className="api-error" role="alert">{error}</div>}
+    {showForm && <div className="email-form-card"><div><h2>Guardar nuevo correo</h2><p>La dirección se generará automáticamente a partir del nombre.</p></div><form onSubmit={submit}><label className="field"><span>Nombre del usuario</span><input required maxLength="150" value={userName} onChange={event => setUserName(event.target.value)} placeholder="Nombre completo"/></label><label className="field"><span>Correo alterno</span><input required type="email" maxLength="254" value={alternateEmail} onChange={event => setAlternateEmail(event.target.value)} placeholder="usuario@ejemplo.com"/></label><div className="email-form-actions"><button type="button" className="secondary" disabled={busy} onClick={() => setShowForm(false)}>Cancelar</button><button className="primary" disabled={busy}>{busy ? "Guardando…" : "Guardar correo"}</button></div></form></div>}
+    <div className="email-table-wrap"><table className="email-table"><thead><tr><th>Usuario</th><th>Correo</th><th>Correo alterno</th><th>Fecha de alta</th><th>Acciones</th></tr></thead><tbody>{items.map(item => <tr key={item.id}><td data-label="Usuario"><b>{item.userName}</b></td><td data-label="Correo">{item.emailAddress}</td><td data-label="Correo alterno">{item.alternateEmail}</td><td data-label="Fecha de alta">{new Date(item.createdAt).toLocaleDateString("es-MX")}</td><td data-label="Acciones"><div className="email-actions"><button className="secondary" disabled={busy} onClick={() => recover(item)}>Recuperar contraseña</button><button className="delete-publication" disabled={busy} onClick={() => remove(item)}>Dar de baja</button></div></td></tr>)}</tbody></table>{!items.length && <div className="empty-publications"><Mail/><h2>No hay correos activos</h2><p>Guarda el primer correo para {site.name}.</p></div>}</div>
+  </div>;
+}
+
 function App() {
   const [user, setUser] = useState(null);
   const [ready, setReady] = useState(false);
@@ -776,7 +813,7 @@ function App() {
   useEffect(() => { if (!unsaved) return; const warn = event => { event.preventDefault(); event.returnValue = ""; }; window.addEventListener("beforeunload", warn); return () => window.removeEventListener("beforeunload", warn); }, [unsaved]);
   function navigate(next) { if (next === active) return true; if (unsaved && !window.confirm("Hay cambios sin guardar. ¿Salir sin guardarlos?")) return false; setUnsaved(false); setActive(next); return true; }
   const site = user ? sites.find(item => item.id === user.siteId) : null;
-  const screen = !user ? null : active === "Resumen" ? <Overview goContent={() => navigate("Contenido")} user={user} site={site}/> : active === "Contenido" ? <ContentPage site={site} onDirtyChange={setUnsaved} goTranslations={() => navigate("Traducciones")}/> : active === "Publicaciones" ? <PublicationsPage site={site} onDirtyChange={setUnsaved}/> : active === "Traducciones" ? <TranslationsPage site={site} onDirtyChange={setUnsaved}/> : <Placeholder title={active}/>;
+  const screen = !user ? null : active === "Resumen" ? <Overview goContent={() => navigate("Contenido")} user={user} site={site}/> : active === "Contenido" ? <ContentPage site={site} onDirtyChange={setUnsaved} goTranslations={() => navigate("Traducciones")}/> : active === "Publicaciones" ? <PublicationsPage site={site} onDirtyChange={setUnsaved}/> : active === "Traducciones" ? <TranslationsPage site={site} onDirtyChange={setUnsaved}/> : active === "Correos" ? <EmailsPage site={site}/> : <Placeholder title={active}/>;
   if (!ready) return <div className="app-loading"><Logo/><span>Conectando con AUDITAXES API…</span></div>;
   if (!user) return <Login onLogin={setUser}/>;
   async function logout(){ if (unsaved && !window.confirm("Hay cambios sin guardar. ¿Cerrar sesión sin guardarlos?")) return; try { await closeApiSession(); } catch { /* La sesión local se borra aunque el servidor no responda. */ } finally { setUser(null); setUnsaved(false); setActive("Resumen"); } }
