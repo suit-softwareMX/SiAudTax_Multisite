@@ -774,8 +774,9 @@ function EmailsPage({ site }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const load = () => getEmails().then(result => setItems(result.emails)).catch(reason => setError(reason.message));
-  useEffect(load, [site.id]);
+  useEffect(() => {
+    getEmails().then(result => setItems(result.emails)).catch(reason => setError(reason.message));
+  }, [site.id]);
   async function submit(event) {
     event.preventDefault(); setBusy(true); setError(""); setMessage("");
     try {
