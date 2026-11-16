@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import cors from "cors";
 import express from "express";
+import { validateEmailAccount } from "../../shared/email-validation.mjs";
 import { config, publicUser, users } from "./config.js";
 import { createSection, deletePublication, deleteSection, describeSections, fieldsHash, getAiJobRef, getEditorialContent, getFieldAiJobRef, getPageContent, getPublications, getPublicPageContent, getSharedContent, getSiteConfiguration, getTranslation, getTranslationJobRef, isPublicationImageName, legacyPublicationImageDirectory, publicationImagePath, recordAiJob, recordFieldAiJob, recordTranslationJob, savePublication, savePublicationImage, updateEditorialStatus, updateSection, updateSectionOrder, updateTranslation, updateTranslationJob } from "./content-store.js";
 import { inferenceRequest, startInferenceJob } from "./inference.js";
@@ -44,11 +45,9 @@ export function createApp() {
 
   app.post("/api/emails/current", authenticate, async (request, response, next) => {
     try {
-      const userName = String(request.body?.userName || "").trim();
-      const alternateEmail = String(request.body?.alternateEmail || "").trim().toLowerCase();
-      if (!userName || userName.length > 150 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(alternateEmail) || alternateEmail.length > 254) {
-        return response.status(400).json({ error: "Escribe un nombre y un correo alterno válidos" });
-      }
+      const { userName, alternateEmail, errors } = validateEmailAccount(request.body?.userName, request.body?.alternateEmail);
+      const error = errors.userName || errors.alternateEmail;
+      if (error) return response.status(400).json({ error });
       response.status(201).json({ email: await createEmailAccount(request.auth.user.siteId, userName, alternateEmail, request.auth.user.id) });
     } catch (error) { next(error); }
   });

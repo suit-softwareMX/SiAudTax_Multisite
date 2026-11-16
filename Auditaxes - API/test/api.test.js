@@ -27,15 +27,19 @@ test("la base de datos responde y los correos usan baja lógica por país", asyn
 
   const marker = Date.now();
   const createdResponse = await fetch(`${baseUrl}/api/emails/current`, {
-    method: "POST", headers, body: JSON.stringify({ userName: `Prueba Integración ${marker}`, alternateEmail: `qa-${marker}@example.com` }),
+    method: "POST", headers,
+    body: JSON.stringify({ userName: `Prueba Integración ${String(marker).replace(/\d/g, digit => "abcdefghij"[digit])}`, alternateEmail: `qa-${marker}@example.com` }),
   });
   assert.equal(createdResponse.status, 201);
   const created = (await createdResponse.json()).email;
   assert.match(created.emailAddress, /@mexico\.auditaxes\.com$/);
 
   const salvador = await login("salvador@auditaxes.com");
-  const foreignList = await fetch(`${baseUrl}/api/emails/current`, { headers: { authorization: `Bearer ${salvador.token}` } });
+  const foreignHeaders = { authorization: `Bearer ${salvador.token}` };
+  const foreignList = await fetch(`${baseUrl}/api/emails/current`, { headers: foreignHeaders });
   assert.ok(!(await foreignList.json()).emails.some(item => item.id === created.id));
+  const foreignDelete = await fetch(`${baseUrl}/api/emails/current/${created.id}`, { method: "DELETE", headers: foreignHeaders });
+  assert.equal(foreignDelete.status, 404);
 
   const recovery = await fetch(`${baseUrl}/api/emails/current/${created.id}/password-recovery`, { method: "POST", headers });
   assert.equal(recovery.status, 201);
@@ -45,6 +49,24 @@ test("la base de datos responde y los correos usan baja lógica por país", asyn
   assert.equal(removed.status, 204);
   const activeList = await fetch(`${baseUrl}/api/emails/current`, { headers });
   assert.ok(!(await activeList.json()).emails.some(item => item.id === created.id));
+});
+
+test("rechaza nombres y correos alternos inválidos antes de consultar SQL Server", async () => {
+  const session = await login("mexico@auditaxes.com");
+  const headers = { authorization: `Bearer ${session.token}`, "content-type": "application/json" };
+  for (const [userName, alternateEmail, message] of [
+    ["erick@gmail.com", "erick2@gmail.com", /nombre/],
+    [["Ana"], "ana@example.com", /nombre/],
+    ["Ana Pérez", "ana..perez@example.com", /correo alterno/],
+    ["Ana Pérez", "ana@-example.com", /correo alterno/],
+    ["Ana Pérez", `${"a".repeat(65)}@example.com`, /correo alterno/],
+  ]) {
+    const response = await fetch(`${baseUrl}/api/emails/current`, {
+      method: "POST", headers, body: JSON.stringify({ userName, alternateEmail }),
+    });
+    assert.equal(response.status, 400);
+    assert.match((await response.json()).error, message);
+  }
 });
 
 async function login(email) {

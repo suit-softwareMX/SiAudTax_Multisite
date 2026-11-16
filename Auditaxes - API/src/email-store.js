@@ -1,4 +1,5 @@
 import sql from "mssql/msnodesqlv8.js";
+import { emailNameToLocalPart } from "../../shared/email-validation.mjs";
 import { config } from "./config.js";
 
 let poolPromise;
@@ -26,20 +27,16 @@ export async function listEmailAccounts(countryCode) {
   return result.recordset;
 }
 
-function localPart(name) {
-  return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
-    .replace(/[^a-z0-9]+/g, ".").replace(/^\.|\.$/g, "").slice(0, 64);
-}
-
 const domains = { global: "auditaxes.com", mexico: "mexico.auditaxes.com", salvador: "elsalvador.auditaxes.com" };
 
 export async function createEmailAccount(countryCode, userName, alternateEmail, createdBy) {
-  const base = localPart(userName);
+  const base = emailNameToLocalPart(userName);
   if (!base) throw Object.assign(new Error("El nombre no permite generar una dirección de correo"), { status: 400 });
   const connection = await pool();
   const domain = domains[countryCode] || `${countryCode}.auditaxes.com`;
   for (let suffix = 0; suffix < 100; suffix += 1) {
-    const emailAddress = `${base}${suffix ? `.${suffix + 1}` : ""}@${domain}`;
+    const ending = suffix ? `.${suffix + 1}` : "";
+    const emailAddress = `${base.slice(0, 64 - ending.length).replace(/\.$/, "")}${ending}@${domain}`;
     try {
       const result = await connection.request()
         .input("countryCode", sql.NVarChar(30), countryCode)
@@ -65,8 +62,9 @@ export async function deactivateEmailAccount(countryCode, id, deactivatedBy) {
     .input("countryCode", sql.NVarChar(30), countryCode)
     .input("deactivatedBy", sql.NVarChar(100), deactivatedBy)
     .query(`UPDATE dbo.EmailAccounts SET IsActive = 0, DeactivatedAt = SYSUTCDATETIME(), DeactivatedBy = @deactivatedBy
+      OUTPUT inserted.Id AS id
       WHERE Id = @id AND CountryCode = @countryCode AND IsActive = 1`);
-  return result.rowsAffected[0] === 1;
+  return Boolean(result.recordset?.length);
 }
 
 export async function requestPasswordRecovery(countryCode, id, requestedBy) {

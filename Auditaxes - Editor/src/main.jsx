@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import "./styles.css";
 import { AI_MAX_FIELDS, AI_MAX_TEXT, ARTICLE_MAX_HTML, ARTICLE_MAX_TEXT, aiLimitError, fieldLimit } from "../../shared/editor-limits.mjs";
+import { ALTERNATE_EMAIL_MAX, EMAIL_NAME_MAX, validateEmailAccount } from "../../shared/email-validation.mjs";
 import { createEmail, createSection, deactivateEmail, deletePublication, deleteSection, getCurrentContent, getEmails, getFieldAiJob, getPublications, getTranslationJob, getTranslationSection, login, logout as closeApiSession, requestEmailPasswordRecovery, restoreSession, savePublication, saveSection, saveSectionOrder, saveTranslation, startDraftAiJob, startTranslationJob, updateSectionStatus, uploadPublicationImage } from "./api";
 
 const localLogin = ["localhost", "127.0.0.1"].includes(location.hostname);
@@ -771,17 +772,28 @@ function EmailsPage({ site }) {
   const [showForm, setShowForm] = useState(false);
   const [userName, setUserName] = useState("");
   const [alternateEmail, setAlternateEmail] = useState("");
+  const [validateForm, setValidateForm] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const draft = validateEmailAccount(userName, alternateEmail);
+  const nameError = validateForm && draft.errors.userName;
+  const emailError = validateForm && draft.errors.alternateEmail;
   useEffect(() => {
     getEmails().then(result => setItems(result.emails)).catch(reason => setError(reason.message));
   }, [site.id]);
   async function submit(event) {
-    event.preventDefault(); setBusy(true); setError(""); setMessage("");
+    event.preventDefault();
+    if (busy) return;
+    setValidateForm(true); setError(""); setMessage("");
+    if (draft.errors.userName || draft.errors.alternateEmail) {
+      event.currentTarget.elements.namedItem(draft.errors.userName ? "userName" : "alternateEmail").focus();
+      return;
+    }
+    setBusy(true);
     try {
-      const result = await createEmail(userName, alternateEmail);
-      setItems(current => [result.email, ...current]); setUserName(""); setAlternateEmail(""); setShowForm(false);
+      const result = await createEmail(draft.userName, draft.alternateEmail);
+      setItems(current => [result.email, ...current]); setUserName(""); setAlternateEmail(""); setShowForm(false); setValidateForm(false);
       setMessage(`Correo ${result.email.emailAddress} guardado correctamente.`);
     } catch (reason) { setError(reason.message); } finally { setBusy(false); }
   }
@@ -794,12 +806,47 @@ function EmailsPage({ site }) {
   async function remove(item) {
     if (!window.confirm(`¿Dar de baja ${item.emailAddress}? El registro se conservará en la base de datos.`)) return;
     setBusy(true); setError(""); setMessage("");
-    try { await deactivateEmail(item.id); setItems(current => current.filter(value => value.id !== item.id)); setMessage(`${item.emailAddress} fue dado de baja.`); }
-    catch (reason) { setError(reason.message); } finally { setBusy(false); }
+    try {
+      const missing = await deactivateEmail(item.id).then(() => false, reason => {
+        if (reason.status !== 404) throw reason;
+        return true;
+      });
+      if (!missing) {
+        setItems(current => current.filter(value => value.id !== item.id));
+        setMessage(`${item.emailAddress} fue dado de baja.`);
+      }
+
+      const { emails } = await getEmails();
+      setItems(emails);
+      if (missing) {
+        if (emails.some(value => value.id === item.id)) setError(`No se pudo dar de baja ${item.emailAddress}.`);
+        else setMessage(`${item.emailAddress} ya no está en la lista de correos activos.`);
+      }
+    } catch (reason) { setError(reason.message); } finally { setBusy(false); }
   }
   return <div className="page emails-page"><div className="page-heading"><div><span className="eyebrow">ADMINISTRACIÓN · {site.name.toUpperCase()}</span><h1>Correos</h1><p>Administra las cuentas activas del país asignado.</p></div><button className="primary" onClick={() => setShowForm(true)}><Plus/> Nuevo correo</button></div>
-    {message && <div className="translation-message">{message}</div>}{error && <div className="api-error" role="alert">{error}</div>}
-    {showForm && <div className="email-form-card"><div><h2>Guardar nuevo correo</h2><p>La dirección se generará automáticamente a partir del nombre.</p></div><form onSubmit={submit}><label className="field"><span>Nombre del usuario</span><input required maxLength="150" value={userName} onChange={event => setUserName(event.target.value)} placeholder="Nombre completo"/></label><label className="field"><span>Correo alterno</span><input required type="email" maxLength="254" value={alternateEmail} onChange={event => setAlternateEmail(event.target.value)} placeholder="usuario@ejemplo.com"/></label><div className="email-form-actions"><button type="button" className="secondary" disabled={busy} onClick={() => setShowForm(false)}>Cancelar</button><button className="primary" disabled={busy}>{busy ? "Guardando…" : "Guardar correo"}</button></div></form></div>}
+    {message && <div className="translation-message" role="status">{message}</div>}{error && <div className="api-error" role="alert">{error}</div>}
+    {showForm && <div className="email-form-card">
+      <div><h2>Guardar nuevo correo</h2><p>La dirección se generará automáticamente a partir del nombre.</p></div>
+      <form onSubmit={submit} noValidate>
+        <label className="field"><span>Nombre del usuario</span>
+          <input name="userName" required maxLength={EMAIL_NAME_MAX} autoComplete="name" disabled={busy}
+            aria-invalid={Boolean(nameError)} aria-describedby={nameError ? "email-name-error" : undefined}
+            value={userName} onChange={event => setUserName(event.target.value)} placeholder="Nombre completo"/>
+          {nameError && <small id="email-name-error" className="field-ai-error">{nameError}</small>}
+        </label>
+        <label className="field"><span>Correo alterno</span>
+          <input name="alternateEmail" required type="email" maxLength={ALTERNATE_EMAIL_MAX} autoComplete="email" disabled={busy}
+            aria-invalid={Boolean(emailError)} aria-describedby={emailError ? "alternate-email-error" : undefined}
+            value={alternateEmail} onChange={event => setAlternateEmail(event.target.value)} placeholder="usuario@ejemplo.com"/>
+          {emailError && <small id="alternate-email-error" className="field-ai-error">{emailError}</small>}
+        </label>
+        <div className="email-form-actions">
+          <button type="button" className="secondary" disabled={busy} onClick={() => { setShowForm(false); setValidateForm(false); }}>Cancelar</button>
+          <button className="primary" disabled={busy}>{busy ? "Guardando…" : "Guardar correo"}</button>
+        </div>
+      </form>
+    </div>}
     <div className="email-table-wrap"><table className="email-table"><thead><tr><th>Usuario</th><th>Correo</th><th>Correo alterno</th><th>Fecha de alta</th><th>Acciones</th></tr></thead><tbody>{items.map(item => <tr key={item.id}><td data-label="Usuario"><b>{item.userName}</b></td><td data-label="Correo">{item.emailAddress}</td><td data-label="Correo alterno">{item.alternateEmail}</td><td data-label="Fecha de alta">{new Date(item.createdAt).toLocaleDateString("es-MX")}</td><td data-label="Acciones"><div className="email-actions"><button className="secondary" disabled={busy} onClick={() => recover(item)}>Recuperar contraseña</button><button className="delete-publication" disabled={busy} onClick={() => remove(item)}>Dar de baja</button></div></td></tr>)}</tbody></table>{!items.length && <div className="empty-publications"><Mail/><h2>No hay correos activos</h2><p>Guarda el primer correo para {site.name}.</p></div>}</div>
   </div>;
 }

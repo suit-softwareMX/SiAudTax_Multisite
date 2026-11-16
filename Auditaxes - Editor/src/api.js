@@ -14,7 +14,7 @@ async function request(path, options = {}) {
   if (response.status === 204) return null;
   const body = await response.json().catch(() => null);
   if (!response.ok || body === null) {
-    throw new Error(body?.error || `La API no respondió correctamente (HTTP ${response.status}). Intenta de nuevo.`);
+    throw Object.assign(new Error(body?.error || `La API no respondió correctamente (HTTP ${response.status}). Intenta de nuevo.`), { status: response.status });
   }
   return body;
 }
