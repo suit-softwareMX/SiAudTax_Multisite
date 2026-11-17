@@ -494,3 +494,7 @@ html,body{overflow-x:hidden}
 }
 @keyframes news-card-arrival{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes news-image-settle{from{transform:scale(1.075)}to{transform:scale(1)}}
+
+.map-card:has(.map-card-contact){max-width:min(22rem,calc(100% - 2.6rem))}
+.map-card-contact{display:grid;gap:.35rem;margin-top:.65rem;font-style:normal;overflow-wrap:anywhere}
+.map-card-contact a{color:#fff;font-size:.78rem;text-decoration:underline}

@@ -51,6 +51,13 @@
     {
       "id": "costa-rica",
       "siteId": null,
+      "externalUrl": "https://auditaxescr.com/",
+      "contact": {
+        "partner": "Juan Carlos Delgado",
+        "email": "info@cr.auditaxes.com",
+        "phone": "+506 4002-0740",
+        "address": "Plaza Tempo, oficina Workings #27, Escazú, San José, Costa Rica."
+      },
       "name": {
         "es": "Costa Rica",
         "en": "Costa Rica",
@@ -61,7 +68,7 @@
         "latitude": 9.7489,
         "longitude": -83.7534
       },
-      "status": "planned"
+      "status": "active"
     },
     {
       "id": "panama",
@@ -127,7 +134,13 @@
     {
       "id": "argentina",
       "siteId": null,
-      "externalUrl": "https://www.estudiovexina.com.ar/",
+      "externalUrl": "https://www.auditaxesar.com/",
+      "contact": {
+        "partner": "Juan Vexina",
+        "email": "info@vexina.com",
+        "phone": "+54 11 7078 2900",
+        "address": "Fondo de la Legua 936, Martínez, Buenos Aires, Argentina."
+      },
       "name": {
         "es": "Argentina",
         "en": "Argentina",
@@ -173,7 +186,11 @@
     {
       "id": "united-kingdom",
       "siteId": null,
-      "externalUrl": "https://auditaxesuk.com/auditaxes/",
+      "externalUrl": "https://www.auditaxes.uk/",
+      "contact": {
+        "partner": "Christian Codoma",
+        "email": "Contact@auditaxes.uk"
+      },
       "name": {
         "es": "Reino Unido",
         "en": "United Kingdom",
