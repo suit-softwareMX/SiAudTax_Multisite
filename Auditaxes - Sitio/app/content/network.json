@@ -21,6 +21,10 @@
       "id": "guatemala",
       "siteId": null,
       "externalUrl": "https://auditaxes.gt/",
+      "contact": {
+        "email": "info@auditaxesgt.com",
+        "phones": ["+502 2331-5535", "+502 2441-8783"]
+      },
       "name": {
         "es": "Guatemala",
         "en": "Guatemala",
@@ -55,7 +59,7 @@
       "contact": {
         "partner": "Juan Carlos Delgado",
         "email": "info@cr.auditaxes.com",
-        "phone": "+506 4002-0740",
+        "phones": ["+506 4002-0740"],
         "address": "Plaza Tempo, oficina Workings #27, Escazú, San José, Costa Rica."
       },
       "name": {
@@ -74,6 +78,10 @@
       "id": "panama",
       "siteId": null,
       "externalUrl": "https://auditaxespa.com/es",
+      "contact": {
+        "email": "web@pa.auditaxes.com",
+        "phones": ["+507 388-9920", "+507 6674-6293"]
+      },
       "name": {
         "es": "Panamá",
         "en": "Panama",
@@ -138,7 +146,7 @@
       "contact": {
         "partner": "Juan Vexina",
         "email": "info@vexina.com",
-        "phone": "+54 11 7078 2900",
+        "phones": ["+54 11 7078 2900"],
         "address": "Fondo de la Legua 936, Martínez, Buenos Aires, Argentina."
       },
       "name": {
